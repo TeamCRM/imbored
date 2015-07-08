@@ -2,4 +2,14 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Let us help you find something to do!
+  form(name="input" action="html_form_action.asp" method="get")
+  | Username:
+  input(type="text" name="user")
+
+  | Password:
+  input(type="text" name="pswd")
+
+  input(type="submit" value="Submit")
+  | Not Registered?
+  a(href='/') Sign Up Here!
