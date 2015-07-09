@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  h1= title
+  div
+    form(method="post" action="/register" id="regisForm")
+      p Register a new account here!
+      div
+        label
+          input(type="text" name="username" placeholder="username")
+      div
+        label
+          input(type="password" name="password" placeholder="password" id="password")
+      div
+        label
+          input(type="password" name="password_confirm" placeholder="re-type password" id="password_confirm")
+      div(id="preference")
+      div(class="buttons")
+        input(type="submit" value="Submit" id="submit" disabled)
+  script(type="text/javascript" src="/javascripts/jquery.js")
+  script(type="text/javascript" src="/javascripts/underscore.js")
+  script(type="text/javascript" src="/javascripts/backbone.js")
+  script(type="text/javascript" src="/javascripts/imBoredServe.js")
