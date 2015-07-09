@@ -65,17 +65,7 @@ var userModel = Backbone.Model.extend({
     },
     initialize : function () {
         this.fetch();
-    },    
-    setPreference : function(name, isPrefered) {
-    	var preferences = this.get('preferences');
-    	for(var i=0; i<preferences.length; i++) {
-    		if(preferences[i].acitvityName === name) {
-    			preferences[i].isPrefered = isPrefered;
-    			break;
-    		}
-    	}
-    	this.set('preferences', preferences);
-    },
+    },   
     submitForm : function() {
 
     }
@@ -99,11 +89,16 @@ var RegisterView = Backbone.View.extend({
     		this.$('#submit').attr('disabled', 'disabled');
     	}
     },
-    setPreferences: function() {
-        var preference = this.get.setPreference();
-        var choices
-
-    },
+    // setPreference : function(name, isPrefered) {
+    //     var preferences = this.get('preferences');
+    //     for(var i=0; i<preferences.length; i++) {
+    //         if(preferences[i].acitvityName === name) {
+    //             preferences[i].isPrefered = isPrefered;
+    //             break;
+    //         }
+    //     }
+    //     this.set('preferences', preferences);
+    // },
     submitForm: function (event) {
         this.model.submitForm(event);
     }
