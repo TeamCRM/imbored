@@ -2,66 +2,6 @@ var userModel = Backbone.Model.extend({
     defaults : {
     	'username' : "",
     	'password' : ''
-  //   	'preferences': [
-  //   		{
-  //   			'acitvityName': 'amusement_park',
-  //   		    'isPrefered': false 
-  //   		},{
-  //   			'acitvityName': 'art_gallery',
-  //   		    'isPrefered': false 
-  //   		},{
-  //   			'acitvityName': 'aquarium',
-  //   		    'isPrefered': false 
-  //   		},{
-  //   			'acitvityName': 'bowling_alley',
-  //   		    'isPrefered': false 
-  //   		},{
-  //   			'acitvityName': 'movie_theater',
-  //   		    'isPrefered': false 
-  //   		},{
-  //   			'acitvityName': 'campground',
-  //   		    'isPrefered': false 
-  //   		},{
-  //   			'acitvityName': 'cafe',
-  //   		    'isPrefered': false 
-  //   		},{
-  //   			'acitvityName': 'restaurants',
-  //   		    'isPrefered': false 
-  //   		},{
-  //   			'acitvityName': 'library',
-  //   		    'isPrefered': false 
-  //   		},{
-  //               'acitvityName': 'museum',
-  //               'isPrefered': false 
-  //           },{
-  //               'acitvityName': 'park',
-  //               'isPrefered': false 
-  //           },{
-  //               'acitvityName': 'shopping_mall',
-  //               'isPrefered': false 
-  //           },{
-  //               'acitvityName': 'stadium',
-  //               'isPrefered': false 
-  //           },{
-  //               'acitvityName': 'zoo',
-  //               'isPrefered': false 
-  //           },{
-  //               'acitvityName': 'university',
-  //               'isPrefered': false 
-  //           },{
-  //               'acitvityName': 'swimming',
-  //               'isPrefered': false 
-  //           },{
-  //               'acitvityName': 'hiking',
-  //               'isPrefered': false 
-  //           },{
-  //               'acitvityName': 'book_stores',
-  //               'isPrefered': false 
-  //           },{
-  //               'acitvityName': 'night_club',
-  //               'isPrefered': false 
-  //           }
-		// ]
     },
     initialize : function () {
         this.fetch();
