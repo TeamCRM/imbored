@@ -1,6 +1,11 @@
+
+
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: green;
+  text-align: center;
 }
 
 a {
@@ -15,6 +20,7 @@ input {
 
 .h1{
 	font-size: 26px;
+  
 }
 
 .buttons {
