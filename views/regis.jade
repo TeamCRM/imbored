@@ -2,64 +2,67 @@
 extends layout
 
 block content
-  h1= title
-  div
-    form(method="post" action="/register" id="regisForm")
-      p(class="h1") Register a new account here!
-      div
-        label
-          input(type="text" name="username" placeholder="username")
-      div
-        label
-          input(type="password" name="password" placeholder="password" id="password")
-      div
-        label
-          input(type="password" name="password_confirm" placeholder="re-type password" id="password_confirm")
-      div
-        p(class="activity") Please choose some activities you like to do!
-        label(id="preference")
-          |Amusement Park
-          input(type="checkbox" name="amusement-park")
-          |Art Galleries
-          input(type="checkbox" name="art-gallery")  
-          |Aquarium
-          input(type="checkbox" name="aquarium")
-          |Bowling Alley
-          input(type="checkbox" name="bowling_alley")
-          |Movie Theater
-          input(type="checkbox" name="movie_theater")
-          |Campgrounds
-          input(type="checkbox" name="campground")
-          |Cafes
-          input(type="checkbox" name="cafe")
-          |Restaurants
-          input(type="checkbox" name="restaurant")
-          |Libraries
-          input(type="checkbox" name="library")
-          |Museums
-          input(type="checkbox" name="museum")
-          |Parks
-          input(type="checkbox" name="park")
-          |Shopping
-          input(type="checkbox" name="shopping_mall")
-          |Concerts
-          input(type="checkbox" name="stadium")
-          |Zoo
-          input(type="checkbox" name="zoo")
-          |Educational Events
-          input(type="checkbox" name="university")
-          |Swimming
-          input(type="checkbox" name="swimming")
-          |Spa
-          input(type="checkbox" name="spa")
-          |Hiking
-          input(type="checkbox" name="hiking")
-          |Book Stores
-          input(type="checkbox" name="book_store")
-          |Dancing
-          input(type="checkbox" name="night_club")
-      div(class="buttons")
-        input(type="submit" value="Submit" id="submit" disabled)
+  h1= title  
+  //div with class main_reg.  Contains everything except Im Bored logo. 
+  div(class="main_reg")
+    div
+      form(method="post" action="/register" id="regisForm")
+        p(class="h1") Register a new account here!
+        div
+          label
+            input(type="text" name="username" placeholder="username")
+        div
+          label
+            input(type="password" name="password" placeholder="password" id="password")
+        div
+          label
+            input(type="password" name="password_confirm" placeholder="re-type password" id="password_confirm")
+        div
+          p(class="activity") Please choose some activities you like to do!
+          label(id="preference")
+            |Amusement Park
+            input(type="checkbox" name="amusement-park")
+            |Art Galleries
+            input(type="checkbox" name="art-gallery")  
+            |Aquarium
+            input(type="checkbox" name="aquarium")
+            |Bowling Alley
+            input(type="checkbox" name="bowling_alley")
+            |Movie Theater
+            input(type="checkbox" name="movie_theater")
+            |Campgrounds
+            input(type="checkbox" name="campground")
+            |Cafes
+            input(type="checkbox" name="cafe")
+            |Restaurants
+            input(type="checkbox" name="restaurant")
+            |Libraries
+            input(type="checkbox" name="library")
+            |Museums
+            input(type="checkbox" name="museum")
+            |Parks
+            input(type="checkbox" name="park")
+            |Shopping
+            input(type="checkbox" name="shopping_mall")
+            |Concerts
+            input(type="checkbox" name="stadium")
+            |Zoo
+            input(type="checkbox" name="zoo")
+            |Educational Events
+            input(type="checkbox" name="university")
+            |Swimming
+            input(type="checkbox" name="swimming")
+            |Spa
+            input(type="checkbox" name="spa")
+            |Hiking
+            input(type="checkbox" name="hiking")
+            |Book Stores
+            input(type="checkbox" name="book_store")
+            |Dancing
+            input(type="checkbox" name="night_club")
+        div(class="buttons")
+          input(type="submit" value="Submit" id="submit" disabled)
+  div        
   script(type="text/javascript" src="/javascripts/jquery.js")
   script(type="text/javascript" src="/javascripts/underscore.js")
   script(type="text/javascript" src="/javascripts/backbone.js")
