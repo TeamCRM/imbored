@@ -10,7 +10,7 @@ a {
 input {
 	padding: 5px;
 	margin: 10px;
-
+	text-align: center;
 }
 
 .h1{
@@ -20,8 +20,14 @@ input {
 .buttons {
 	margin: 10px;
 	padding: 10px;
+	clear: both;
 }
 
 .activity {
 	font-size: 18px;
+}
+
+.preference {
+	width: 25%;
+	float: left;
 }
