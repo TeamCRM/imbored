@@ -10,7 +10,7 @@ app.use(express.static('public'));
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-  res.render('regis', { title: "I'm Bored!" });
+  res.render('opt-res', { title: "I'm Bored!" });
 });
 
 router.get('/js', function(req, res, next) {
