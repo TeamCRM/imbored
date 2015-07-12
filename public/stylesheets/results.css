@@ -1,0 +1,53 @@
+body{
+	background-color: #94F58C;
+	margin: 0;
+	font-size: 18px;
+}
+
+nav{
+	display: block;
+	background-color: #bad6c0;
+	padding: 15px;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+nav span{
+	
+
+}
+
+.prefMenu{
+	float: left;
+    width: 1em;
+    overflow: hidden;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    font-size: 36px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.welcome{
+	font-size: 36px;
+}
+
+.weather{
+	float: right;
+	position: relative;
+    margin-top: -30px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    font-size: 36px;
+}
+.weather-results{
+	display: none;
+	position: absolute;
+    top: 100%;
+    right: 0;
+}
+.weather:hover .weather-results{
+	display: block;
+}
