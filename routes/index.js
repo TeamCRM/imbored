@@ -15,6 +15,7 @@ app.use(express.static('public'));
 router.get('/', function (req, res, next) {
 
   res.render('index', { title: "I'm Bored!" });
+});
 
 router.get('/results', function(req, res, next) {
 
@@ -26,24 +27,42 @@ router.get('/register', function (req,res,next){
 })
 
 router.post('/register', function (req,res){
-	var prefArr= [];
-	for(var i=0;i<req.body.length-3;i++){
-		prefArr.push(req.body[i])
-	}
-	console.log(req.body)
+	
+	// console.log(req.body)
+	console.log(req.body[1])
 	// Selects all of the usernames stored in the user name column that match the requested username
 	knex('authtable').where('username', req.body.email)
 		.then(function(result){
-			console.log(result)
 			// result is the usernames that match the requested username. If the result.length>0 then that means that that username is already in the DB.
-			if(result.length===0){
-				console.log(req.body)
 
+			if(result.length===0){
+				var prefArr= [];
+				console.log(req.body[17])
+				for(var i=0;i<20;i++){
+					var k= parseInt(i)
+					console.log(req.body[k])
+					if(req.body[k]){
+					prefArr.push(k)
+					console.log(prefArr)
+					}
+				}
+				console.log(req.body)
+				console.log(prefArr)
 				knex('authtable').insert([{username:req.body.email}])
 				.then(function() {
+					knex('authtable').where('username',req.body.email).select('userid')
+						.then(function(results){
+							console.log(results)
+						
+					for(var j=0;j<prefArr.length;j++){
+					knex('useridtable').insert([{preferenceid:prefArr[j],userid:results[0].userid }])
+						.then(function(){
 				
 				console.log('worked!!!')
 				res.redirect('/')
+							})
+						}
+					})
 				})
 	// 		}else{
 	// knex('authtable').insert([{username:req.body.email/* hash:stored.hash,salt: stored.salt,userid: req.body.id*/}])
@@ -56,6 +75,7 @@ router.post('/register', function (req,res){
 	// 		})
 		}	
 	})
+
 })
 
 // router.post('/login', function (req,res){
@@ -70,6 +90,6 @@ router.post('/register', function (req,res){
 // 			}
 // 		})
 // })
->>>>>>> master
+
 
 module.exports = router;
