@@ -25,6 +25,7 @@ router.get('/', function (req, res, next) {
 });
 
 
+
 router.get('/register', function (req,res,next){
 	res.render('regis',{ title: "I'm Bored!" })
 })

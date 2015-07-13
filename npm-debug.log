@@ -17,8 +17,13 @@
 10 verbose stack     at maybeClose (child_process.js:1015:16)
 10 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1087:5)
 11 verbose pkgid imbored@0.0.0
+<<<<<<< HEAD
 12 verbose cwd /Users/MichaelOlivieri/imbored
 13 error Darwin 14.3.0
+=======
+12 verbose cwd /Users/chaunceygard/workspace/imbored
+13 error Darwin 13.4.0
+>>>>>>> 857c6637074af7d73be8351fb333d88d3b103194
 14 error argv "node" "/usr/local/bin/npm" "start"
 15 error node v0.12.2
 16 error npm  v2.7.5

@@ -8,9 +8,15 @@ for(var i=0;i<prefArr.length;i++){
 }
 
 
+var checkPassword = function() {
+	console.log('Whatever');
+    if($('#password').val().length > 0 && $('#password').val() === $('#password_confirm').val()) {
+		$('#submit').removeAttr('disabled');
+	}
+};
 
 
-
+$("#password_confirm").on('keyup', checkPassword);
 
 
 
