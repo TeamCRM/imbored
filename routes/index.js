@@ -15,12 +15,15 @@ app.use(express.static('public'));
 router.get('/', function (req, res, next) {
 
   res.render('index', { title: "I'm Bored!" });
+  
+  if (request.cookies.email) {
+    username = request.cookies.email;
+  } else {
+    username = null;
+  };
+  
 });
 
-router.get('/js', function (req, res, next) {
-	res.serve('../js');
-
-});
 
 router.get('/register', function (req,res,next){
 	res.render('regis',{ title: "I'm Bored!" })

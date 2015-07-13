@@ -1,10 +1,12 @@
-
-
-
 body {
   padding: 50px;
+<<<<<<< HEAD
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #33cc99;
+=======
+  font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #94F58C;
+>>>>>>> 65b02fafd72bdec2978ac64e50ce43dab4a22a93
   text-align: center;
 }
 
@@ -20,7 +22,6 @@ input {
 
 .h1{
 	font-size: 26px;
-  
 }
 
 .buttons {
@@ -36,4 +37,11 @@ input {
 .preference {
 	width: 25%;
 	float: left;
+	text-align: left;
+	padding: 0 40px;
+	box-sizing: border-box;
+}
+
+.preference input {
+	float: right;
 }
