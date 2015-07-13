@@ -14,25 +14,44 @@
 //   }  
 // });
 var keywords = [
-	"restaurant"
+	"restaurant", 
+	"movies",
+	"aquarium",
+	"park"
 ];
 
 var resultsView = Backbone.View.extend({
 	render: function() {
+		var resultList = _.template('<ul class="resultList"><%= results %></ul>');
+		var resultSection = _.template('<li class="resultSection"><div class="resultTitle"><%= title %></div><ul class="resultListings"><%= listings %></ul></li>');
+		var resultListing = _.template('<li class="listing"><span><%= price %></span><a href="<%= url %>"><%= name %></a><span><%= rating %></span></li>');
+		
+		var resultSections = [];
 		for(var i = 0; i<keywords.length; i++) {
+			
 			var keywordResults = this.collection.byType(keywords[i]);
-			var titleDiv = '<div class="resultTitle">'+ keywords[i] +'</div><ul>';
+			var resultListings = [];
 			for(var j = 0; j<keywordResults.length; j++) {
+				
 				var place = keywordResults[j];
 				var placeName = place.get('name');
 				var price = place.get('price_level');
 				var rating = place.get('rating');
 				var url = place.get('url');
-				titleDiv += '<li><span>' + price + '</span><a href="'+url+'">' + placeName + '</a><span>' + rating + '</span></li>';
+				resultListings.push(resultListing({price: price, name: placeName, url: url, rating: rating}));
 			}
-			titleDiv += '</ul>';
+			resultSections.push(resultSection({title: keywords[i], listings: resultListings.join('')}));
 		}
-		this.$el.html(titleDiv);
+
+		this.$el.html(resultList({results: resultSections.join('')}));
+	},
+
+	events: {
+		'click .resultTitle' : 'dropDown'
+	},
+
+	dropDown: function(event) {
+		$(event.currentTarget).toggleClass('isOpen').siblings('.resultListings').toggleClass('hidden');
 	}
 })
 
