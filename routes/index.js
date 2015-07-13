@@ -15,6 +15,7 @@ app.use(express.static('public'));
 router.get('/', function (req, res, next) {
 
   res.render('index', { title: "I'm Bored!" });
+});
 
 router.get('/results', function(req, res, next) {
 
@@ -70,6 +71,6 @@ router.post('/register', function (req,res){
 // 			}
 // 		})
 // })
->>>>>>> master
+
 
 module.exports = router;
