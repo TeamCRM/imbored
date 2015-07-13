@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    title= title
+    //- link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href="/stylesheets/reset.css")
+    link(rel='stylesheet', href="/stylesheets/results.css")
+  body
+    block content
+    nav
+        button(class="prefMenu") 
+            img(src="/images/hamburger.svg" alt="Preferences")
+        span(class="welcome")
+            |Welcome to ImBored
+        button(class="weather")
+            img(src="/images/weather-icon.svg" alt="Weather")
+            img(src="/images/fakeweather.png" class="weather-results")
+    div(id='prefResults')
+    script(type="text/javascript" src="/javascripts/jquery.js")
+    script(type="text/javascript" src="/javascripts/underscore.js")
+    script(type="text/javascript" src="/javascripts/backbone.js")
+    script(type="text/javascript" src="/javascripts/results.js")
+    
+
+
+    
+    
+
+

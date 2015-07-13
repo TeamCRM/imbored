@@ -15,11 +15,10 @@ app.use(express.static('public'));
 router.get('/', function (req, res, next) {
 
   res.render('index', { title: "I'm Bored!" });
-});
 
-router.get('/js', function (req, res, next) {
-	res.serve('../js');
+router.get('/results', function(req, res, next) {
 
+  res.render('results', { title: "I'm Bored!" });
 });
 
 router.get('/register', function (req,res,next){
@@ -71,5 +70,6 @@ router.post('/register', function (req,res){
 // 			}
 // 		})
 // })
+>>>>>>> master
 
 module.exports = router;
