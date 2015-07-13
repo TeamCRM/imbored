@@ -45,3 +45,7 @@ input {
 .preference input {
 	float: right;
 }
+
+.index_body {
+  text-align: center;
+}

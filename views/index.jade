@@ -1,15 +1,19 @@
 extends layout
 
 block content
-  h1= title
-  p Let us help you find something to do!
-  form(name="input" action="/login" method="put" id='login-form')
-  | Username:
-  input(type="text" name="user" class='username')
-
-  | Password:
-  input(type="text" name="pswd" class='pswd')
-
-  input(type="submit" value="Submit")
-  | Not Registered?
-  a(href='/register') Sign Up Here!
+  div(class="index_body")
+    h1= title
+    p Let us help you find something to do!
+    form(name="input" action="/login" method="put" id='login-form')
+    | Username:
+    input(type="text" name="user" class='username')
+    br
+    | Password:
+    input(type="text" name="pswd" class='pswd')
+    br
+    input(type="submit" value="Submit")
+    br  
+    | Not Registered?
+    br
+    a(href='/register') Sign Up Here!
+  div
