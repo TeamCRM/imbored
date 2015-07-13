@@ -1,10 +1,7 @@
-
-
-
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: green;
+  font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #94F58C;
   text-align: center;
 }
 
@@ -20,7 +17,6 @@ input {
 
 .h1{
 	font-size: 26px;
-  
 }
 
 .buttons {
@@ -30,4 +26,16 @@ input {
 
 .activity {
 	font-size: 18px;
+}
+
+.preference {
+	width: 25%;
+	float: left;
+	text-align: left;
+	padding: 0 40px;
+	box-sizing: border-box;
+}
+
+.preference input {
+	float: right;
 }

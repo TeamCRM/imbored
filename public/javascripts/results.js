@@ -1,18 +1,4 @@
-// Currently using fake data to get the model to work.
-// var resultsModel = Backbone.Model.extend({
-//   defaults : {
-//   	"name": "",
-//   	"isOpen": false,
-//   	"location": "",
-//   	"phoneNum": '832-555-2121',
-//   	"priceLevel": "",
-//   	"rating": 1.0,
-//   	"url": ""
-//   },
-//   initialize : function () {
-//     this.fetch();
-//   }  
-// });
+
 var keywords = [
 	"restaurant", 
 	"movies",
@@ -32,7 +18,6 @@ var resultsView = Backbone.View.extend({
 			var keywordResults = this.collection.byType(keywords[i]);
 			var resultListings = [];
 			for(var j = 0; j<keywordResults.length; j++) {
-				
 				var place = keywordResults[j];
 				var placeName = place.get('name');
 				var price = place.get('price_level');
