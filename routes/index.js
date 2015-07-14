@@ -15,14 +15,38 @@ app.use(express.static('public'));
 /* GET home page. */
 router.get('/', function (req, res, next) {
   
-  // if (req.cookies.email) {
-  //   username = req.cookies.email;
-  // } else {
-  //   username = null;
-  // };  
+  if (req.cookies.email) {
+    username = req.cookies.email;
+  } else {
+    username = null;
+  };  
     
 
   res.render('index', { title: "I'm Bored!" });
+});
+
+router.post('/', function (req, res) {
+  var user = records[0];
+  knex('authtable').where({'username': req.body.email}).then(function(records) {
+    
+    if (records.length === 0) {
+      res.render('index', {
+        title: 'Im Bored',
+        user: null,
+        error: 'No Such User'
+      });
+    } else {
+        if (user.password === password) {
+          res.cookie('username', req.body.email);
+        } else {
+            res.render('index', {
+              title: 'Im Bored',
+              user: null,
+              error: 'Incorrect Password '
+            });
+        }
+    }
+  });
 });
 
 router.get('/results', function(req, res, next) {
@@ -54,21 +78,24 @@ router.post('/register', function (req,res){
 					// console.log(prefArr)
 					}
 				}
-  
+        
+        
+        
+      //Hash and salt   
       pwd.hash(req.body.password, function(err,salt,hash){
-        var stored = {salt:salt, hash:hash};
+        var stored = {username:req.body.email, salt:salt, hash:hash};
         console.log(stored);
         
         knex('authtable').insert(stored)
           .then(function() {
-            response.cookie('username', email)
-  
+            res.cookie('username', req.body.email)
+            res.redirect('/results')
           })
       })
         
 			// console.log(req.body)
 			// console.log(prefArr)
-			knex('authtable').insert([{username:req.body.email}])
+			// knex('authtable').insert([{username:req.body.email}])
 			.then(function() {
 				knex('authtable').where('username',req.body.email).select('userid')
 					.then(function(results){
