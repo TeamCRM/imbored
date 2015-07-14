@@ -1,0 +1,18 @@
+extends layout
+link(rel='stylesheet', href="/stylesheets/reset.css")
+link(rel='stylesheet', href="/stylesheets/logout.css")
+block content
+  h1(id="thankYou") Thank you for visiting..
+  h1(id="title") I'm Bored!
+    p You will be redirected to login in 
+        span(class="seconds") 10
+        | &nbsp;seconds. 
+  script(type="text/javascript")
+    |setTimeout(function(){
+    |    window.location = "/";
+    |}, 10*1000);
+    | var seconds = 10;
+    |setInterval(function() {
+    |    seconds -= 1;
+    |    document.querySelector(".seconds").innerHTML = seconds;
+    |   }, 1000);
