@@ -110,3 +110,11 @@ nav span{
 .hidden{
 	display: none;
 }
+
+.logoutbutton{
+	margin: 30px;
+	padding: 20px;
+	float: center;
+	border: 50px;
+	font-size: 20px;
+}
