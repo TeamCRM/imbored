@@ -14,7 +14,7 @@ app.use(express.static('public'));
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
-  res.render('index', { title: "I'm Bored!" });
+  res.render('login', { title: "I'm Bored!" });
 });
 
 router.get('/results', function(req, res, next) {
@@ -22,9 +22,13 @@ router.get('/results', function(req, res, next) {
   res.render('results', { title: "I'm Bored!" });
 });
 
+router.get('/logout', function(req, res, next){
+	res.render('logout', { title: "I'm Bored!"});
+});
+
 router.get('/register', function (req,res,next){
 	res.render('regis',{ title: "I'm Bored!" })
-})
+});
 
 router.post('/register', function (req,res){
 	
