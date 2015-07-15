@@ -20,9 +20,8 @@ router.get('/', function (req, res, next) {
   } else {
     username = null;
   };  
-    
-
-  res.render('index', { title: "I'm Bored!" });
+  
+  res.render('/', { title: "I'm Bored!" });
 });
 
 router.post('/', function (req, res) {
@@ -78,8 +77,6 @@ router.post('/register', function (req,res){
 					// console.log(prefArr)
 					}
 				}
-        
-        
         
       //Hash and salt   
       pwd.hash(req.body.password, function(err,salt,hash){
