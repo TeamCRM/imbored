@@ -1,7 +1,12 @@
 body {
   padding: 50px;
+<<<<<<< HEAD
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #33cc99;
+=======
   font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #94F58C;
+>>>>>>> 65b02fafd72bdec2978ac64e50ce43dab4a22a93
   text-align: center;
 }
 
@@ -39,4 +44,8 @@ input {
 
 .preference input {
 	float: right;
+}
+
+.index_body {
+  text-align: center;
 }
