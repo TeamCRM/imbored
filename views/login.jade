@@ -1,18 +1,19 @@
 extends layout
 
 block content
-  
   div(class="index_body")
     h1= title
     p Let us help you find something to do!
-    form(name="input" action="/login" method="put" id='login-form')
-    | Username:
-    input(type="text" name="user" class='username')
-    br
-    | Password:
-    input(type="text" name="pswd" class='pswd')
-    br
-    input(type="submit" value="Submit")
+    if error
+      p(class='error_msg')= error
+    form(name="input" action="/" method="post" id='login-form')
+      | Username:
+      input(type="text" name="username" class='username' required)
+      br
+      | Password:
+      input(type="password" name="password" class='pswd' required)
+      br
+      input(type="submit" value="Submit")
     br  
     | Not Registered?
     br
