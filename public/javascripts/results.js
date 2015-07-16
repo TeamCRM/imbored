@@ -114,25 +114,24 @@
 // 		$('#prefResults').append(view.$el);
 // 	});
 // });
+// data.results[i].name  data.results[i].place_id
 
 
 // hasChanged for backbone
 $(document).ready(function() {
 	$.getJSON('https://maps.googleapis.com/maps/api/place/textsearch/json?query=cafe+in+Portland&key=AIzaSyAfvCCGMhH4IKLkmdN6_60Qke093ynDRbc', function(data) {
 		console.log(data.results)
-var ResultsModel;
-for(var i=0; i<data.results.length;i++){
-var ResultsModel = Backbone.Model.extend({
-	defaults :{'name':data.results[i].name,'id':data.results[i].place_id, 'phone':'','website':'','price':'','rating':''},
+		var ResultsModel = Backbone.Model.extend({
+	defaults :{'name':'','id':'', 'phone':'','website':'','price':'','rating':''},
 	details : function (id) {
 		var model = this
 		console.log(id)
 		$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyAfvCCGMhH4IKLkmdN6_60Qke093ynDRbc', function (details){
 			console.log(details.result)
-					model.set('phone',details.result.formatted_phone_number);
-					model.set('website', details.result.website);
-					model.set('price', details.result.price_level);
-					model.set('rating', details.result.rating);
+					model.set({'phone':details.result.formatted_phone_number,'website': details.result.website,'price': details.result.price_level,'rating': details.result.rating});
+					// model.set('website', details.result.website);
+					// model.set('price', details.result.price_level);
+					// model.set('rating', details.result.rating);
 					console.log('endJSON')
 				}) 
 		//Some rendering info in here
@@ -180,11 +179,14 @@ var ResultsMiniView= Backbone.View.extend({
 
 }) 
 
+for(var i=0; i<data.results.length;i++){
+
 
 
 
 
 var results= new ResultsModel({})
+results.set({'name': data.results[i].name, 'id': data.results[i].place_id})
 var view = new ResultsView({model:results })
 var detailedView=new ResultsMiniView({
 	model:results	
