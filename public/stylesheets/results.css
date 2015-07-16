@@ -1,5 +1,5 @@
 body{
-	background-color: #94F58C;
+	background-color: #33cc99;
 	margin: 0;
 	font-size: 18px;
 }
@@ -114,7 +114,11 @@ nav span{
 .logoutbutton{
 	margin: 30px;
 	padding: 20px;
-	float: center;
 	border: 50px;
 	font-size: 20px;
+	color:  #565959;
+}
+
+.listing{
+	
 }
