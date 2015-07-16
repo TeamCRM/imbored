@@ -18,6 +18,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/results', function(req, res, next) {
+	console.log(req.body)
 
   res.render('results', { title: "I'm Bored!" });
 });
@@ -63,7 +64,7 @@ router.post('/register', function (req,res){
 						.then(function(){
 				
 				console.log('worked!!!')
-				res.redirect('/')
+				res.redirect('/results')
 							})
 						}
 					})
@@ -81,6 +82,7 @@ router.post('/register', function (req,res){
 	})
 
 })
+
 
 // router.post('/login', function (req,res){
 // 	// Selects all of the usernames stored in the user name column that match the requested username
