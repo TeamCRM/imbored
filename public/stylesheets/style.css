@@ -1,7 +1,7 @@
 body {
   padding: 50px;
-  font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: #94F58C;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #33cc99;
   text-align: center;
 }
 
@@ -39,4 +39,12 @@ input {
 
 .preference input {
 	float: right;
+}
+
+.index_body {
+  text-align: center;
+}
+
+.signUp {
+	color:  #565959;
 }

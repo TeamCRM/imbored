@@ -1,3 +1,31 @@
-#thankYou{
-	font-size: 50px;
+body{
+	margin-top: 30px;
+	float: center;
+}
+
+
+
+#thankyou{
+	padding: 30px;
+	margin: 20px;
+	font-size: 20px;
+}
+
+#title{
+	font-size: 32px;
+	margin-top: 30px;
+
+}
+
+.redirect{
+	font-size: 26px;
+	margin-top: 30px;
+}
+
+.or{
+	margin-top: 30px;
+}
+
+.logOut{
+	color: #565959;
 }
