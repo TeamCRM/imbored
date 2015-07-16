@@ -6,6 +6,7 @@ html
     link(rel='stylesheet', href="/stylesheets/reset.css")
     link(rel='stylesheet', href="/stylesheets/results.css")
   body
+    div(id='map-canvas')
     block content
     nav
         button(class="prefMenu") 
@@ -22,6 +23,7 @@ html
     script(type="text/javascript" src="/javascripts/underscore.js")
     script(type="text/javascript" src="/javascripts/backbone.js")
     script(type="text/javascript" src="/javascripts/results.js")
+    script(src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places")
     
 
 
