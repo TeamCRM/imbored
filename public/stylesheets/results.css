@@ -114,6 +114,7 @@ nav span{
 .logoutbutton{
 	margin: 30px;
 	padding: 20px;
+	float: right;
 	border: 50px;
 	font-size: 20px;
 	color:  #565959;
