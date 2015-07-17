@@ -13,9 +13,6 @@ app.use(bodyParser.urlencoded({ extended : false}));
 app.use(express.static('public'));
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  knex.select('*').from('authtable').join('useridtable',
-  'useridtable.userid', '=', '');
   //Get 
   if (req.cookies.preferences) {
     res.render('results', { title: "I'm Bored!" })  
@@ -122,7 +119,7 @@ router.post('/register', function (req,res){
                    }
                  
                  
-                 
+            
                 
               
                 for(var j=0;j<prefArr.length;j++){

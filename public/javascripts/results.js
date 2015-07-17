@@ -1,71 +1,80 @@
-
-var keywords = [
-	"restaurant", 
-	"movies",
-	"aquarium",
-	"park"
-];
-
-var resultsView = Backbone.View.extend({
-	render: function() {
-		var resultList = _.template('<ul class="resultList"><%= results %></ul>');
-		var resultSection = _.template('<li class="resultSection"><div class="resultTitle"><%= title %></div><ul class="resultListings"><%= listings %></ul></li>');
-		var resultListing = _.template('<li class="listing"><span><%= price %></span><a href="<%= url %>"><%= name %></a><span><%= rating %></span></li>');
-		
-		var resultSections = [];
-		for(var i = 0; i<keywords.length; i++) {
-			
-			var keywordResults = this.collection.byType(keywords[i]);
-			var resultListings = [];
-			for(var j = 0; j<keywordResults.length; j++) {
-				var place = keywordResults[j];
-				var placeName = place.get('name');
-				var price = place.get('price_level');
-				var rating = place.get('rating');
-				var url = place.get('url');
-				resultListings.push(resultListing({price: price, name: placeName, url: url, rating: rating}));
-			}
-			resultSections.push(resultSection({title: keywords[i], listings: resultListings.join('')}));
-		}
-
-		this.$el.html(resultList({results: resultSections.join('')}));
-	},
-
-	events: {
-		'click .resultTitle' : 'dropDown'
-	},
-
-	dropDown: function(event) {
-		$(event.currentTarget).toggleClass('isOpen').siblings('.resultListings').toggleClass('hidden');
-	}
-})
-
-
+// hasChanged for backbone
 $(document).ready(function() {
-	$.getJSON('/javascripts/example.JSON', function(data) {
-		var m = Backbone.Model.extend(data.results[0]);
-		var C = Backbone.Collection.extend({
-		    model : m,
-		    url : '/register',
-		    initialize: function () {
-		        this.fetch();
-		   	},
-		   	byType: function(keyword) {
-		   		filtered = this.filter(function(result) {
-		   			return result.get("types").indexOf(keyword) !== -1;
-		   		});
-		   		return filtered;
-		   	}
+	$.getJSON('https://maps.googleapis.com/maps/api/place/textsearch/json?query=cafe+in+Portland&key=AIzaSyCLGyZUzAn-ATeMtqZyW_BwYSIuv9KY7mY', function(data) {
+		console.log(data.results)
+		var ResultsModel = Backbone.Model.extend({
+	    	defaults :{'name':'','id':'', 'phone':'','website':'','price':'','rating':''},
+	    	details : function (id) {
+				var model = this
+				console.log(id)
+				$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyCLGyZUzAn-ATeMtqZyW_BwYSIuv9KY7mY', function (details){
+					console.log(details.result)
+					model.set({'phone':details.result.formatted_phone_number,'website': details.result.website,'price': details.result.price_level,'rating': details.result.rating});
+				console.log('endJSON')
+				}) 
+			}
 		});
-		var c = new C();
-		for(var i = 0; i<data.results.length; i++) {
-			var place = new Backbone.Model(data.results[i]);
-			c.add(place);
-		}
-		var view = new resultsView({ collection : c});
+		var ResultsView=Backbone.View.extend({
+			render: function(){
+				var name = this.model.get('name');
+				var id = this.model.get('id')
+				this.$el.html('<li><button type="button" class="push" data-id="'+id+'">'+name+'</button><div id="detailsView'+id+'"></div></li>')
+			},
+			initialize: function () {
+        		this.model.on("change", this.render, this);
+    		},
+    		events :{
+    			'click .push': "getDetails"
+    		},
+		    getDetails: function (event){
+		    	console.log("hello")
+		    	// var views= new ResultsMiniView({model:ResultsModel})
+		    	this.model.details($(event.currentTarget).data('id'));
+		    }
+		});
 
-		view.render();
 
-		$('#prefResults').append(view.$el);
+		var ResultsMiniView= Backbone.View.extend({
+			render : function (){
+				console.log('MiniRender')
+				var phone= this.model.get('phone');
+				console.log(phone)
+				var website = this.model.get('website');
+				console.log(website)
+				var price= this.model.get('price');
+				var rating= this.model.get('rating')
+				var idz= this.model.get('id')
+				console.log(this.model)
+				this.$el=$("#detailsView"+idz+"")
+				console.log(this.$el)
+				this.$el.html('<span>'+phone+'</span><span> '+website+'</span><span> '+price+'</span><span> '+rating+'</span>')
+				console.log('Miniend')
+			},
+			initialize: function () {
+		        this.listenTo(this.model,"change", this.render);
+		    }    
+		}); 
+		var ResultsCollection = Backbone.Collection.extend({
+			model: ResultsModel,
+			url: '/results',
+			initialize: function () {
+				this.fetch();
+			}
+		});
+		var results= new ResultsModel({})
+		var resultsCollection = new ResultsCollection([results]);
+		for(var i=0; i<data.results.length;i++){
+			var results= new ResultsModel({});
+			results.set({'name': data.results[i].name, 'id': data.results[i].place_id})
+			
+			var view = new ResultsView({collection:resultsCollection, model:results })
+			var detailedView=new ResultsMiniView({
+				model:results	
+			});
+			view.render()
+			$('#prefResults').append(view.$el);	
+		}	
 	});
 });
+
+
