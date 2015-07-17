@@ -14,14 +14,18 @@ app.use(express.static('public'));
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  
-  if (req.cookies.username) {
-    res.render('results', { title: "I'm Bored!" })
+  knex.select('*').from('authtable').join('useridtable',
+  'useridtable.userid', '=', '');
+  //Get 
+  if (req.cookies.preferences) {
+    res.render('results', { title: "I'm Bored!" })  
   } else {
     res.render('login', { title: "I'm Bored!" });
-  };  
-});
+  }; 
 
+   
+});
+//Login 
 router.post('/', function (req, res) {
 
   knex('authtable').where({'username': req.body.username}).then(function(records) {
@@ -40,7 +44,9 @@ router.post('/', function (req, res) {
             console.log(err);
           }
           if (user.hash === hash) {
-            res.cookie('username', req.body.username);
+            knex('preftable').where({'preferenceid': user.userid})
+              .then(function(result) {console.log(arguments);})
+            // res.cookie('preferences', req.body.username);
             res.render('results', {title: "I'm Bored!"});
             
           } else {
@@ -63,7 +69,7 @@ router.get('/results', function(req, res, next) {
 //Logout and clear cookie 
 router.get('/logout', function(req, res, next){
   
-  res.clearCookie('username');
+  res.clearCookie('preferences');
   
 	res.render('logout', { title: "I'm Bored!"});
 });
@@ -79,44 +85,64 @@ router.post('/register', function (req,res){
 	// Selects all of the usernames stored in the user name column that match the requested username
 	knex('authtable').where('username', req.body.username)
 		.then(function(result){
-      
-			// result is the usernames that match the requested username. If the result.length>0 then that means that that username is already in the DB.
-			if(result.length===0){
-				var prefArr= [];
-				for(var i=0;i<20;i++){
-					var k= parseInt(i)
-					if(req.body[k]){
-					prefArr.push(k)
-					}
-				}
         
       //Hash and salt   
       pwd.hash(req.body.password, function(err,salt,hash){
         var stored = {username:req.body.username, salt:salt, hash:hash};
-        console.log(stored);
-        
-        knex('authtable').insert(stored)
-          .then(function() {
-            res.cookie('username', req.body.username)
-            res.redirect('/results')
+      
+        knex('authtable')
+          .returning('userid')
+          .insert(stored)
+          .then(function(userid) {
+            // console.log(req.body);
+            var prefs= []
+            for (var prop in req.body) {
+              if (prop !== 'username' && prop !== 'password' && prop !== 'password_confirm') {
+                prefs.push(prop);
+                console.log(userid[0], prop.replace('_', ' '), prop);
+                knex('preftable')
+                  .insert({happyname: prop.replace('_', ' '), apiname: prop}).then();                
+              }
+            }
+            console.log('hellooooo');
+            res.cookie('preferences', prefs.join(", "))
+            knex('authtable').where('username',req.body.username).select('userid')
+              .then(function(results){ 
+                console.log(results)
+                console.log(req.body)  
+                if(results.length!==0){
+                   var prefArr= [];
+                   for(var i=0;i<20;i++){
+                       var k= parseInt(i)
+                       if(req.body[k]){
+                       prefArr.push(k)
+                       
+                     }
+                     console.log(prefArr)
+                   }
+                 
+                 
+                 
+                
+              
+                for(var j=0;j<prefArr.length;j++){
+                knex('useridtable').insert([{preferenceid:prefArr[j],userid:results[0].userid }])
+                  .then(function(){     
+                       res.redirect('/results')
+                  })
+                }
+              }
+          })
+            // res.redirect('/results')
           })
       })
         
 			// .then(function() {
-			// 	knex('authtable').where('username',req.body.username).select('userid')
-			// 		.then(function(results){   
-    	// 			for(var j=0;j<prefArr.length;j++){
-    	// 			knex('useridtable').insert([{preferenceid:prefArr[j],userid:results[0].userid }])
-    	// 				.then(function(){     
-    	// 		         res.redirect('/results')
-    	// 				})
-    	// 			}
-    	// 		})
-    	// })
-		}	
-	})
-})
 
+			
+	// })
+})
+})
 module.exports = router;
 
 

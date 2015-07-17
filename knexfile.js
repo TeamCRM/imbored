@@ -10,14 +10,12 @@ module.exports = {
     database : process.env.APP_DB_NAME     || config.db_database
   },
   
+  debug: true,
+  
   pool: {
     min: 0,
     max: 10
-  }//,
-  // migrations: {
-  //   tableName: 'knex_migrations'
-  // }
-
+  }
 };
 
 
