@@ -14,6 +14,7 @@ app.use(express.static('public'));
 
 /* GET home page. */
   //Get 
+router.get('/', function(req,res){
   if (req.cookies.preferences) {
     res.render('results', { title: "I'm Bored!" })  
   } else {
@@ -129,7 +130,7 @@ router.post('/register', function (req,res){
                   })
                 }
               }
-          })
+          	  })
             // res.redirect('/results')
           })
       })
@@ -138,7 +139,7 @@ router.post('/register', function (req,res){
 
 			
 	// })
-})
+	})
 })
 module.exports = router;
 
