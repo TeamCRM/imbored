@@ -1,19 +1,67 @@
-// hasChanged for backbone
+var PreferenceModel = Backbone.Model.extend({
+	defaults : {"amusement_park": false,
+				"art_gallery": false,
+				"aquarium": false,
+				"bowling_alley": false,
+				"movie_theater": false,
+				"campground": false,
+				"cafe": false,
+				"restaurant": false,
+				"library": false,
+				"museum": false,
+				"park": false,
+				"shopping_mall": false,
+				"stadium": false,
+				"zoo": false,
+				"university": false,
+				"swimming": false,
+				"spa": false,
+				"hiking": false,
+				"book_store": false,
+				"night_club": false
+			},
+});
+
+var PreferenceView = Backbone.View.extend({
+    el: '.prefMenu',
+    initialize: function() {
+    },
+    render: function() {
+        _.each(this.model.attributes, function(val, key) {
+        	var whatever = val ? "checked" : "";
+         var row = "<label>" + key.replace("_", " ") + "<input type='checkbox' "+ whatever +"></label>";
+                console.log(row);
+                $('.prefs').append(row);
+        });
+        return this;
+    },
+    events: {
+    	'click': 'openPref'
+    },
+    openPref: function() {
+    	$('.prefs').toggleClass('hidden');
+    }
+});
+
+
+
+
 $(document).ready(function() {
-	$.getJSON('https://maps.googleapis.com/maps/api/place/textsearch/json?query=cafe+in+Portland&key=AIzaSyCLGyZUzAn-ATeMtqZyW_BwYSIuv9KY7mY', function(data) {
+	$.getJSON('https://maps.googleapis.com/maps/api/place/textsearch/json?query=cafe+in+Portland&key=AIzaSyCxvlbUfh0iI6DcR9Na8vJSPqEO6Mje200', function(data) {
 		console.log(data.results)
 		var ResultsModel = Backbone.Model.extend({
 	    	defaults :{'name':'','id':'', 'phone':'','website':'','price':'','rating':''},
 	    	details : function (id) {
 				var model = this
 				console.log(id)
-				$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyCLGyZUzAn-ATeMtqZyW_BwYSIuv9KY7mY', function (details){
+				$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyCxvlbUfh0iI6DcR9Na8vJSPqEO6Mje200', function (details){
 					console.log(details.result)
 					model.set({'phone':details.result.formatted_phone_number,'website': details.result.website,'price': details.result.price_level,'rating': details.result.rating});
 				console.log('endJSON')
 				}) 
 			}
 		});
+
 		var ResultsView=Backbone.View.extend({
 			render: function(){
 				var name = this.model.get('name');
@@ -75,6 +123,9 @@ $(document).ready(function() {
 			$('#prefResults').append(view.$el);	
 		}	
 	});
+	var preferenceModel = new PreferenceModel();
+	var preferenceView = new PreferenceView({model: preferenceModel});
+	preferenceView.render();
 });
 
 
