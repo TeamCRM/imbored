@@ -120,6 +120,21 @@ nav span{
 	color:  #565959;
 }
 
-.listing{
-	
+.prefs{
+	position: absolute;
+	background-color: white;
+	padding: 15px;
+	border-radius: 10px;
+
+}
+.prefs > *{
+	display: block;
+	font-size: 20px;
+	padding: 5px;
+	text-align: left;
+	text-transform: capitalize;
+}
+
+.prefs input{
+	float: right;
 }
