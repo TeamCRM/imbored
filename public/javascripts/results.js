@@ -24,7 +24,7 @@ var PreferenceModel = Backbone.Model.extend({
 });
 
 var PreferenceView = Backbone.View.extend({
-    el: '.prefMenu',
+    el: '.xtra',
     initialize: function() {},
     render: function() {
         _.each(this.model.attributes, function(val, key) {
@@ -36,7 +36,7 @@ var PreferenceView = Backbone.View.extend({
         return this;
     },
     events: {
-    	'click': 'openPref'
+    	'click .prefMenu': 'openPref'
     },
     openPref: function() {
     	$('.prefs').toggleClass('hidden');
@@ -55,13 +55,13 @@ $(document).ready(function() {
 	var goodValue=JSON.parse("[" + newValue[1] + "]");
 	console.log(goodValue[0].length);
 	for (var j=0;j<goodValue[0].length;j++){
-		$.getJSON('https://maps.googleapis.com/maps/api/place/textsearch/json?query='+goodValue[0][j]+'+in+Portland&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function(data) {	
+		$.getJSON('https://maps.googleapis.com/maps/api/place/textsearch/json?query='+goodValue[0][j]+'+in+Portland&key=AIzaSyCxvlbUfh0iI6DcR9Na8vJSPqEO6Mje200', function(data) {	
 			var ResultsModel = Backbone.Model.extend({
 	    		defaults :{'name':'','id':'', 'phone':'','website':'','price':'','rating':''},
 	    		details : function (id) {
 					var model = this;
 					console.log(id);
-					$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function (details){
+					$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyCxvlbUfh0iI6DcR9Na8vJSPqEO6Mje200', function (details){
 						console.log(details.result);
 						model.set({'phone':details.result.formatted_phone_number,'website': details.result.website,'price': details.result.price_level,'rating': details.result.rating});
 						console.log('endJSON')

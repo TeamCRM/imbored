@@ -120,11 +120,16 @@ nav span{
 	color:  #565959;
 }
 
+.xtra{
+	position: relative;
+}
+
 .prefs{
 	position: absolute;
 	background-color: white;
 	padding: 15px;
 	border-radius: 10px;
+	top: 40px;
 
 }
 .prefs > *{
