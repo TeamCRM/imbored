@@ -57,7 +57,7 @@ router.post('/', function (req, res) {
 });
 //Render Results Page
 router.get('/results', function(req, res, next) {
-
+	res.cookie('preferences', ["cafe",'gym','park','spa']);
   res.render('results', { title: "I'm Bored!" });
 });
 
@@ -122,7 +122,8 @@ router.post('/register', function (req,res){
               
                 for(var j=0;j<prefArr.length;j++){
                 knex('useridtable').insert([{preferenceid:prefArr[j],userid:results[0].userid }])
-                  .then(function(){     
+                  .then(function(){  
+                  res.cookie('preferences', ["cafe",'gym','park']);   
                        res.redirect('/results')
                   })
                 }
