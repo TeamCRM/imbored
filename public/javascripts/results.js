@@ -79,30 +79,36 @@ $(document).ready(function() {
 			}
 		});
 		var ResultsCollectionView= Backbone.View.extend({
-			render: function(arr){
-				this.$el=$('#encompass')
-				this.$el.html('<span>'+arr+'</span>')
+			render: function(arr,index){
+				this.$el=$('#prefResults')
+				this.$el.append('<div id='+index+'>'+arr+'</div>')
+				console.log(this.model)
 			}
 		})
 	// var arr= ["cafe",'gym','park']
 	for (var j=0;j<goodValue[0].length;j++){
-	$.getJSON('https://maps.googleapis.com/maps/api/place/textsearch/json?query='+goodValue[0][j]+'+in+Portland&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function(data) {
-		// console.log(data.results)	
-
-		var results= new ResultsModel({})
-		var resultsCollection = new ResultsCollection([results]);
+			var results= new ResultsModel({})
+		var resultsCollection = new ResultsCollection([],{model:results});
 		var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results })
+			for(var h=0;h<1;h++){
+			var str=''
+			var ids=j;
+			console.log(ids)
+			for(var k=0;k<goodValue[0].length;k++){
+				str+=goodValue[0][k]+'  '
+			}
+			console.log('div here')
+			collectionView.render(str,ids)
+		}
+	$.getJSON('https://maps.googleapis.com/maps/api/place/textsearch/json?query='+goodValue[0][j]+'+in+Portland&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function(data) {
+		console.log(data.results.length)	
+
+	
 		// var otherArr =["cafe",'gym','park']
 		var value = getCookie('preferences');
 		var newValue= value.split(':')
 		var goodValue=JSON.parse("[" + newValue[1] + "]");
-		for(var h=0;h<1;h++){
-			var str=''
-			for(var k=0;k<goodValue[0].length;k++){
-				str+=goodValue[0][k]+'  '
-			}
-			collectionView.render(str)
-		}
+	
 		for(var i=0; i<data.results.length;i++){
 			var results= new ResultsModel({});
 			results.set({'name': data.results[i].name, 'id': data.results[i].place_id})
@@ -111,8 +117,8 @@ $(document).ready(function() {
 				model:results	
 			});
 			view.render();
-			
-			$('#prefResults').append(view.$el);	
+			console.log(j)
+			$('#'+0+'').append(view.$el);	
 			// $('#encompass').append(collectionView.$el)
 		}	
 	});
