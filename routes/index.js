@@ -25,7 +25,6 @@ router.get('/', function(req,res){
 });
 //Login 
 router.post('/', function (req, res) {
-
   knex('authtable').where({'username': req.body.username}).then(function(records) {
     var user = records[0];
     if (records.length === 0) {
@@ -35,26 +34,24 @@ router.post('/', function (req, res) {
         user: null,
         error: 'No Such User'
       });
-      
     } else {
-        pwd.hash(req.body.password, user.salt, function(err,hash) {
-          if (err) {
-            console.log(err);
-          }
-          if (user.hash === hash) {
-            knex('preftable').where({'preferenceid': user.userid})
-              .then(function(result) {console.log(arguments);})
-            // res.cookie('preferences', req.body.username);
-            res.render('results', {title: "I'm Bored!"});
-            
-          } else {
-              res.render('login', {
-                title: 'Im Bored',
-                user: null,
-                error: 'Incorrect Password '
-              });
-          }
-        });
+      pwd.hash(req.body.password, user.salt, function(err,hash) {
+        if (err) {
+          console.log(err);
+        }
+        if (user.hash === hash) {
+          knex('preftable').where({'preferenceid': user.userid})
+          .then(function(result) {console.log(arguments);})
+          // res.cookie('preferences', req.body.username);
+          res.render('results', {title: "I'm Bored!"});
+        } else {
+          res.render('login', {
+            title: 'Im Bored',
+            user: null,
+            error: 'Incorrect Password '
+          });
+        }
+      });
     }
   });
 });
