@@ -116,37 +116,6 @@ $(document).ready(function() {
 					this.fetch();
 				}
 			});
-			var ResultsCollectionView= Backbone.View.extend({
-				render: function(arr){
-					this.$el=$('#encompass');
-					this.$el.html('<span>'+arr+'</span>');
-				}
-			});
-			var results= new ResultsModel({});
-			var resultsCollection = new ResultsCollection([results]);
-			var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results});
-			var value = getCookie('preferences');
-			var newValue= value.split(':');
-			var goodValue=JSON.parse("[" + newValue[1] + "]");
-			for(var h=0;h<1;h++) {
-				var str='';
-				for(var k=0;k<goodValue[0].length;k++) {
-					str+=goodValue[0][k]+'  ';
-				}
-				collectionView.render(str);
-			}
-			for(var i=0; i<data.results.length;i++) {
-				var results= new ResultsModel({});
-				results.set({'name': data.results[i].name, 'id': data.results[i].place_id});
-				var view = new ResultsView({collection:resultsCollection, model:results});
-				var detailedView=new ResultsMiniView({
-					model:results	
-				});
-				view.render();
-				
-				$('#prefResults').append(view.$el);	
-			}	
-		});
 		var ResultsCollectionView= Backbone.View.extend({
 			render: function(arr,index){
 				this.$el=$('#prefResults')
@@ -154,6 +123,7 @@ $(document).ready(function() {
 				console.log(this.model)
 			}
 		})
+		
 	// var arr= ["cafe",'gym','park']
 	for (var j=0;j<goodValue[0].length;j++){
 			var results= new ResultsModel({})
