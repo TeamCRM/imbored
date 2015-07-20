@@ -24,7 +24,10 @@ router.get('/', function (req, res, next) {
 //Login 
 router.post('/', function (req, res) {
   
-  knex('authtable').where({'username': req.body.username}).then(function(records) {
+  
+  knex('authtable')
+  .where({'username': req.body.username})
+  .then(function(records) {
     var user = records[0];
     if (records.length === 0) {
       res.render('login', {
@@ -39,9 +42,14 @@ router.post('/', function (req, res) {
           console.log(err);
         }
         if (user.hash === hash) {
-          knex('preftable').where({'preferenceid': user.userid})
+          //Get user preferences and store in new cookie
+          knex('userpreftable')
+          .where({'preferenceid': user.userid})
+          .then(function())
+          
+          knex('preftable')
+          .where({'preferenceid': user.userid})
           .then(function(result) {console.log(arguments);})
-          // res.cookie('preferences', req.body.username);
           res.render('results', {title: "I'm Bored!"});
           
         } else {
@@ -63,7 +71,7 @@ router.get('/results', function(req, res, next) {
 });
 
 //Logout and clear cookie 
-router.get('/logout', function(req, res, next){
+router.get('/logout', function(req, res, next) {
   
   res.clearCookie('preferences');
   
@@ -71,19 +79,19 @@ router.get('/logout', function(req, res, next){
 });
 
 //Render Register Page
-router.get('/register', function (req, res, next){
+router.get('/register', function (req, res, next) {
   
   res.render('regis',{ title: "I'm Bored!" })
 });
 
-router.post('/register', function (req,res){
+router.post('/register', function (req, res) {
   
   // Selects all of the usernames stored in the user name column that match the requested username
   knex('authtable').where('username', req.body.username)
   .then(function(result){
     
     //Hash and salt   
-    pwd.hash(req.body.password, function(err,salt,hash){
+    pwd.hash(req.body.password, function(err, salt, hash) {
       var stored = {username:req.body.username, salt:salt, hash:hash};
       
       knex('authtable')
@@ -98,25 +106,29 @@ router.post('/register', function (req,res){
             .insert({happyname: prop.replace('_', ' '), apiname: prop}).then();                
           }
         }
-        res.cookie('preferences', prefs.join(", "))
-        
-        knex('authtable').where('username',req.body.username).select('userid')
-        .then(function(results){
-          if(results.length!==0){
+        // res.cookie('preferences', prefs.join(", "))
+        console.log("HereIam")
+        knex('authtable')
+        .where('username',req.body.username).select('userid')
+        .then(function(results) {
+          if(results.length!==0) {
             var prefArr= [];
-            for(var i=0;i<20;i++){
+            for(var i=0;i<20;i++) {
               var k= parseInt(i)
-              if(req.body[k]){
+              if(req.body[k]) {
                 prefArr.push(k)
               }
             }
-            for(var j=0;j<prefArr.length;j++){
+            for(var j=0; j<prefArr.length; j++) {
               knex('userpreftable')
               .insert([{preferenceid:prefArr[j],userid:results[0].userid }])
-              .then(function(){     
+              .then()
+            }  
+            knex('userpreftable')
+            .then(function() {  
+                console.log("goodie")   
                 res.redirect('/results')
               })
-            }
           }
         })
       })
