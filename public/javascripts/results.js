@@ -43,6 +43,9 @@ var PreferenceView = Backbone.View.extend({
     }
 });
 
+var map;
+var infowindow;
+
 $(document).ready(function() {
 	console.log(document.cookie)
  	function getCookie(name) {
@@ -118,6 +121,31 @@ $(document).ready(function() {
 			});
 		var ResultsCollectionView= Backbone.View.extend({
 			render: function(arr,index){
+				map = new google.maps.Map(document.getElementById('map-canvas'), {
+					    center: {lat: 45.5200, lng: -122.6819},
+					    zoom: 15
+  					});
+					  var request = {
+					    location: map.getCenter(),
+					    radius: 5000,
+					    query: index
+					  };
+					  infowindow = new google.maps.InfoWindow();
+					  var service = new google.maps.places.PlacesService(map);
+					  service.textSearch(request, callback);
+					}
+				function createMarker(place) {
+				  var placeLoc = place.geometry.location;
+				  var marker = new google.maps.Marker({
+				    map: map,
+				    position: place.geometry.location
+				  });
+
+				  google.maps.event.addListener(marker, 'click', function() {
+				    infowindow.setContent(place.name);
+				    infowindow.open(map, this);
+				  });
+				}
 				this.$el=$('#prefResults')
 				this.$el.append('<div id='+index+'>'+arr+'</div>')
 				console.log(this.model)
