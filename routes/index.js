@@ -10,7 +10,7 @@ var database = app.get('database');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : false}));
 app.use(express.static('public'));
-
+var prefs= []
 /* GET home page. */
 router.get('/', function (req, res, next) {
   
@@ -41,14 +41,28 @@ router.post('/', function (req, res) {
           console.log(err);
         }
         if (user.hash === hash) {
-          //Get user preferences and store in new cookie
-          knex('userpreftable')
-          .where({'preferenceid': user.userid})
-          .then(function())
-          
+
+          //Get user ID from DB
+          knex('authtable').where({'username': req.body.username}).select('userid')
+          .then(function(results) {
+            //Get user preferences from DB 
+            knex('userpreftable')
+            .where({'userid': results[0].userid}).select('preferenceid')
+            .then(function(result){
+              //Store user preferences in array
+              for (var prop in result[0]) {
+                if  (prop !== 'userid') {
+                  prefs.push(prop)
+                }
+              }  
+            })
+          })
+          //Put user preferences in cookie and render results page (NEEDS FIX 8-20-15)
           knex('preftable')
           .where({'preferenceid': user.userid})
-          .then(function(result) {console.log(arguments);})
+          .then()
+          console.log(prefs)
+          res.cookie('preferences', prefs)
           res.render('results', {title: "I'm Bored!"});
           
         } else {
@@ -97,7 +111,7 @@ router.post('/register', function (req, res) {
       .returning('userid')
       .insert(stored)
       .then(function(userid) {
-        var prefs= []
+
         for (var prop in req.body) {
           if (prop !== 'username' && prop !== 'password' && prop !== 'password_confirm') {
             prefs.push(prop);
@@ -105,11 +119,13 @@ router.post('/register', function (req, res) {
             .insert({happyname: prop.replace('_', ' '), apiname: prop}).then();                
           }
         }
-        // res.cookie('preferences', prefs.join(", "))
-        console.log("HereIam")
+
+        res.cookie('preferences', prefs.join(","))
+        
         knex('authtable')
         .where('username',req.body.username).select('userid')
         .then(function(results) {
+          
           if(results.length!==0) {
             var prefArr= [];
             for(var i=0;i<20;i++) {
@@ -125,9 +141,8 @@ router.post('/register', function (req, res) {
             }  
             knex('userpreftable')
             .then(function() {  
-                console.log("goodie")   
-                res.redirect('/results')
-              })
+              res.redirect('/results')
+            })
           }
         })
       })
