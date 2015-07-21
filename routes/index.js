@@ -128,7 +128,7 @@ router.post('/register', function (req, res) {
             .insert({happyname: prop.replace('_', ' '), apiname: prop}).then();                
           }
         }
-
+//Hello
         res.cookie('preferences', prefs.join(","))
         
         knex('authtable')
