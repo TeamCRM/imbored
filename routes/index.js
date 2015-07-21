@@ -50,12 +50,10 @@ router.post('/', function (req, res) {
             .where({'userid': results[0].userid}).select('preferenceid')
             .then(function(result){
               var prefs= []
-              console.log(result)
               //Store user preferences in array
               for (var prop in result) {
                 if  (prop !== 'userid') {
                   console.log("RESULT")
-                  
                   prefs.push(result[prop].preferenceid)
                   console.log(result[prop].preferenceid)
                 }
@@ -69,9 +67,7 @@ router.post('/', function (req, res) {
               console.log('iamhere')
               res.cookie('preferences', prefs)
               res.redirect('/results');
-              })
-              
-                
+              })    
             })
           })
         
