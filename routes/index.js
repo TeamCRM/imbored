@@ -41,16 +41,36 @@ router.post('/', function (req, res) {
           console.log(err);
         }
         if (user.hash === hash) {
-          //Get user preferences and store in new cookie
-          knex('userpreftable')
-          .where({'preferenceid': user.userid})
-          .then(function())
           
-          knex('preftable')
-          .where({'preferenceid': user.userid})
-          .then(function(result) {console.log(arguments);})
-          res.render('results', {title: "I'm Bored!"});
-          
+          //Get user ID from DB
+          knex('authtable').where({'username': req.body.username}).select('userid')
+          .then(function(results) {
+            //Get user preferences from DB 
+            knex('userpreftable')
+            .where({'userid': results[0].userid}).select('preferenceid')
+            .then(function(result){
+              var prefs= []
+              //Store user preferences in array
+              for (var prop in result) {
+                if  (prop !== 'userid') {
+                  console.log("RESULT")
+                  prefs.push(result[prop].preferenceid)
+                  console.log(result[prop].preferenceid)
+                }
+              }
+              //Put user preferences in cookie and render results page (NEEDS FIX 8-20-15)
+              knex('userpreftable')
+              .where({'preferenceid': user.userid})
+              .then(function(){
+              console.log('Beforeprefs')
+              console.log(prefs)
+              console.log('iamhere')
+              res.cookie('preferences', prefs)
+              res.redirect('/results');
+              })    
+            })
+          })
+        
         } else {
           res.render('login', {
             title: 'Im Bored',
@@ -84,7 +104,8 @@ router.get('/register', function (req, res, next) {
 });
 
 router.post('/register', function (req, res) {
-  
+  var prefArr= [];
+  var prefs= [];
   // Selects all of the usernames stored in the user name column that match the requested username
   knex('authtable').where('username', req.body.username)
   .then(function(result){
@@ -97,24 +118,30 @@ router.post('/register', function (req, res) {
       .returning('userid')
       .insert(stored)
       .then(function(userid) {
-        var prefs= []
+
         for (var prop in req.body) {
           if (prop !== 'username' && prop !== 'password' && prop !== 'password_confirm') {
             prefs.push(prop);
+            console.log("PREF")
+            console.log(prefs)
             knex('preftable')
             .insert({happyname: prop.replace('_', ' '), apiname: prop}).then();                
           }
         }
-        // res.cookie('preferences', prefs.join(", "))
-        console.log("HereIam")
+//Hello
+        res.cookie('preferences', prefs.join(","))
+        
         knex('authtable')
         .where('username',req.body.username).select('userid')
         .then(function(results) {
+          
           if(results.length!==0) {
-            var prefArr= [];
+            
             for(var i=0;i<20;i++) {
               var k= parseInt(i)
               if(req.body[k]) {
+                console.log("PREFARR")
+                console.log(prefArr)
                 prefArr.push(k)
               }
             }
@@ -125,9 +152,8 @@ router.post('/register', function (req, res) {
             }  
             knex('userpreftable')
             .then(function() {  
-                console.log("goodie")   
-                res.redirect('/results')
-              })
+              res.redirect('/results')
+            })
           }
         })
       })
