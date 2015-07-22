@@ -13,7 +13,6 @@ app.use(express.static('public'));
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  
   if (req.cookies.preferences) {
     res.render('results', { title: "I'm Bored!" })  
   } else {
@@ -34,7 +33,6 @@ router.post('/', function (req, res) {
         user: null,
         error: 'No Such User'
       });
-      
     } else {
       pwd.hash(req.body.password, user.salt, function(err,hash) {
         if (err) {
@@ -42,6 +40,7 @@ router.post('/', function (req, res) {
         }
         // console.log(req.body)
         if (user.hash === hash) {
+
           
           //Get user ID from DB
           knex('authtable')
@@ -127,7 +126,7 @@ router.post('/', function (req, res) {
 
 //Render Results Page
 router.get('/results', function(req, res, next) {
-  
+
   res.render('results', { title: "I'm Bored!" });
 });
 
@@ -148,7 +147,9 @@ router.get('/register', function (req, res, next) {
 router.post('/register', function (req, res) {
   var prefArr= [];
   var prefs= [];
+
   var prefName= [];
+
   // Selects all of the usernames stored in the user name column that match the requested username
   knex('authtable')
   .where({'username': req.body.username})
@@ -179,6 +180,7 @@ router.post('/register', function (req, res) {
 
     }
         // res.cookie('preferences', prefName.join())
+      
         
         knex('authtable')
         .where({'username': req.body.username}).select('userid')
@@ -189,6 +191,8 @@ router.post('/register', function (req, res) {
             for(var i=0;i<20;i++) {
               var k= parseInt(i)
               if(req.body[k]) {
+                console.log("PREFARR")
+                console.log(prefArr)
                 prefArr.push(k)
               }
             }
