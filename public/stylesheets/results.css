@@ -143,13 +143,17 @@ nav{
 	float: right;
 }
 
+#cafe, #gym, #park, #spa, #book_store,#amusement_park,#art_gallery,#aquarium,#bowling_alley,#movie_theater,#campground,#restaurant,#library,#museum,#shopping_mall,#stadium,#zoo,#university,#swimming,#hiking,#night_club {
+        height: 500px;
+        width:500px;
+        margin: 0;
+        padding: 0;
+      }      
+
+
+
 .temp:after{
 	content: '\00b0 F';
 }
 
-#map-canvas {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
 
