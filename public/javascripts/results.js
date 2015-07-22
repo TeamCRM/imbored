@@ -149,7 +149,7 @@
 				var ResultsCollectionView= Backbone.View.extend({
 					render: function(arr,index){
 						this.$el=$('#prefResults')
-						this.$el.append('<div id='+index+'>'+arr+'</div><div id="map-canvas'+index+'"></div>')
+						this.$el.append('<div id='+index+'1><p>'+arr+'</p><div id='+index+'></div></div>')
 						console.log(this.model)
 							this.renderMap(index)
 					},
@@ -170,7 +170,7 @@
 					// },
 					renderMap: function(activity){
 						console.log('MAPPPPP')
-						var map = new google.maps.Map(document.getElementById('"map-canvas'+activity+'"'), {
+						var map = new google.maps.Map(document.getElementById(activity), {
 						    center: {lat: 45.5200, lng: -122.6819},
 						    zoom: 15
 						  });
@@ -200,7 +200,7 @@
 						  	// console.log(results)
 						  	if (status == google.maps.places.PlacesServiceStatus.OK) {
 								    for (var i = 0; i < results.length; i++) {
-								    	console.log(results)
+								    	// console.log(results)
 								     createMarker(results[i]);	
 								    }
 						  	}
@@ -242,7 +242,7 @@
 					});
 					view.render();
 					console.log(dat)
-					$('#'+dat+'').append(view.$el);	
+					$('#'+dat+'1').append(view.$el);	
 					// $('#encompass').append(collectionView.$el)
 				}
 			});
