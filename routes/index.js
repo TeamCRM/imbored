@@ -27,7 +27,9 @@ router.post('/', function (req, res) {
   knex('authtable')
   .where({'username': req.body.username})
   .then(function(records) {
+    
     var user = records[0];
+    
     if (records.length === 0) {
       res.render('login', {
         title: 'Im Bored',
@@ -69,12 +71,14 @@ router.post('/', function (req, res) {
                 
                 for(var i=0;i<prefs.length;i++){
                   if(i !== prefs.length-1){
+                    
                     knex('preftable').where({'preferenceid':prefs[i]}).select('apiname')
                       .then(function(rezult){
                         prefName.push(rezult[0].apiname);         
                       });
                     
                   } else if(i == prefs.length-1){
+                    
                       knex('preftable').where({'preferenceid':prefs[i]}).select('apiname')
                       .then(function(rezult){
                         prefName.push(rezult[0].apiname);
@@ -85,6 +89,7 @@ router.post('/', function (req, res) {
                 }
             });    
           });
+          
         } else {
             res.render('login', {
               title: 'Im Bored',
@@ -143,7 +148,9 @@ router.post('/register', function (req, res) {
             prefs.push(prop);               
           }
         }
+        
         for(var i=0;i<prefs.length;i++){
+          
           knex('preftable').where({'preferenceid':prefs[i]}).select('apiname')
           .then(function(rezult){
               prefName.push(rezult[0].apiname);
@@ -163,11 +170,13 @@ router.post('/register', function (req, res) {
                 prefArr.push(k)
               }
             }
+            
             for(var j=0; j<prefArr.length; j++) {
               knex('userpreftable')
               .insert([{preferenceid:prefArr[j],userid:results[0].userid}])
               .then()
             }  
+            
             knex('userpreftable')
             .then(function() {  
               res.redirect('/results');
