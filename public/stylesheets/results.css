@@ -144,15 +144,7 @@ nav span{
 	float: right;
 }
 
-#map-canvas{
-		position: relative;
-        height: 500px;
-        width:500px;
-        margin: 0;
-        padding: 0;
-      }
-
-#cafe, #gym, #park, #spa, #book_store {
+#cafe, #gym, #park, #spa, #book_store,#amusement_park,#art_gallery,#aquarium,#bowling_alley,#movie_theater,#campground,#restaurant,#library,#museum,#shopping_mall,#stadium,#zoo,#university,#swimming,#hiking,#night_club {
         height: 500px;
         width:500px;
         margin: 0;

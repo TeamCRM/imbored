@@ -81,8 +81,8 @@
 			    return (value != null) ? unescape(value[1]) : null;
 		  	}
 			var value = getCookie('preferences');
-			var newValue= value.split(':');
-			var goodValue=JSON.parse("[" + newValue[1] + "]");
+			var newValue= value.split(',');
+			// var goodValue=JSON.parse("[" + newValue[1] + "]");
 			// var newValue= '{"'+value[0]+'"'+value+'}'
 			// var goodValue=JSON.parse(newValue)
 			// console.log(goodValue[0][0])
@@ -211,13 +211,13 @@
 					}	
 				})
 			// var arr= ["cafe",'gym','park']
-			for (var j=0;j<goodValue[0].length;j++){
+			for (var j=0;j<newValue.length;j++){
 				var results= new ResultsModel({})
 				var resultsCollection = new ResultsCollection([],{model:results});
 				var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results })
 					for(var h=0;h<1;h++){
 					var str=''
-					var ids=goodValue[0][j];
+					var ids=newValue[j];
 					// console.log(ids)
 					// for(var k=0;k<goodValue[0].length;k++){
 					// 	str+=goodValue[0][k]+'  '
@@ -225,7 +225,7 @@
 					// console.log('div here')
 					collectionView.render(ids,ids)
 				}
-			$.getJSON('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.5200,-122.6819&radius=5000&types='+goodValue[0][j]+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function(data) {
+			$.getJSON('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.5200,-122.6819&radius=5000&types='+newValue[j]+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function(data) {
 				console.log(data)
 				var dat= data.results[0].types[0]
 				if(dat==="lodging"){
@@ -238,8 +238,8 @@
 				// console.log(dat)	
 				// var otherArr =["cafe",'gym','park']
 				var value = getCookie('preferences');
-				var newValue= value.split(':')
-				var goodValue=JSON.parse("[" + newValue[1] + "]");
+				var newValue= value.split(',')
+				// var goodValue=JSON.parse("[" + newValue[1] + "]");
 				for(var i=0; i<data.results.length;i++){
 					var results= new ResultsModel({});
 					results.set({'name': data.results[i].name, 'id': data.results[i].place_id})
