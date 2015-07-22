@@ -80,7 +80,7 @@ router.post('/', function (req, res) {
 
 //Render Results Page
 router.get('/results', function(req, res, next) {
-
+  res.cookie('preferences', ["cafe",'gym','park','spa','book_store']);
   res.render('results', { title: "I'm Bored!" });
 });
 

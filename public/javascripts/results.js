@@ -101,10 +101,11 @@ $(document).ready(function() {
 	});
 
 	var ResultsView=Backbone.View.extend({
+		tagName: 'li',
 		render: function(){
 			var name = this.model.get('name');
 			var id = this.model.get('id');
-			this.$el.html('<li><button type="button" class="push" data-id="'+id+'">'+name+'</button><div id="detailsView'+id+'"></div></li>');
+			this.$el.html('<button type="button" class="push" data-id="'+id+'">'+name+'</button><div id="detailsView'+id+'"></div>');
 		},
 		initialize: function () {
     		this.model.on("change", this.render, this);
@@ -149,10 +150,17 @@ $(document).ready(function() {
 	});
 		
 	var ResultsCollectionView= Backbone.View.extend({
+		el: '#prefResults',
+		initialize: function() {},
 		render: function(arr,index){
-			this.$el=$('#prefResults');
-			this.$el.append('<div id='+index+'>'+arr+'</div');
+			this.$el.append('<div id='+index+'><h1 class="sectionLabel">'+arr.replace('_', ' ')+'</h1><ul class="renderResults"></ul></div');
 			console.log(this.model);
+		},
+		events: {
+			'click .sectionLabel': 'isOpen'
+		},
+		isOpen: function(event) {
+			$(event.currentTarget).parent().toggleClass('isOpen');
 		}
 	});	
 			
@@ -185,7 +193,7 @@ $(document).ready(function() {
 				});
 				view.render();
 				console.log(dat);
-				$('#'+dat+'').append(view.$el);	
+				$('#'+dat+' .renderResults').append(view.$el);	
 			}
 		});
 	}
