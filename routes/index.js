@@ -40,35 +40,52 @@ router.post('/', function (req, res) {
         if (err) {
           console.log(err);
         }
+        console.log(req.body)
         if (user.hash === hash) {
           
           //Get user ID from DB
-          knex('authtable').where({'username': req.body.username}).select('userid')
+          knex('authtable')
+          .where({'username': req.body.username}).select('userid')
           .then(function(results) {
+            var userid = results[0].userid
             //Get user preferences from DB 
             knex('userpreftable')
             .where({'userid': results[0].userid}).select('preferenceid')
             .then(function(result){
               var prefs= []
-              //Store user preferences in array
+              //Store user preferences in prefs array
               for (var prop in result) {
                 if  (prop !== 'userid') {
-                  console.log("RESULT")
                   prefs.push(result[prop].preferenceid)
-                  console.log(result[prop].preferenceid)
                 }
               }
-              //Put user preferences in cookie and render results page (NEEDS FIX 8-20-15)
+              //Put user preferences in cookie and render results page 
               knex('userpreftable')
-              .where({'preferenceid': user.userid})
-              .then(function(){
-              console.log('Beforeprefs')
-              console.log(prefs)
-              console.log('iamhere')
-              res.cookie('preferences', prefs)
-              res.redirect('/results');
-              })    
-            })
+              .where({'userid': userid}).select('preferenceid')
+              .then(function(results){
+                console.log(results)
+                knex('preftable')
+                .where({'preferenceid': results.preferenceid}).select('apiname')
+                .then(function(result) {
+                  var apicall = []
+                  console.log("RES")
+                  console.log(result)
+                  console.log("ULT")
+                  for (var api in result) {
+                    if (api === 'apiname') {
+                      apicall.push(result[api].apiname)
+                    }
+                  }
+                  
+                  knex('userpreftable')
+                  .then()
+                  res.cookie('preferences', apicall.join())
+                  res.redirect('/results');
+                })
+              })
+              
+              
+            })    
           })
         
         } else {
@@ -107,7 +124,8 @@ router.post('/register', function (req, res) {
   var prefArr= [];
   var prefs= [];
   // Selects all of the usernames stored in the user name column that match the requested username
-  knex('authtable').where('username', req.body.username)
+  knex('authtable')
+  .where({'username': req.body.username})
   .then(function(result){
     
     //Hash and salt   
@@ -121,18 +139,13 @@ router.post('/register', function (req, res) {
 
         for (var prop in req.body) {
           if (prop !== 'username' && prop !== 'password' && prop !== 'password_confirm') {
-            prefs.push(prop);
-            console.log("PREF")
-            console.log(prefs)
-            knex('preftable')
-            .insert({happyname: prop.replace('_', ' '), apiname: prop}).then();                
+            prefs.push(prop);               
           }
         }
-//Hello
-        res.cookie('preferences', prefs.join(","))
+        res.cookie('preferences', prefs.join())
         
         knex('authtable')
-        .where('username',req.body.username).select('userid')
+        .where({'username': req.body.username}).select('userid')
         .then(function(results) {
           
           if(results.length!==0) {
@@ -140,14 +153,12 @@ router.post('/register', function (req, res) {
             for(var i=0;i<20;i++) {
               var k= parseInt(i)
               if(req.body[k]) {
-                console.log("PREFARR")
-                console.log(prefArr)
                 prefArr.push(k)
               }
             }
             for(var j=0; j<prefArr.length; j++) {
               knex('userpreftable')
-              .insert([{preferenceid:prefArr[j],userid:results[0].userid }])
+              .insert([{preferenceid:prefArr[j],userid:results[0].userid}])
               .then()
             }  
             knex('userpreftable')
