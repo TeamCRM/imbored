@@ -48,7 +48,7 @@ router.post('/', function (req, res) {
           .where({'username': req.body.username}).select('userid')
           .then(function(results) {
             var userid = results[0].userid
-            //Get user preferences from DB 
+            //Get user preferences from DB
             knex('userpreftable')
             .where({'userid': results[0].userid}).select('preferenceid')
             .then(function(result){
@@ -63,28 +63,30 @@ router.post('/', function (req, res) {
               knex('userpreftable')
               .where({'userid': userid}).select('preferenceid')
               .then(function(results){
+                console.log("MILK")
                 console.log(results)
                 knex('preftable')
                 .where({'preferenceid': results.preferenceid}).select('apiname')
                 .then(function(result) {
-                  var apicall = []
+                  var apiCall = []
                   console.log("RES")
                   console.log(result)
                   console.log("ULT")
                   for (var api in result) {
                     if (api === 'apiname') {
-                      apicall.push(result[api].apiname)
+                      apiCall.push(result[api].apiname)
+                      console.log("DONE")
                     }
                   }
                   
                   knex('userpreftable')
                   .then()
-                  res.cookie('preferences', apicall.join())
+                  console.log("COOKIE")
+                  console.log(apiCall)
+                  res.cookie('preferences', apiCall.join())
                   res.redirect('/results');
                 })
-              })
-              
-              
+              })  
             })    
           })
         
