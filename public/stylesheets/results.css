@@ -12,11 +12,6 @@ nav{
 	text-align: center;
 }
 
-nav span{
-	
-
-}
-
 .prefMenu{
 	float: left;
     width: 1em;
@@ -35,20 +30,28 @@ nav span{
 
 .weather{
 	float: right;
-	position: relative;
-    margin-top: -30px;
-    border: none;
-    background-color: transparent;
-    outline: none;
-    font-size: 36px;
+	border: none;
+	background-color: transparent;
 }
-.weather-results{
+.weatherDetails{
 	display: none;
 	position: absolute;
-    top: 100%;
-    right: 0;
+	margin-top: -30px;
+	border: none;
+	background-color: whitesmoke;
+	outline: none;
+	font-size: 18px;
+	right: 10px;
+	top: 80px;
+	padding: 15px;
+	border-radius: 5px;
 }
-.weather:hover .weather-results{
+
+.weather img{
+	margin-top: -10px;
+}
+
+.weather:hover .weatherDetails{
 	display: block;
 }
 
@@ -61,11 +64,7 @@ nav span{
 	
 }
 
-.resultSection{
-
-}
-
-.resultTitle {
+#prefResults > div {
   text-transform: uppercase;
   border: 1px solid gray;
   border-right-width: 0;
@@ -74,7 +73,7 @@ nav span{
   background-color: whitesmoke;
 }
 
-.resultTitle.isOpen:after{
+#prefResults > div.isOpen:after{
 	content: '';
 	float: right;
 	width: 0; 
@@ -84,7 +83,7 @@ nav span{
 	border-top: 15px solid black;
 }
 
-.resultTitle:not(.isOpen):after{
+#prefResults > div:not(.isOpen):after{
 	content: '';
 	float: right;
 	width: 0; 
@@ -144,8 +143,17 @@ nav span{
 	float: right;
 }
 
-#map-canvas {
-        height: 100%;
+#cafe, #gym, #park, #spa, #book_store,#amusement_park,#art_gallery,#aquarium,#bowling_alley,#movie_theater,#campground,#restaurant,#library,#museum,#shopping_mall,#stadium,#zoo,#university,#swimming,#hiking,#night_club {
+        height: 500px;
+        width:500px;
         margin: 0;
         padding: 0;
-      }
+      }      
+
+
+
+.temp:after{
+	content: '\00b0 F';
+}
+
+

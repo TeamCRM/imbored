@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var router = express.Router();
 var app = require('../app');
 var pwd = require('pwd');
-var knexConfig = require('../knexfile.js')
+var knexConfig = require('../knexfile.js');
 var knex = require('knex')(knexConfig);
 var database = app.get('database');
 
@@ -15,7 +15,7 @@ app.use(express.static('public'));
 router.get('/', function (req, res, next) {
   
   if (req.cookies.preferences) {
-    res.render('results', { title: "I'm Bored!" })  
+    res.render('results', { title: "I'm Bored!" }); 
   } else {
     res.render('login', { title: "I'm Bored!" });
   };  
@@ -23,7 +23,7 @@ router.get('/', function (req, res, next) {
 
 //Login 
 router.post('/', function (req, res) {
-  
+
   knex('authtable')
   .where({'username': req.body.username})
   .then(function(records) {
@@ -36,67 +36,62 @@ router.post('/', function (req, res) {
       });
       
     } else {
-      pwd.hash(req.body.password, user.salt, function(err,hash) {
-        if (err) {
-          console.log(err);
-        }
-        console.log(req.body)
-        if (user.hash === hash) {
+        pwd.hash(req.body.password, user.salt, function(err,hash) {
           
-          //Get user ID from DB
-          knex('authtable')
-          .where({'username': req.body.username}).select('userid')
-          .then(function(results) {
-            var userid = results[0].userid
-            //Get user preferences from DB
-            knex('userpreftable')
-            .where({'userid': results[0].userid}).select('preferenceid')
-            .then(function(result){
-              var prefs= []
-              //Store user preferences in prefs array
-              for (var prop in result) {
-                if  (prop !== 'userid') {
-                  prefs.push(result[prop].preferenceid)
-                }
-              }
-              //Put user preferences in cookie and render results page 
+          if (err) {
+            console.log(err);
+          }
+          
+          if (user.hash === hash) {
+            
+            //Get user ID from DB
+            knex('authtable')
+            .where({'username': req.body.username}).select('userid')
+            .then(function(results) {
+              
+              var userid = results[0].userid
+              
+              //Get user preferences from DB 
               knex('userpreftable')
-              .where({'userid': userid}).select('preferenceid')
-              .then(function(results){
-                console.log("MILK")
-                console.log(results)
-                knex('preftable')
-                .where({'preferenceid': results.preferenceid}).select('apiname')
-                .then(function(result) {
-                  var apiCall = []
-                  console.log("RES")
-                  console.log(result)
-                  console.log("ULT")
-                  for (var api in result) {
-                    if (api === 'apiname') {
-                      apiCall.push(result[api].apiname)
-                      console.log("DONE")
-                    }
+              .where({'userid': results[0].userid}).select('preferenceid')
+              .then(function(result){
+                
+                var prefs= [];
+                
+                //Store user preferences in prefs array
+                for (var prop in result) {
+                  if  (prop !== 'userid') {
+                    prefs.push(result[prop].preferenceid)
                   }
-                  
-                  knex('userpreftable')
-                  .then()
-                  console.log("COOKIE")
-                  console.log(apiCall)
-                  res.cookie('preferences', apiCall.join())
-                  res.redirect('/results');
-                })
-              })  
-            })    
-          })
-        
-        } else {
-          res.render('login', {
-            title: 'Im Bored',
-            user: null,
-            error: 'Incorrect Password '
+                }
+                
+                var prefName=[];
+                
+                for(var i=0;i<prefs.length;i++){
+                  if(i !== prefs.length-1){
+                    knex('preftable').where({'preferenceid':prefs[i]}).select('apiname')
+                      .then(function(rezult){
+                        prefName.push(rezult[0].apiname);         
+                      });
+                    
+                  } else if(i == prefs.length-1){
+                      knex('preftable').where({'preferenceid':prefs[i]}).select('apiname')
+                      .then(function(rezult){
+                        prefName.push(rezult[0].apiname);
+                        res.cookie('preferences', prefName.join());
+                        res.redirect('/results');
+                      });
+                    }
+                }
+            });    
           });
-        }
+        } else {
+            res.render('login', {
+              title: 'Im Bored',
+              user: null,
+              error: 'Incorrect Password '
+            });
+          }
       });
     }
   });
@@ -104,7 +99,7 @@ router.post('/', function (req, res) {
 
 //Render Results Page
 router.get('/results', function(req, res, next) {
-  
+
   res.render('results', { title: "I'm Bored!" });
 });
 
@@ -122,16 +117,20 @@ router.get('/register', function (req, res, next) {
   res.render('regis',{ title: "I'm Bored!" })
 });
 
+//Register 
 router.post('/register', function (req, res) {
+  
   var prefArr= [];
   var prefs= [];
-  // Selects all of the usernames stored in the user name column that match the requested username
+  var prefName= [];
+
   knex('authtable')
   .where({'username': req.body.username})
   .then(function(result){
     
     //Hash and salt   
     pwd.hash(req.body.password, function(err, salt, hash) {
+      
       var stored = {username:req.body.username, salt:salt, hash:hash};
       
       knex('authtable')
@@ -144,8 +143,14 @@ router.post('/register', function (req, res) {
             prefs.push(prop);               
           }
         }
-        res.cookie('preferences', prefs.join())
-        
+        for(var i=0;i<prefs.length;i++){
+          knex('preftable').where({'preferenceid':prefs[i]}).select('apiname')
+          .then(function(rezult){
+              prefName.push(rezult[0].apiname);
+              res.cookie('preferences', prefName.join());
+          });
+        }
+    
         knex('authtable')
         .where({'username': req.body.username}).select('userid')
         .then(function(results) {
@@ -165,13 +170,13 @@ router.post('/register', function (req, res) {
             }  
             knex('userpreftable')
             .then(function() {  
-              res.redirect('/results')
-            })
+              res.redirect('/results');
+            });
           }
-        })
-      })
-    })
-  })
-})
+        });
+      });
+    });
+  });
+});
 
 module.exports = router;
