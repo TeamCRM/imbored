@@ -57,7 +57,7 @@ router.post('/', function (req, res) {
 });
 //Render Results Page
 router.get('/results', function(req, res, next) {
-	res.cookie('preferences', ["cafe",'gym','park','spa']);
+  res.cookie('preferences', ["cafe",'gym','park','spa','book_store']);
   res.render('results', { title: "I'm Bored!" });
 });
 
@@ -66,20 +66,20 @@ router.get('/logout', function(req, res, next){
   
   res.clearCookie('preferences');
   
-	res.render('logout', { title: "I'm Bored!"});
+  res.render('logout', { title: "I'm Bored!"});
 });
 
 //Render Register Page
 router.get('/register', function (req,res,next){
   
-	res.render('regis',{ title: "I'm Bored!" })
+  res.render('regis',{ title: "I'm Bored!" })
 });
 
 router.post('/register', function (req,res){
-	
-	// Selects all of the usernames stored in the user name column that match the requested username
-	knex('authtable').where('username', req.body.username)
-		.then(function(result){
+  
+  // Selects all of the usernames stored in the user name column that match the requested username
+  knex('authtable').where('username', req.body.username)
+    .then(function(result){
         
       //Hash and salt   
       pwd.hash(req.body.password, function(err,salt,hash){
@@ -128,17 +128,15 @@ router.post('/register', function (req,res){
                   })
                 }
               }
-          	  })
+              })
             // res.redirect('/results')
           })
       })
         
-			// .then(function() {
+      // .then(function() {
 
-			
-	// })
-	})
+      
+  // })
+  })
 })
 module.exports = router;
-
-
