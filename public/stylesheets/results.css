@@ -12,11 +12,6 @@ nav{
 	text-align: center;
 }
 
-nav span{
-	
-
-}
-
 .prefMenu{
 	float: left;
     width: 1em;
@@ -67,10 +62,6 @@ nav span{
 	margin: 70px 30px 0;
 	overflow: hidden;
 	
-}
-
-.resultSection{
-
 }
 
 #prefResults > div {
@@ -155,3 +146,10 @@ nav span{
 .temp:after{
 	content: '\00b0 F';
 }
+
+#map-canvas {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+

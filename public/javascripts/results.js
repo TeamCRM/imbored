@@ -23,6 +23,7 @@ var PreferenceModel = Backbone.Model.extend({
 	}
 });
 
+
 var PreferenceView = Backbone.View.extend({
     el: '.xtra',
     initialize: function() {},
@@ -170,8 +171,9 @@ $(document).ready(function() {
 				dat= "spa"
 			}
 			console.log(dat);	
+
 			var value = getCookie('preferences');
-			var newValue= value.split(':');
+			var newValue= value.split(':')
 			var goodValue=JSON.parse("[" + newValue[1] + "]");
 			for(var i=0; i<data.results.length;i++){
 				var results= new ResultsModel({});
@@ -181,9 +183,9 @@ $(document).ready(function() {
 				var detailedView=new ResultsMiniView({
 					model:results	
 				});
-			view.render();
-			console.log(dat);
-			$('#'+dat+'').append(view.$el);	
+				view.render();
+				console.log(dat);
+				$('#'+dat+'').append(view.$el);	
 			}
 		});
 	}
