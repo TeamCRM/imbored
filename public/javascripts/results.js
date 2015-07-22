@@ -85,7 +85,7 @@
 			var goodValue=JSON.parse("[" + newValue[1] + "]");
 			// var newValue= '{"'+value[0]+'"'+value+'}'
 			// var goodValue=JSON.parse(newValue)
-			console.log(goodValue[0][0])
+			// console.log(goodValue[0][0])
 					var ResultsModel = Backbone.Model.extend({
 			    	defaults :{'name':'','id':'', 'phone':'','website':'','price':'','rating':''},
 			    	details : function (id) {
@@ -94,7 +94,7 @@
 						$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function (details){
 							console.log(details.result)
 							model.set({'phone':details.result.formatted_phone_number,'website': details.result.website,'price': details.result.price_level,'rating': details.result.rating});
-						console.log('endJSON')
+						// console.log('endJSON')
 						}) 
 					}
 				});
@@ -133,7 +133,7 @@
 							this.$el=$("#detailsView"+idz+"");
 							console.log(this.$el);
 							this.$el.html('<span>'+phone+'</span><span> '+website+'</span><span> '+price+'</span><span> '+rating+'</span>');
-							console.log('Miniend');
+							// console.log('Miniend');
 						},
 						initialize: function () {
 					        this.listenTo(this.model,"change", this.render);
@@ -150,7 +150,7 @@
 					render: function(arr,index){
 						this.$el=$('#prefResults')
 						this.$el.append('<div id='+index+'1><p>'+arr+'</p><div id='+index+'></div></div>')
-						console.log(this.model)
+						// console.log(index)
 							this.renderMap(index)
 					},
 					// createMarker: function(place){
@@ -169,20 +169,22 @@
 
 					// },
 					renderMap: function(activity){
-						console.log('MAPPPPP')
+						// console.log(activity)
 						var map = new google.maps.Map(document.getElementById(activity), {
 						    center: {lat: 45.5200, lng: -122.6819},
 						    zoom: 15
 						  });
-
+						var newActivity=''+activity+''
+						console.log(newActivity)
 						  // Search for Google's office in Australia.
 						  var request = {
 						    location: map.getCenter(),
 						    radius: 5000,
-						    query: activity
+						    types: [newActivity]
 						  };
 						  var here = this
 						  function createMarker(place) {
+						  		// console.log(place)
 								  var placeLoc = place.geometry.location;
 								  var marker = new google.maps.Marker({
 								    map: map,
@@ -196,11 +198,12 @@
 								}
 						  var infowindow = new google.maps.InfoWindow();
 						  var service = new google.maps.places.PlacesService(map);
-						  service.textSearch(request, function(results, status){
-						  	// console.log(results)
+						  service.nearbySearch(request, function(results, status){
+						  	console.log(request)
+						  	console.log(results)
 						  	if (status == google.maps.places.PlacesServiceStatus.OK) {
 								    for (var i = 0; i < results.length; i++) {
-								    	// console.log(results)
+								     // console.log(results)
 								     createMarker(results[i]);	
 								    }
 						  	}
@@ -215,19 +218,24 @@
 					for(var h=0;h<1;h++){
 					var str=''
 					var ids=goodValue[0][j];
-					console.log(ids)
+					// console.log(ids)
 					// for(var k=0;k<goodValue[0].length;k++){
 					// 	str+=goodValue[0][k]+'  '
 					// }
-					console.log('div here')
+					// console.log('div here')
 					collectionView.render(ids,ids)
 				}
-			$.getJSON('https://maps.googleapis.com/maps/api/place/textsearch/json?query='+goodValue[0][j]+'+in+Portland&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function(data) {
+			$.getJSON('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.5200,-122.6819&radius=5000&types='+goodValue[0][j]+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function(data) {
+				console.log(data)
 				var dat= data.results[0].types[0]
 				if(dat==="lodging"){
 					dat= "spa"
+				}else if(dat==='store'){
+					dat= 'cafe'
 				}
-				console.log(dat)	
+
+				
+				// console.log(dat)	
 				// var otherArr =["cafe",'gym','park']
 				var value = getCookie('preferences');
 				var newValue= value.split(':')
@@ -241,7 +249,7 @@
 						model:results	
 					});
 					view.render();
-					console.log(dat)
+					// console.log(dat)
 					$('#'+dat+'1').append(view.$el);	
 					// $('#encompass').append(collectionView.$el)
 				}
