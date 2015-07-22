@@ -232,6 +232,8 @@
 					dat= "spa"
 				}else if(dat==='store'){
 					dat= 'cafe'
+				}else if(data.results[0].types[0]==='night_club' && data.results[0].types[1]==='bowling_alley'){
+					dat = 'bowling_alley'
 				}
 
 				
