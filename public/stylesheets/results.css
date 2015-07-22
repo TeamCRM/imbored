@@ -98,6 +98,7 @@ nav {
 .renderResults li{
 	padding: 5px;
 	font-size: 18px;
+
 }
 
 .sectionLabel {
@@ -122,11 +123,16 @@ nav {
 }
 
 .push{
-	font-size: 14px;
+	font-size: 18px;
 	border: none;
 	background-color: transparent;
 	outline: none;
 	cursor: pointer;
+	border-bottom: solid black 1px;
+}
+
+.push > div > *{
+	display: inline;
 }
 .listing > *{
 	margin-right: 10px;

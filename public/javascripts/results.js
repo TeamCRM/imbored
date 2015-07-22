@@ -23,7 +23,6 @@ var PreferenceModel = Backbone.Model.extend({
 	}
 });
 
-
 var PreferenceView = Backbone.View.extend({
     el: '.xtra',
     initialize: function() {},
@@ -42,7 +41,6 @@ var PreferenceView = Backbone.View.extend({
     	$('.prefs').toggleClass('hidden');
     }
 });
-
 
 var WeatherModel = Backbone.Model.extend({
 	defaults :{
@@ -65,7 +63,6 @@ var WeatherView = Backbone.View.extend({
 		this.$el.append('<img src="http://openweathermap.org/img/w/'+icon+'.png"><div class="weatherDetails"><div>'+city+'</div><div class="temp">'+temp.toFixed()+'</div><div>'+type+'</div></div>');
 	}
 });
-
 
 $(document).ready(function() {
 	console.log(document.cookie);
