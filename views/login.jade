@@ -7,15 +7,15 @@ block content
     if error
       p(class='error_msg')= error
     form(name="input" action="/" method="post" id='login-form')
-      | Username:
-      input(type="text" name="username" class='username' required)
+      | Login 
       br
-      | Password:
-      input(type="password" name="password" class='pswd' required)
+      input(type="text" name="username" placeholder="Username" class='username' required)
+      br
+      input(type="password" name="password" placeholder="Password" class='pswd' required)
       br
       input#btn(type="submit" value="Login")
     br  
-    | Not Registered?
+    | New Users
     br
     form(method="get" action="/register")  
       input#btn2(type="submit" value="Register" )  
