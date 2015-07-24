@@ -120,7 +120,7 @@ router.post('/', function(req, res) {
 
 //Render Results Page
 router.get('/results', function(req, res, next) {
-
+  
   res.render('results', {
     title: "I'm Bored!"
   });
