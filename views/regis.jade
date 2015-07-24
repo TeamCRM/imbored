@@ -3,10 +3,10 @@
 extends layout
 
 block content
-  h1= title
+  img#imBoredText(src='/images/imBoredHeader.png', alt='im bored', text='oops')
   div(class="main_reg")
     form(method="post" action="/register" id="regisForm")
-      p(class="h1") Register a new account here!
+      p(class="h1") Register a new account!
       div
         label
           input(type="text" name="username" placeholder="email")
@@ -18,10 +18,12 @@ block content
           input(type="password" name="password_confirm" placeholder="re-type password" id="password_confirm")
       div(class="prefs")
         p(class="activity") Please choose some activities you like to do!
-      div(class="buttons")
-        input(type="submit" value="Submit" id="submit" disabled)
-  script(type="text/javascript" src="/javascripts/jquery.js")
-  script(type="text/javascript" src="/javascripts/underscore.js")
-  script(type="text/javascript" src="/javascripts/backbone.js")
-  script(type="text/javascript" src="/javascripts/imBoredServe.js")
-  script(type="text/stylesheet" src="/stylesheets/style.css")
+      div(class="buttons")  
+        form(method="get" action="/results")
+          input#regSubmit(type="submit" value="Submit" disabled)
+  div(class='pref_reg')
+    script(type="text/javascript" src="/javascripts/jquery.js")
+    script(type="text/javascript" src="/javascripts/underscore.js")
+    script(type="text/javascript" src="/javascripts/backbone.js")
+    script(type="text/javascript" src="/javascripts/imBoredServe.js")
+    script(type="text/stylesheet" src="/stylesheets/style.css")
