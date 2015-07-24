@@ -70,10 +70,10 @@ var WeatherView = Backbone.View.extend({
 $(document).ready(function() {
 	console.log(document.cookie);
 	$.getJSON('http://api.openweathermap.org/data/2.5/weather?q=Portland,Or&units=imperial', function(data){
-		var weatherModel = new WeatherModel({});
-		weatherModel.set({'city':data.name,'temp':data.main.temp, 'type':data.weather[0].main, 'description':data.weather[0].description, 'icon':data.weather[0].icon});
-		var weatherView = new WeatherView({model: weatherModel});
-		weatherView.render();
+			var weatherModel = new WeatherModel({});
+			weatherModel.set({'city':data.name,'temp':data.main.temp, 'type':data.weather[0].main, 'description':data.weather[0].description, 'icon':data.weather[0].icon});
+			var weatherView = new WeatherView({model: weatherModel});
+			weatherView.render();
 	});
 
  	function getCookie(name) {
@@ -86,25 +86,23 @@ $(document).ready(function() {
 	var newValue= value.split(',');
 	
 	var ResultsModel = Backbone.Model.extend({
-	defaults :{'name':'','id':'', 'phone':'','website':'','price':'','rating':''},
-	details : function (id) {
-		var model = this
-		console.log(id)
-		$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function (details){
-			console.log(details.result)
-			model.set({'phone':details.result.formatted_phone_number,'website': details.result.website,'price': details.result.price_level,'rating': details.result.rating});
-		}) 
-	}
-});
+		defaults :{'name':'','id':'', 'phone':'','website':'','price':'','rating':''},
+		details : function (id) {
+			var model = this
+			console.log(id)
+			$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function (details){
+				console.log(details.result)
+				model.set({'phone':details.result.formatted_phone_number,'website': details.result.website,'price': details.result.price_level,'rating': details.result.rating});
+			}) 
+		}
+	});
 			
-	
-
 	var ResultsView=Backbone.View.extend({
 		tagName: 'li',
 		render: function(){
 			var name = this.model.get('name');
 			var id = this.model.get('id');
-			this.$el.html('<button type="button" class="push" data-id="'+id+'">'+name+'</button><div id="detailsView'+id+'"></div>');
+			this.$el.html('<button type="button" class="push" data-id="'+id+'">'+name+'</button><div id="detailsView'+id+'" class="deets"></div>');
 		},
 		initialize: function () {
     		this.model.on("change", this.render, this);
@@ -113,8 +111,6 @@ $(document).ready(function() {
 			'click .push': "getDetails"
 		},
 	    getDetails: function (event){
-	    	console.log("hello");
-	    	// var views= new ResultsMiniView({model:ResultsModel})
 	    	this.model.details($(event.currentTarget).data('id'));
 	    }
 	});
@@ -132,7 +128,7 @@ $(document).ready(function() {
 			console.log(this.model);
 			this.$el=$("#detailsView"+idz+"");
 			console.log(this.$el);
-			this.$el.html('<span>'+phone+'</span><span> '+website+'</span><span> '+price+'</span><span> '+rating+'</span>');
+			this.$el.html('<span>'+phone+'</span><a href="'+website+'">Visit Website</a><span> '+price+'</span><span> '+rating+'</span>');
 			console.log('Miniend');
 		},
 		initialize: function () {
@@ -152,57 +148,56 @@ $(document).ready(function() {
 		el: '#prefResults',
 		initialize: function() {},
 		render: function(arr,index){
-			this.$el.append('<div id='+index+'1><h1 class="sectionLabel">'+arr.replace('_', ' ')+'</h1><div id='+index+'></div><ul class="renderResults"></ul></div');
+			this.$el.append('<div id='+index+'1><h1 class="sectionLabel">'+arr.replace('_', ' ')+'</h1><div id='+index+' class="map"></div><ul class="renderResults"></ul></div');
 			this.renderMap(index);
 		},
 		renderMap: function(activity){
-		// console.log(activity)
-		var map = new google.maps.Map(document.getElementById(activity), {
-		    center: {lat: 45.5200, lng: -122.6819},
-		    zoom: 15
-		  });
-		var newActivity=''+activity+''
-		console.log(newActivity)
-		  // Search for Google's office in Australia.
-		  var request = {
-		    location: map.getCenter(),
-		    radius: 5000,
-		    types: [newActivity]
-		  };
-	var here = this
-	function createMarker(place) {
-			// console.log(place)
-		  var placeLoc = place.geometry.location;
-		  var marker = new google.maps.Marker({
-		    map: map,
-		    position: place.geometry.location
-		  });
+			var map = new google.maps.Map(document.getElementById(activity), {
+				center: {lat: 45.5200, lng: -122.6819},
+				zoom: 15
+			});
+			var newActivity=''+activity+'';
+			console.log(newActivity)
+			// Search for Google's office in Australia.
+			var request = {
+				location: map.getCenter(),
+				radius: 5000,
+				types: [newActivity]
+			};
+			var here = this
+			function createMarker(place) {
+				var placeLoc = place.geometry.location;
+				var marker = new google.maps.Marker({
+					map: map,
+					position: place.geometry.location
+				});
 
-		  google.maps.event.addListener(marker, 'click', function() {
-		    infowindow.setContent(place.name);
-		    infowindow.open(map, this);
-		  });
-		}
-	var infowindow = new google.maps.InfoWindow();
-	var service = new google.maps.places.PlacesService(map);
-	service.nearbySearch(request, function(results, status){
-		console.log(request)
-		console.log(results)
-		if (status == google.maps.places.PlacesServiceStatus.OK) {
-		    for (var i = 0; i < results.length; i++) {
-		     // console.log(results)
-		     createMarker(results[i]);	
-		    }
-		}
-	})
-	},
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.setContent(place.name);
+					infowindow.open(map, this);
+				});
+			}
+
+			var infowindow = new google.maps.InfoWindow();
+			var service = new google.maps.places.PlacesService(map);
+			service.nearbySearch(request, function(results, status){
+				if (status == google.maps.places.PlacesServiceStatus.OK) {
+					for (var i = 0; i < results.length; i++) {
+			 			createMarker(results[i]);	
+					}
+				}
+			});
+		},
+		
 		events: {
 			'click .sectionLabel': 'isOpen'
 		},
+		
 		isOpen: function(event) {
 			$(event.currentTarget).parent().toggleClass('isOpen');
 		}
 	});	
+	
 	for (var j=0;j<newValue.length;j++){
 		var results= new ResultsModel({})
 		var resultsCollection = new ResultsCollection([],{model:results});
@@ -244,7 +239,7 @@ $(document).ready(function() {
 			});
 			view.render();
 			// console.log(dat)
-			$('#'+dat+'1').append(view.$el);	
+			$('#'+dat+'1 ul').append(view.$el);	
 			// $('#encompass').append(collectionView.$el)
 		}
 	});
