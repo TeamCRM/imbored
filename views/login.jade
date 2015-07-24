@@ -2,7 +2,7 @@ extends layout
 
 block content
   div(class="index_body")
-    h1= title
+    img#imBoredLogo(src='/images/imBoredLogo.png', alt='im bored', text='oops')
     p Let us help you find something to do!
     if error
       p(class='error_msg')= error
@@ -13,9 +13,10 @@ block content
       | Password:
       input(type="password" name="password" class='pswd' required)
       br
-      input(type="submit" value="Submit")
+      input#btn(type="submit" value="Login")
     br  
     | Not Registered?
     br
-    a(href='/register' class='signUp') Sign Up Here!
+    form(method="get" action="/register")  
+      input#btn2(type="submit" value="Register" )  
   div  
