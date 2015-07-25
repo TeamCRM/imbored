@@ -16,20 +16,6 @@ input {
 	text-align: center;
 }
 
-.h1{
-	font-size: 26px;
-}
-
-.buttons {
-	margin: 10px;
-	padding: 10px;
-	clear: both;
-}
-
-.activity {
-	font-size: 18px;
-}
-
 .preference {
 	width: 25%;
 	float: left;
@@ -143,12 +129,36 @@ input {
 	top:1px;
 }
 
+
 /*REGISTER PAGE*/
 
+/*Logo*/
 #imBoredText {
   max-height: 75px;
 }
-
+/*Register a new account!*/
+.h1{
+	font-size: 26px;
+}
+/*Preference box list/table*/
+.prefs {
+  text-align: left;
+}
+/*Div container for Preference Box*/
+#centerpref {
+  text-align: center;
+}
+/*Submit button*/
+.buttons {
+	margin: 10px;
+	padding: 10px;
+	clear: both;
+}
+/*Please choose some activities you like to do!*/
+.activity {
+	font-size: 18px;
+}
+/*Create Submit Button*/
 #regSubmit {
 	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -189,7 +199,9 @@ input {
 	position:relative;
 	top:1px;
 }
-
-
+.main_reg {
+  width: 550px;
+  margin: auto;
+}
 
 

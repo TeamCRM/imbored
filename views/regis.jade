@@ -16,12 +16,12 @@ block content
       div
         label
           input(type="password" name="password_confirm" placeholder="re-type password" id="password_confirm")
-      div(class="prefs")
-        p(class="activity") Please choose some activities you like to do!
+      div(id='centerpref')
+        div(class="prefs")
+          p(class="activity") Please choose some activities you like to do!
       div(class="buttons")  
         form(method="get" action="/results")
           input#regSubmit(type="submit" value="Submit" disabled)
-  div(class='pref_reg')
     script(type="text/javascript" src="/javascripts/jquery.js")
     script(type="text/javascript" src="/javascripts/underscore.js")
     script(type="text/javascript" src="/javascripts/backbone.js")
