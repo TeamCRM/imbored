@@ -93,7 +93,7 @@ $(document).ready(function() {
 			var model = this
 			console.log(id)
 			if(!this.get('hasCalled')) {
-				$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function (details){
+				$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function (details){
 					console.log(details.result)
 					model.set({'phone':details.result.formatted_phone_number,'website': details.result.website,'price': details.result.price_level,'rating': details.result.rating, 'hasCalled': true});
 				});
@@ -213,8 +213,45 @@ $(document).ready(function() {
 		collectionView.render(ids,ids);
 
 		preferenceModel.set(ids, true);
-
-		$.getJSON('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.5200,-122.6819&radius=5000&types='+newValue[j]+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function(data) {
+		if(newValue[j]==='hiking'){
+			$.getJSON('https://outdoor-data-api.herokuapp.com/api.json?api_key=4016165acc967a9800153c77a3528d83&lat=45.5200&lon=-122.6819&radius=25&callback=?', function(data) {
+				var myLatlng = new google.maps.LatLng(0, 0);
+				var myOptions = {
+				  zoom: 14,
+				  center: myLatlng,
+				  mapTypeId: google.maps.MapTypeId.TERRAIN
+				}
+		
+				map = new google.maps.Map(document.getElementById('hiking'), myOptions);
+	
+				var bounds = new google.maps.LatLngBounds ();
+				$.each(data['places'], function(place_id, place_array) {
+					var location = new google.maps.LatLng(place_array['lat'], place_array['lon']);
+					markerIcon = 'http://www.trailapi.com/ra-content/images/icons/wpt_icons/Default.png';
+					createmarker(location, place_array['name'], place_array['name'], markerIcon, 0);
+					bounds.extend (location);
+				});
+				map.fitBounds (bounds);
+			});
+		
+			
+		function createmarker (latlng, title, html, icon_image, markerset){
+			var infowindow = new google.maps.InfoWindow({
+							content: html
+						});
+			var marker = new google.maps.Marker({
+				  position: latlng, 
+				  map: map, 
+				  title: title,
+				  icon: icon_image
+			  });            
+			google.maps.event.addListener(marker, 'click', function() {
+					  infowindow.open(map,marker);
+					}); 
+			return;
+		  }   
+		}else{
+		$.getJSON('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.5200,-122.6819&radius=5000&types='+newValue[j]+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function(data) {
 			console.log(data)
 			var dat= data.results[0].types[0]
 			if(dat==="lodging"){
@@ -245,6 +282,7 @@ $(document).ready(function() {
 				// $('#encompass').append(collectionView.$el)
 			}
 		});
+		}
 	}
 	
 	preferenceView.render();

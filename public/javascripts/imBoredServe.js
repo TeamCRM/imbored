@@ -12,23 +12,26 @@ var prefGrid= function(prefArr, colCount){
 	var happyArr = [];
 	for(var i = 0; i<prefArr.length; i+= rowCount) {
 		var splitGrid= prefArr.slice(i, rowCount+i);
+		console.log(i)
 		happyArr.push(splitGrid);
 	}
-
+	console.log(happyArr)
 	return happyArr;
 }
 
-var happyArr = prefGrid(friendlyPrefs, 4);
+var happyArr = prefGrid(friendlyPrefs,1);
 var renderColumn = function (col) {
-	return "<tr>" + col.map(renderRow)+ "</tr> \n";
+	console.log(col)
+	return "<tr>" + col.map(renderRow)+ "</tr>";
 
 }
 
 var renderRow = function(friendlyPref, i) {
-	return "\t <td>" + '<input type="checkbox" name="'+ i +'" >'+ friendlyPref + "</td> \n";
+	console.log(i+'renderRow')
+	return " <td>" + '<input type="checkbox" name="'+ i +'" >'+ friendlyPref + "</td> ";
 }
 
-console.log(happyArr.map(renderColumn).join("\n"));
+$('.prefs').append(happyArr.map(renderColumn))
 
 
 
