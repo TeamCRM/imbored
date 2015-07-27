@@ -28,7 +28,11 @@ var infowindow;
 
 var PreferenceView = Backbone.View.extend({
     el: '.xtra',
-    initialize: function() {},
+    initialize: function() {
+    	$('body :not(.xtra)').on('click', function() {
+    		$('.prefs').addClass('hidden');
+    	})
+    },
     render: function() {
         _.each(this.model.attributes, function(val, key) {
         	var whatever = val ? "checked" : "";
@@ -40,8 +44,9 @@ var PreferenceView = Backbone.View.extend({
     events: {
     	'click .prefMenu': 'openPref'
     },
-    openPref: function() {
+    openPref: function(event) {
     	$('.prefs').toggleClass('hidden');
+    	event.stopImmediatePropagation();
     }
 });
 
@@ -68,7 +73,9 @@ var WeatherView = Backbone.View.extend({
 });
 
 $(document).ready(function() {
-	console.log(document.cookie);
+	var preferenceModel = new PreferenceModel();
+	var preferenceView = new PreferenceView({model: preferenceModel});
+
 	$.getJSON('http://api.openweathermap.org/data/2.5/weather?q=Portland,Or&units=imperial', function(data){
 			var weatherModel = new WeatherModel({});
 			weatherModel.set({'city':data.name,'temp':data.main.temp, 'type':data.weather[0].main, 'description':data.weather[0].description, 'icon':data.weather[0].icon});
@@ -86,14 +93,16 @@ $(document).ready(function() {
 	var newValue= value.split(',');
 	
 	var ResultsModel = Backbone.Model.extend({
-		defaults :{'name':'','id':'', 'phone':'','website':'','price':'','rating':''},
+		defaults :{'name':'','id':'', 'phone':'','website':'','price':'','rating':'','hasCalled': false},
 		details : function (id) {
 			var model = this
 			console.log(id)
-			$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function (details){
-				console.log(details.result)
-				model.set({'phone':details.result.formatted_phone_number,'website': details.result.website,'price': details.result.price_level,'rating': details.result.rating});
-			}) 
+			if(!this.get('hasCalled')) {
+				$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function (details){
+					console.log(details.result)
+					model.set({'phone':details.result.formatted_phone_number,'website': details.result.website,'price': details.result.price_level,'rating': details.result.rating, 'hasCalled': true});
+				});
+			}
 		}
 	});
 			
@@ -102,7 +111,8 @@ $(document).ready(function() {
 		render: function(){
 			var name = this.model.get('name');
 			var id = this.model.get('id');
-			this.$el.html('<button type="button" class="push" data-id="'+id+'">'+name+'</button><div id="detailsView'+id+'" class="deets"></div>');
+			var className = this.model.get('hasCalled') ? 'beenCalled': "";
+			this.$el.html('<button type="button" class="push '+ className +'" data-id="'+id+'">'+name+'</button><br/><div id="detailsView'+id+'" class="deets"></div>');
 		},
 		initialize: function () {
     		this.model.on("change", this.render, this);
@@ -123,12 +133,14 @@ $(document).ready(function() {
 			var website = this.model.get('website');
 			console.log(website);
 			var price= this.model.get('price');
+			var priceClass = 'dollar-signs-' + Math.ceil(price);
 			var rating= this.model.get('rating');
+			var ratingClass = 'stars-'+ Math.ceil(rating);
 			var idz= this.model.get('id');
 			console.log(this.model);
 			this.$el=$("#detailsView"+idz+"");
 			console.log(this.$el);
-			this.$el.html('<span>'+phone+'</span><a href="'+website+'">Visit Website</a><span> '+price+'</span><span> '+rating+'</span>');
+			this.$el.html('<span class="'+priceClass+'"></span><span class="'+ratingClass+'"></span><span>'+phone+'</span><a href="'+website+'" target="_blank" class="website">Visit Website</a>');
 			console.log('Miniend');
 		},
 		initialize: function () {
@@ -200,54 +212,47 @@ $(document).ready(function() {
 	});	
 	
 	for (var j=0;j<newValue.length;j++){
-		var results= new ResultsModel({})
+		var results= new ResultsModel({});
 		var resultsCollection = new ResultsCollection([],{model:results});
-		var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results })
-			for(var h=0;h<1;h++){
-			var str=''
-			var ids=newValue[j];
-			// console.log(ids)
-			// for(var k=0;k<goodValue[0].length;k++){
-			// 	str+=goodValue[0][k]+'  '
-			// }
-			// console.log('div here')
-			collectionView.render(ids,ids)
-		}
-	$.getJSON('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.5200,-122.6819&radius=5000&types='+newValue[j]+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function(data) {
-		console.log(data)
-		var dat= data.results[0].types[0]
-		if(dat==="lodging"){
-			dat= "spa"
-		}else if(dat==='store'){
-			dat= 'cafe'
-		}else if(data.results[0].types[0]==='night_club' && data.results[0].types[1]==='bowling_alley'){
-			dat = 'bowling_alley'
-		}
+		var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results });
+		var ids=newValue[j];
+		collectionView.render(ids,ids);
 
-		
-		// console.log(dat)	
-		// var otherArr =["cafe",'gym','park']
-		var value = getCookie('preferences');
-		var newValue= value.split(',')
-		// var goodValue=JSON.parse("[" + newValue[1] + "]");
-		for(var i=0; i<data.results.length;i++){
-			var results= new ResultsModel({});
-			results.set({'name': data.results[i].name, 'id': data.results[i].place_id})
-			var view = new ResultsView({collection:resultsCollection, model:results })
-			var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results })
-			var detailedView=new ResultsMiniView({
-				model:results	
-			});
-			view.render();
-			// console.log(dat)
-			$('#'+dat+'1 ul').append(view.$el);	
-			// $('#encompass').append(collectionView.$el)
-		}
-	});
+		preferenceModel.set(ids, true);
 
+		$.getJSON('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.5200,-122.6819&radius=5000&types='+newValue[j]+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function(data) {
+			console.log(data)
+			var dat= data.results[0].types[0]
+			if(dat==="lodging"){
+				dat= "spa"
+			}else if(dat==='store'){
+				dat= 'cafe'
+			}else if(data.results[0].types[0]==='night_club' && data.results[0].types[1]==='bowling_alley'){
+				dat = 'bowling_alley'
+			}
+
+			
+			// console.log(dat)	
+			// var otherArr =["cafe",'gym','park']
+			var value = getCookie('preferences');
+			var newValue= value.split(',')
+			// var goodValue=JSON.parse("[" + newValue[1] + "]");
+			for(var i=0; i<data.results.length;i++){
+				var results= new ResultsModel({});
+				results.set({'name': data.results[i].name, 'id': data.results[i].place_id})
+				var view = new ResultsView({collection:resultsCollection, model:results })
+				var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results })
+				var detailedView=new ResultsMiniView({
+					model:results	
+				});
+				view.render();
+				// console.log(dat)
+				$('#'+dat+'1 ul').append(view.$el);	
+				// $('#encompass').append(collectionView.$el)
+			}
+		});
 	}
-	var preferenceModel = new PreferenceModel();
-	var preferenceView = new PreferenceView({model: preferenceModel});
+	
 	preferenceView.render();
 });
 

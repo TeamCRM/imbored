@@ -1,4 +1,4 @@
-body{
+body {
 	margin: 0;
 	font-size: 18px;
 	padding-top: 90px;
@@ -20,7 +20,7 @@ nav {
 	z-index: 10;
 }
 
-.prefMenu{
+.prefMenu {
 	float: left;
     width: 1em;
     overflow: hidden;
@@ -32,16 +32,16 @@ nav {
     cursor: pointer;
 }
 
-.welcome{
+.welcome {
 	font-size: 36px;
 }
 
-.weather{
+.weather {
 	float: right;
 	border: none;
 	background-color: transparent;
 }
-.weatherDetails{
+.weatherDetails {
 	display: none;
 	position: absolute;
 	margin-top: -30px;
@@ -55,11 +55,11 @@ nav {
 	border-radius: 5px;
 }
 
-.weather:hover .weatherDetails{
+.weather:hover .weatherDetails {
 	display: block;
 }
 
-#prefResults{
+#prefResults {
 	box-sizing: border-box;
 	border-radius: 10px;
 	margin: 70px 30px 0;
@@ -76,7 +76,7 @@ nav {
 
 }
 
-#prefResults > div.isOpen h1:after{
+#prefResults > div.isOpen h1:after {
 	content: '';
 	float: right;
 	width: 0; 
@@ -86,7 +86,7 @@ nav {
 	border-bottom: 15px solid #565959;
 }
 
-#prefResults > div:not(.isOpen) h1:after{
+#prefResults > div:not(.isOpen) h1:after {
 	content: '';
 	float: right;
 	width: 0; 
@@ -96,12 +96,12 @@ nav {
 	border-top: 15px solid #565959;
 }
 
-.renderResults{
+.renderResults {
 	display: none;
 	min-height: 420px;
 }
 
-.renderResults li{
+.renderResults li {
 	padding: 5px;
 	font-size: 18px;
 }
@@ -113,23 +113,24 @@ nav {
   color: #565959;
   font-family: arial;
   font-size: 18px;
+  font-weight: bold;
 }
 
-#prefResults > div.isOpen .renderResults{
+#prefResults > div.isOpen .renderResults {
 	display: block;
 }
 
-.resultListings{
+.resultListings {
 	background-color: white;
 	padding: 10px;
 }
 
-.resultListings li{
+.resultListings li {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
 
-.push{
+.push {
 	font-size: 18px;
 	border: none;
 	background-color: transparent;
@@ -137,7 +138,7 @@ nav {
 	cursor: pointer;
 }
 
-.push:before{
+.push:before { 
 	content: "";
 	border-left: 10px solid #565959;
 	border-bottom: 8px solid transparent;
@@ -147,18 +148,25 @@ nav {
 	margin-right: 3px;
 }
 
-.push > div > *{
+.push.beenCalled:before {
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	border-top: 10px solid #565959;
+	margin-top: 5px;
+}
+
+.push > div > * {
 	display: inline;
 }
-.listing > *{
+.listing > * {
 	margin-right: 10px;
 }
 
-.hidden{
+.hidden {
 	display: none;
 }
 
-.logoutbutton{
+.logoutbutton {
 	margin-top: 50px;
 	margin-right: -85px;
 	padding: 20px;
@@ -168,11 +176,11 @@ nav {
 	color:  #565959;
 }
 
-.xtra{
+.xtra {
 	position: relative;
 }
 
-.prefs{
+.prefs {
 	position: absolute;
 	background-color: white;
 	padding: 15px;
@@ -181,7 +189,7 @@ nav {
 	color: black;
 }
 
-.prefs > *{
+.prefs > * {
 	display: block;
 	font-size: 20px;
 	padding: 5px;
@@ -189,15 +197,15 @@ nav {
 	text-transform: capitalize;
 }
 
-.prefs input{
+.prefs input {
 	float: right;
 }   
 
-.temp:after{
+.temp:after {
 	content: '\00b0 F';
 }
 
-.map{
+.map {
 	display: none;
 	float: right;
 	height: 400px;
@@ -207,32 +215,80 @@ nav {
 
 }
 
-.OpenMap{
-	/*display: none;*/
-	float: right;
-	height: 400px;
-    width:400px;
-	margin-top: 15px;
-	margin-right: 15px;
-
-}
-
-.isOpen .map{
+.isOpen .map {
 	display: block;
 }
 
-.header{
+.header {
 	height: 70px;
 	margin-top: -11px;
 }
 
-.deets{
+.deets {
 	background: white;
 	display: inline-block;
 	padding: 3px 6px;
 	border-radius: 12px;
+	margin-left: 20px;
 }
 
-.deets:empty{
+.deets:empty {
 	display: none;
+}
+
+.deets > * {
+	display: block;
+	margin: 5px;
+}
+
+.website {
+	text-transform: none;
+}
+
+.dollar-signs-1:after {
+	content: "$";
+	color: #24D433;
+}
+
+.dollar-signs-2:after {
+	content: "$$";
+	color: #24D433;
+}
+.dollar-signs-3:after {
+	content: "$$$";
+	color: #24D433;
+}
+
+.dollar-signs-4:after {
+	content: "$$$$";
+	color: #24D433;
+}
+
+.dollar-signs-5:after {
+	content: "$$$$$";
+	color: #24D433;
+}
+
+.stars-1:after {
+	content: '\2605';
+	color: #FCEC05;
+}
+
+.stars-2:after {
+	content: '\2605 \2605';
+	color: #FCEC05;
+}
+
+.stars-3:after {
+	content: '\2605 \2605 \2605';
+	color: #FCEC05;
+}
+
+.stars-4:after {
+	content: '\2605 \2605 \2605 \2605';
+	color: #FCEC05;
+}
+.stars-5:after {
+	content: '\2605 \2605 \2605 \2605 \2605';
+	color: #FCEC05;
 }
