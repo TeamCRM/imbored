@@ -33,12 +33,12 @@ input {
 /*Main Body of Login*/
 .index_body {
   text-align: center;
-  
 }
 /*"Sign Up Here"*/
 .signUp {
 	color:  #565959;
 }
+
 
 /*Login Page Image*/
 #imBoredLogo {
@@ -143,11 +143,25 @@ input {
 /*Preference box list/table*/
 .prefs {
   text-align: left;
+
 }
+
+
 /*Div container for Preference Box*/
 #centerpref {
-  text-align: center;
+  float: none;
 }
+
+.prefRow {
+
+}
+
+.main_reg {
+  
+  width: 505px;
+  margin: auto;
+}
+
 /*Submit button*/
 .buttons {
 	margin: 10px;
@@ -199,9 +213,6 @@ input {
 	position:relative;
 	top:1px;
 }
-.main_reg {
-  width: 550px;
-  margin: auto;
-}
+
 
 
