@@ -28,7 +28,11 @@ var infowindow;
 
 var PreferenceView = Backbone.View.extend({
     el: '.xtra',
-    initialize: function() {},
+    initialize: function() {
+    	$('body :not(.xtra)').on('click', function() {
+    		$('.prefs').addClass('hidden');
+    	})
+    },
     render: function() {
         _.each(this.model.attributes, function(val, key) {
         	var whatever = val ? "checked" : "";
@@ -40,8 +44,9 @@ var PreferenceView = Backbone.View.extend({
     events: {
     	'click .prefMenu': 'openPref'
     },
-    openPref: function() {
+    openPref: function(event) {
     	$('.prefs').toggleClass('hidden');
+    	event.stopImmediatePropagation();
     }
 });
 
