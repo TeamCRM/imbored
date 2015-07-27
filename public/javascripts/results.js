@@ -207,6 +207,7 @@ $(document).ready(function() {
 		
 		isOpen: function(event) {
 			$(event.currentTarget).parent().toggleClass('isOpen');
+			// $('#art_gallery1').children().toggleClass('OpenMap');
 		}
 	});	
 	

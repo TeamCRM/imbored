@@ -1,22 +1,23 @@
 extends layout
 
 block content
-  div(class="index_body")
-    img#imBoredLogo(src='/images/imBoredLogo.png', alt='im bored', text='oops')
-    p Let us help you find something to do!
-    if error
-      p(class='error_msg')= error
-    form(name="input" action="/" method="post" id='login-form')
-      | Login 
+  body
+    div(class="index_body")
+      img#imBoredLogo(src='/images/imBoredLogo.png', alt='im bored', text='oops')
+      p Let us help you find something to do!
+      if error
+        p(class='error_msg')= error
+      form(name="input" action="/" method="post" id='login-form')
+        | Login 
+        br
+        input(type="text" name="username" placeholder="Username" class='username' required)
+        br
+        input(type="password" name="password" placeholder="Password" class='pswd' required)
+        br
+        input#btn(type="submit" value="Login")
+      br  
+      | New Users
       br
-      input(type="text" name="username" placeholder="Username" class='username' required)
-      br
-      input(type="password" name="password" placeholder="Password" class='pswd' required)
-      br
-      input#btn(type="submit" value="Login")
-    br  
-    | New Users
-    br
-    form(method="get" action="/register")  
-      input#btn2(type="submit" value="Register" )  
-  div  
+      form(method="get" action="/register")  
+        input#btn2(type="submit" value="Register" )  
+
