@@ -72,7 +72,20 @@ var WeatherView = Backbone.View.extend({
 	}
 });
 
+function getCookie(name) {
+	    var re = new RegExp(name + "=([^;]+)");
+	    var value = re.exec(document.cookie);
+	    return (value != null) ? unescape(value[1]) : null;
+  	}
+	
+	var value = getCookie('preferences');
+	var newValue= value.split(',');
+	var lat = getCookie('lat');
+	var lng = getCookie('lng');
+	// console.log(lat)
+	// console.log(lng)
 $(document).ready(function() {
+	
 	var preferenceModel = new PreferenceModel();
 	var preferenceView = new PreferenceView({model: preferenceModel});
 
@@ -83,22 +96,14 @@ $(document).ready(function() {
 			weatherView.render();
 	});
 
- 	function getCookie(name) {
-	    var re = new RegExp(name + "=([^;]+)");
-	    var value = re.exec(document.cookie);
-	    return (value != null) ? unescape(value[1]) : null;
-  	}
-	
-	var value = getCookie('preferences');
-	var newValue= value.split(',');
-	
+
 	var ResultsModel = Backbone.Model.extend({
 		defaults :{'name':'','id':'', 'phone':'','website':'','price':'','rating':'','hasCalled': false},
 		details : function (id) {
 			var model = this
 			console.log(id)
 			if(!this.get('hasCalled')) {
-				$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function (details){
+				$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function (details){
 					console.log(details.result)
 					model.set({'phone':details.result.formatted_phone_number,'website': details.result.website,'price': details.result.price_level,'rating': details.result.rating, 'hasCalled': true});
 				});
@@ -165,9 +170,11 @@ $(document).ready(function() {
 			this.renderMap(index);
 		},
 		renderMap: function(activity){
+			var lati= Number(lat)
+			var lngi= Number(lng)
 			var map = new google.maps.Map(document.getElementById(activity), {
-				center: {lat: 45.5200, lng: -122.6819},
-				zoom: 15
+				center: {lat: lati, lng: lngi},
+				zoom: 14
 			});
 			var newActivity=''+activity+'';
 			console.log(newActivity)
@@ -193,7 +200,9 @@ $(document).ready(function() {
 
 			var infowindow = new google.maps.InfoWindow();
 			var service = new google.maps.places.PlacesService(map);
+			console.log(map)
 			service.nearbySearch(request, function(results, status){
+				console.log(results)
 				if (status == google.maps.places.PlacesServiceStatus.OK) {
 					for (var i = 0; i < results.length; i++) {
 			 			createMarker(results[i]);	
@@ -213,6 +222,7 @@ $(document).ready(function() {
 		}
 
 	});	
+
 	
 	for (var j=0;j<newValue.length;j++){
 		var results= new ResultsModel({});
@@ -223,7 +233,7 @@ $(document).ready(function() {
 
 		preferenceModel.set(ids, true);
 
-		$.getJSON('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.5200,-122.6819&radius=5000&types='+newValue[j]+'&key=AIzaSyA6GqWRLxW7Lxvzunccd_Gg5VtMOVR6Zb4', function(data) {
+		$.getJSON('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+lat+','+lng+'&radius=5000&types='+newValue[j]+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function(data) {
 			console.log(data)
 			var dat= data.results[0].types[0]
 			if(dat==="lodging"){
