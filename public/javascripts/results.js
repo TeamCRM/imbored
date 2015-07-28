@@ -31,7 +31,7 @@ var PreferenceView = Backbone.View.extend({
     initialize: function() {
     	$('body :not(.xtra)').on('click', function() {
     		$('.prefs').addClass('hidden');
-    	})
+    	});
     },
     render: function() {
         _.each(this.model.attributes, function(val, key) {
@@ -158,7 +158,8 @@ $(document).ready(function() {
 		
 	var ResultsCollectionView= Backbone.View.extend({
 		el: '#prefResults',
-		initialize: function() {},
+		initialize: function() {
+		},
 		render: function(arr,index){
 			this.$el.append('<div id='+index+'1><h1 class="sectionLabel">'+arr.replace('_', ' ')+'</h1><div id='+index+' class="map"></div><ul class="renderResults"></ul></div');
 			this.renderMap(index);
@@ -202,12 +203,15 @@ $(document).ready(function() {
 		},
 		
 		events: {
-			'click .sectionLabel': 'isOpen'
+			'click .sectionLabel': 'isOpen',
 		},
 		
 		isOpen: function(event) {
-			$(event.currentTarget).parent().toggleClass('isOpen');
+			var target = $(event.currentTarget);
+			target.parent().toggleClass('isOpen');
+			
 		}
+
 	});	
 	
 	for (var j=0;j<newValue.length;j++){
@@ -245,10 +249,9 @@ $(document).ready(function() {
 					model:results	
 				});
 				view.render();
-				// console.log(dat)
-				$('#'+dat+'1 ul').append(view.$el);	
-				// $('#encompass').append(collectionView.$el)
+				$('#'+dat+'1 ul').append(view.$el);
 			}
+
 		});
 	}
 	
