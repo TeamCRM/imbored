@@ -292,3 +292,15 @@ nav {
 	content: '\2605 \2605 \2605 \2605 \2605';
 	color: #FCEC05;
 }
+
+#footer {
+	float: right;
+	margin-right: 425px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#footer > a {
+	color: #565959;
+	margin: 15px;
+}
