@@ -19,9 +19,10 @@ block content
         div
           label
             input(type="password" name="password_confirm" placeholder="re-type password" id="password_confirm")
-          div.confirmPass     
-        div(class="prefs")
-            p(class="activity") Please choose some activities you like to do!
+        div
+          input(type="text" name="city" placeholder="Enter city name" class='citay' required)
+          p(class="activity") Please choose some activities you like to do!
+          div(class="prefs") 
         div(class="buttons")  
           form(method="get" action="/results")
             input#regSubmit(type="submit" value="Submit" disabled)
