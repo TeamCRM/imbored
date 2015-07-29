@@ -1,7 +1,9 @@
-//- registration page
-//- //div with class main_reg.  Contains everything except Im Bored logo.
 extends layout
-
+doctype html
+head
+<!-- Latest compiled and minified CSS -->
+link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
+link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css")
 block content
   body
     img#imBoredText(src='/images/imBoredHeader.png', alt='im bored', text='oops')
@@ -10,7 +12,7 @@ block content
         p(class="h1") Register a new account!
         div
           label
-            input(type="text" name="username" placeholder="email")
+            input#regEmail(type="email" name="username" placeholder="email" required="required")
         div
           label
             input(type="password" name="password" placeholder="password" id="password")
@@ -20,14 +22,15 @@ block content
         div
           input(type="text" name="city" placeholder="Enter city name" class='citay' required)
           p(class="activity") Please choose some activities you like to do!
-          div(class="prefs")
+          div(class="prefs") 
         div(class="buttons")  
           form(method="get" action="/results")
-            input#regSubmit(type="submit" value="Submit")
+            input#regSubmit(type="submit" value="Submit" disabled)
   script(type="text/javascript" src="/javascripts/jquery.js")
   script(type="text/javascript" src="/javascripts/underscore.js")
   script(type="text/javascript" src="/javascripts/backbone.js")
   script(type="text/javascript" src="/javascripts/imBoredServe.js")
   script(type="text/stylesheet" src="/stylesheets/responsive.css")
   script(type="text/stylesheet" src="/stylesheets/style.css")
-  script(type="text/stylesheet" src="/stylesheets/bootstrap.css")
+  script(src="http://code.jquery.com/jquery-2.1.4.min.js")
+  script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js")
