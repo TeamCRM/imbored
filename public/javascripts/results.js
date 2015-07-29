@@ -159,10 +159,12 @@ $(document).ready(function() {
 	var ResultsCollectionView= Backbone.View.extend({
 		el: '#prefResults',
 		initialize: function() {
+			
 		},
 		render: function(arr,index){
-			this.$el.append('<div id='+index+'1><h1 class="sectionLabel">'+arr.replace('_', ' ')+'</h1><div id='+index+' class="map"></div><ul class="renderResults"></ul></div');
-			this.renderMap(index);
+			this.$el.append('<div id='+index+'1><h1 class="sectionLabel" data-section="'+index+'">'+arr.replace('_', ' ')+'</h1><div id='+index+' class="map"></div><ul class="renderResults"></ul></div');
+			this.$el.on('click', '#'+index+'1 .sectionLabel', this.isOpen.bind(this));
+
 		},
 		renderMap: function(activity){
 			var map = new google.maps.Map(document.getElementById(activity), {
@@ -170,8 +172,6 @@ $(document).ready(function() {
 				zoom: 15
 			});
 			var newActivity=''+activity+'';
-			console.log(newActivity)
-			// Search for Google's office in Australia.
 			var request = {
 				location: map.getCenter(),
 				radius: 5000,
@@ -201,15 +201,10 @@ $(document).ready(function() {
 				}
 			});
 		},
-		
-		events: {
-			'click .sectionLabel': 'isOpen',
-		},
-		
 		isOpen: function(event) {
 			var target = $(event.currentTarget);
 			target.parent().toggleClass('isOpen');
-			
+			this.renderMap(target.data('section'));
 		}
 
 	});	
@@ -234,17 +229,13 @@ $(document).ready(function() {
 				dat = 'bowling_alley'
 			}
 
-			
-			// console.log(dat)	
-			// var otherArr =["cafe",'gym','park']
 			var value = getCookie('preferences');
-			var newValue= value.split(',')
-			// var goodValue=JSON.parse("[" + newValue[1] + "]");
+			var newValue= value.split(',');
 			for(var i=0; i<data.results.length;i++){
 				var results= new ResultsModel({});
-				results.set({'name': data.results[i].name, 'id': data.results[i].place_id})
-				var view = new ResultsView({collection:resultsCollection, model:results })
-				var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results })
+				results.set({'name': data.results[i].name, 'id': data.results[i].place_id});
+				var view = new ResultsView({collection:resultsCollection, model:results});
+				var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results});
 				var detailedView=new ResultsMiniView({
 					model:results	
 				});
