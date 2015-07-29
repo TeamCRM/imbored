@@ -180,9 +180,9 @@ router.post('/register', function(req, res) {
           .returning('userid')
           .insert(stored)
           .then(function(userid) {
-
+            console.log(req.body)
             for (var prop in req.body) {
-              if (prop !== 'username' && prop !== 'password' && prop !== 'password_confirm') {
+              if (prop !== 'username' && prop !== 'city' && prop !== 'password' && prop !== 'password_confirm') {
                 prefs.push(prop);
               }
             }
@@ -193,8 +193,17 @@ router.post('/register', function(req, res) {
                   'preferenceid': prefs[i]
                 }).select('apiname')
                 .then(function(rezult) {
+                  console.log(rezult)
                   prefName.push(rezult[0].apiname);
-                  res.cookie('preferences', prefName.join());
+                   request('https://maps.googleapis.com/maps/api/geocode/json?address='+req.body.city+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function(err, resp,body){
+                              console.log(typeof body)
+                            var citySelect= JSON.parse(body)
+                          
+                            res.cookie('preferences', prefName.join());
+                            res.cookie('lat',citySelect.results[0].geometry.location.lat )
+                             res.cookie('lng',citySelect.results[0].geometry.location.lng )
+                            })
+                  // res.cookie('preferences', prefName.join());
                 });
             }
 
