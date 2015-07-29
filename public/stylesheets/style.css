@@ -145,18 +145,8 @@ input {
   text-align: left;
   text-transform: capitalize;
 }
-.well {
-  background-color: grey;
-}
 
 /*Div container for Preference Box*/
-#centerpref {
-  float: none;
-}
-
-.prefCheck {
-
-}
 
 .main_reg {
   width: 505px;

@@ -27,7 +27,7 @@ for (var i = 0; i< height; i++) {
 $(".prefs").append(html).hide();
 $(".buttons").hide();
 
-//Register Page: Check Password Matches and user selects at least one preferenceid
+//Register Page: Check Password Matches and user selects at least one preference
 
 var checkPassword = function() {
 	
@@ -52,6 +52,6 @@ $("#password_confirm").on('keyup', checkPassword);
 var prefSelect = function(event) {
 	if (event.currentTarget.checked && checkPassword()) {
 		$('#regSubmit').removeAttr('disabled');
-	}
+	} 
 }
 $('.prefCheck').on('click', prefSelect);
