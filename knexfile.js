@@ -1,4 +1,6 @@
-var config = require('./config.js');
+if(!process.env.HEROKU) {
+  var config = require('./config.js');
+}
 
 module.exports = {
 
@@ -11,7 +13,6 @@ module.exports = {
   },
   
   debug: true,
-  
   pool: {
     min: 0,
     max: 10

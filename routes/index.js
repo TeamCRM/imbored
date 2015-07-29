@@ -102,11 +102,11 @@ model=this
                             
                             request('https://maps.googleapis.com/maps/api/geocode/json?address='+req.body.city+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function(err, resp,body){
                               console.log(typeof body)
-                            var fuckStrings= JSON.parse(body)
+                            var citySelect= JSON.parse(body)
                           
                             res.cookie('preferences', prefName.join());
-                            res.cookie('lat',fuckStrings.results[0].geometry.location.lat )
-                             res.cookie('lng',fuckStrings.results[0].geometry.location.lng )
+                            res.cookie('lat',citySelect.results[0].geometry.location.lat )
+                             res.cookie('lng',citySelect.results[0].geometry.location.lng )
                              res.redirect('/results');
                             })
                            
