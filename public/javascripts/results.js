@@ -120,7 +120,7 @@ $(document).ready(function() {
 				  	console.log(details)
 				    if (status == google.maps.places.PlacesServiceStatus.OK) {
 					model.set({'phone':details.formatted_phone_number,'website': details.website,'price': details.price_level,'rating': details.rating, 'hasCalled': true});
-				}
+					}
 				});
 			}
 		}
