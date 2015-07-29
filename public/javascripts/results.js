@@ -142,10 +142,11 @@ $(document).ready(function() {
 			var rating= this.model.get('rating');
 			var ratingClass = 'stars-'+ Math.ceil(rating);
 			var idz= this.model.get('id');
+			var anchor = website ? '<a href="'+website+'" target="_blank" class="website">Visit Website</a>' : "";
 			console.log(this.model);
 			this.$el=$("#detailsView"+idz+"");
 			console.log(this.$el);
-			this.$el.html('<span class="'+priceClass+'"></span><span class="'+ratingClass+'"></span><span>'+phone+'</span><a href="'+website+'" target="_blank" class="website">Visit Website</a>');
+			this.$el.html('<span class="'+priceClass+'"></span><span class="'+ratingClass+'"></span><span>'+phone+'</span>' + anchor);
 			console.log('Miniend');
 		},
 		initialize: function () {
