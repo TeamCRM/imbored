@@ -1,6 +1,5 @@
-if(!process.env.HEROKU) {
-  var config = require('./config.js');
-}
+if(!process.env.HEROKU) var config = require('./config.js');
+
 
 module.exports = {
 
