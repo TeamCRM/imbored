@@ -101,11 +101,26 @@ $(document).ready(function() {
 		defaults :{'name':'','id':'', 'phone':'','website':'','price':'','rating':'','hasCalled': false},
 		details : function (id) {
 			var model = this
+			var lati= Number(lat)
+			var lngi= Number(lng)
 			console.log(id)
 			if(!this.get('hasCalled')) {
-				$.getJSON('https://maps.googleapis.com/maps/api/place/details/json?placeid='+id+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function (details){
-					console.log(details.result)
-					model.set({'phone':details.result.formatted_phone_number,'website': details.result.website,'price': details.result.price_level,'rating': details.result.rating, 'hasCalled': true});
+				var map = new google.maps.Map(document.getElementById('detailsView'+id+""), {
+				    center: new google.maps.LatLng(lati, lngi),
+				    zoom: 15
+				  });
+				  var request = {
+				    placeId: id
+				  };
+
+				  var infowindow = new google.maps.InfoWindow();
+				  var service = new google.maps.places.PlacesService(map);
+
+				  service.getDetails(request, function(details, status) {
+				  	console.log(details)
+				    if (status == google.maps.places.PlacesServiceStatus.OK) {
+					model.set({'phone':details.formatted_phone_number,'website': details.website,'price': details.price_level,'rating': details.rating, 'hasCalled': true});
+				}
 				});
 			}
 		}
@@ -355,35 +370,66 @@ $(document).ready(function() {
 		hikingCollectionView.render(ids,ids)
 		}else{
 		collectionView.render(ids,ids);
-	}
+		}
 
 		preferenceModel.set(ids, true);
 		if(newValue[j]=='hiking'){
 			console.log('No hiking in google api')
 		}else{
-		$.getJSON('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+lat+','+lng+'&radius=5000&types='+newValue[j]+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function(data) {
-			console.log(data)
-			var dat= data.results[0].types[0]
+		var lati= Number(lat)
+			var lngi= Number(lng)
+			var map = new google.maps.Map(document.getElementById(newValue[j]), {
+				center: {lat: lati, lng: lngi},
+				zoom: 14
+			});
+			var newActivity=''+newValue[j]+'';
+			var request = {
+				location: map.getCenter(),
+				radius: 5000,
+				types: [newActivity]
+			};
+			// var here = this
+			// function createMarker(place) {
+			// 	var placeLoc = place.geometry.location;
+			// 	var marker = new google.maps.Marker({
+			// 		map: map,
+			// 		position: place.geometry.location
+			// 	});
+
+			// 	google.maps.event.addListener(marker, 'click', function() {
+			// 		infowindow.setContent(place.name);
+			// 		infowindow.open(map, this);
+			// 	});
+			// }
+
+			// var infowindow = new google.maps.InfoWindow();
+			var service = new google.maps.places.PlacesService(map);
+			service.nearbySearch(request, function(data, status){
+				if (status == google.maps.places.PlacesServiceStatus.OK) {
+					for (var i = 0; i < data.length; i++) {
+						// console.log(data)
+			 var dat= data[0].types[0]
+			 // console.log(dat)
 			if(dat==="lodging"){
 				dat= "spa"
 			}else if(dat==='store'){
 				dat= 'cafe'
-			}else if(data.results[0].types[0]==='night_club' && data.results[0].types[1]==='bowling_alley'){
+			}else if(data[0].types[0]==='night_club' && data[0].types[1]==='bowling_alley'){
 				dat = 'bowling_alley'
-			}else if(data.results[0].types[0]==='art_gallery' && data.results[1].types[0]==='art_gallery'){
+			}else if(data[0].types[0]==='art_gallery' && data[1].types[0]==='art_gallery'){
 				dat = 'art_gallery'
-			}else if(data.results[0].types[0]==='art_gallery' && data.results[0].types[1]==='museum'){
+			}else if(data[0].types[0]==='art_gallery' && data[0].types[1]==='museum'){
 				dat = 'museum'
-			}else if(data.results[0].types[0]==='hospital' && data.results[0].types[1]==='university'){
+			}else if(data[0].types[0]==='hospital' && data[0].types[1]==='university'){
 				dat = 'university'
-			}else if(data.results[0].types[0]==='bar' && data.results[0].types[1]==='restaurant'){
+			}else if(data[0].types[0]==='bar' && data[0].types[1]==='restaurant'){
 				dat = 'restaurant'
 			}
 			var value = getCookie('preferences');
 			var newValue= value.split(',');
-			for(var i=0; i<data.results.length;i++){
+			// for(var i=0; i<data.results.length;i++){
 				var results= new ResultsModel({});
-				results.set({'name': data.results[i].name, 'id': data.results[i].place_id});
+				results.set({'name': data[i].name, 'id': data[i].place_id});
 				var view = new ResultsView({collection:resultsCollection, model:results});
 				var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results});
 				var detailedView=new ResultsMiniView({
@@ -391,12 +437,13 @@ $(document).ready(function() {
 				});
 				view.render();
 				$('#'+dat+'1 ul').append(view.$el);
+				}
 			}
-
-		});
-	}
-}
-	
+				})
+			}
+		}
+			
+			
 	preferenceView.render();
 });
 
