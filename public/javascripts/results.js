@@ -174,7 +174,7 @@ $(document).ready(function() {
 			var lngi= Number(lng)
 			var map = new google.maps.Map(document.getElementById(activity), {
 				center: {lat: lati, lng: lngi},
-				zoom: 14
+				zoom: 15
 			});
 			var newActivity=''+activity+'';
 			console.log(newActivity)
@@ -187,6 +187,7 @@ $(document).ready(function() {
 			var here = this
 			function createMarker(place) {
 				var placeLoc = place.geometry.location;
+				console.log(placeLoc)
 				var marker = new google.maps.Marker({
 					map: map,
 					position: place.geometry.location
@@ -196,17 +197,22 @@ $(document).ready(function() {
 					infowindow.setContent(place.name);
 					infowindow.open(map, this);
 				});
+				return placeLoc
 			}
 
 			var infowindow = new google.maps.InfoWindow();
 			var service = new google.maps.places.PlacesService(map);
 			console.log(map)
 			service.nearbySearch(request, function(results, status){
+				var bounds= new google.maps.LatLngBounds
 				console.log(results)
 				if (status == google.maps.places.PlacesServiceStatus.OK) {
 					for (var i = 0; i < results.length; i++) {
-			 			createMarker(results[i]);	
+			 			bounds.extend(createMarker(results[i]));	
 					}
+				// 	console.log(bounds)
+				// 	map.fitBounds(bounds)
+				// 	map.setCenter(bounds.getCenter())
 				}
 			});
 		},
