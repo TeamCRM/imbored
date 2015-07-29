@@ -62,7 +62,7 @@ nav {
 #prefResults {
 	box-sizing: border-box;
 	border-radius: 10px;
-	margin: 70px 30px 0;
+	margin: 20px 30px 0;
 	overflow: hidden;
 	
 }
@@ -166,14 +166,17 @@ nav {
 	display: none;
 }
 
+.logoutbuttonContainer {
+	text-align: center;
+}
+
 .logoutbutton {
-	margin-top: 50px;
-	margin-right: -85px;
+	margin: -10px auto 0;
+	text-align: center;
 	padding: 20px;
-	float: right;
 	border: 50px;
 	font-size: 20px;
-	color:  #565959;
+	color: #565959;
 }
 
 .xtra {
@@ -218,6 +221,7 @@ nav {
 .isOpen .map {
 	display: block;
 }
+
 
 .header {
 	height: 70px;
@@ -291,4 +295,16 @@ nav {
 .stars-5:after {
 	content: '\2605 \2605 \2605 \2605 \2605';
 	color: #FCEC05;
+}
+
+#footer {
+	float: right;
+	margin-right: 425px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#footer > a {
+	color: #565959;
+	margin: 15px;
 }
