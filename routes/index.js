@@ -6,7 +6,7 @@ var pwd = require('pwd');
 var knexConfig = require('../knexfile.js');
 var knex = require('knex')(knexConfig);
 var database = app.get('database');
-
+var request = require('request');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
@@ -29,7 +29,7 @@ router.get('/', function(req, res, next) {
 
 //Login 
 router.post('/', function(req, res) {
-
+model=this
   knex('authtable')
     .where({
       'username': req.body.username
@@ -98,8 +98,18 @@ router.post('/', function(req, res) {
                           }).select('apiname')
                           .then(function(rezult) {
                             prefName.push(rezult[0].apiname);
+                          
+                            
+                            request('https://maps.googleapis.com/maps/api/geocode/json?address='+req.body.city+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function(err, resp,body){
+                              console.log(typeof body)
+                            var fuckStrings= JSON.parse(body)
+                          
                             res.cookie('preferences', prefName.join());
-                            res.redirect('/results');
+                            res.cookie('lat',fuckStrings.results[0].geometry.location.lat )
+                             res.cookie('lng',fuckStrings.results[0].geometry.location.lng )
+                             res.redirect('/results');
+                            })
+                           
                           });
                       }
                     }
