@@ -143,21 +143,22 @@ input {
 /*Preference box list/table*/
 .prefs {
   text-align: left;
-
+  text-transform: capitalize;
 }
-
+.well {
+  background-color: grey;
+}
 
 /*Div container for Preference Box*/
 #centerpref {
   float: none;
 }
 
-.prefRow {
+.prefCheck {
 
 }
 
 .main_reg {
-  
   width: 505px;
   margin: auto;
 }
@@ -171,6 +172,7 @@ input {
 /*Please choose some activities you like to do!*/
 .activity {
 	font-size: 18px;
+  text-align: center;
 }
 /*Create Submit Button*/
 #regSubmit {
