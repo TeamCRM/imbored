@@ -1,4 +1,4 @@
-if(!process.env.HEROKU) {
+if(process.env.HEROKU != true) {
   var config = require('./config.js');
 }
 
