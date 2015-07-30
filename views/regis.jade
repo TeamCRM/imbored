@@ -8,6 +8,7 @@ block content
   body
     img#imBoredText(src='/images/imBoredHeaderWeb.png', alt='im bored', text='oops')
     div(class="main_reg")
+      p(class='error_msg')= error
       form(method="post" action="/register" id="regisForm")
         p(class="h1") Register a new account!
         div
