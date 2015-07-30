@@ -6,13 +6,13 @@ link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/
 link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css")
 block content
   body
-    img#imBoredText(src='/images/imBoredHeader.png', alt='im bored', text='oops')
+    img#imBoredText(src='/images/imBoredHeaderWeb.png', alt='im bored', text='oops')
     div(class="main_reg")
       form(method="post" action="/register" id="regisForm")
         p(class="h1") Register a new account!
         div
           label
-            input#regEmail(type="email" name="username" placeholder="email" required="required")
+            input#regEmail(type="email" name="username" placeholder="email" required)
         div
           label
             input(type="password" name="password" placeholder="password" id="password")

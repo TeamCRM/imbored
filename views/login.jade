@@ -3,7 +3,7 @@ extends layout
 block content
   body
     div(class="index_body")
-      img#imBoredLogo(src='/images/imBoredLogo.png', alt='im bored', text='oops')
+      img#imBoredLogo(src='/images/imBoredLogoWeb.png', alt='im bored', text='oops')
       p Let us help you find something to do!
       if error
         p(class='error_msg')= error
@@ -14,10 +14,11 @@ block content
         br
         input(type="password" name="password" placeholder="Password" class='pswd' required)
         br
-        input(type="text" name="city" placeholder="Enter city name" class='citay' required)
+        input(type="text" name="city" placeholder="Location" class='citay' required)
         br
         input#btn(type="submit" value="Login")
-        br  
+        br 
+        br 
       | New Users
       br
       form(method="get" action="/register")  
