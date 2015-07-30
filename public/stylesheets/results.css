@@ -22,14 +22,14 @@ nav {
 
 .prefMenu {
 	float: left;
-    width: 1em;
-    overflow: hidden;
-    border: none;
-    background-color: transparent;
-    outline: none;
-    font-size: 36px;
-    white-space: nowrap;
-    cursor: pointer;
+  width: 1em;
+  overflow: hidden;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  font-size: 36px;
+  white-space: nowrap;
+  cursor: pointer;
 }
 
 .welcome {
@@ -212,7 +212,7 @@ nav {
 	display: none;
 	float: right;
 	height: 400px;
-    width:400px;
+  width:400px;
 	margin-top: 15px;
 	margin-right: 15px;
 
@@ -298,10 +298,23 @@ nav {
 }
 
 #footer {
-	float: right;
-	margin-right: 425px;
+	text-align: center;
+	background-color: #33cc99;
+	height: 90px;
 	margin-top: 20px;
 	margin-bottom: 20px;
+}
+
+#team {
+	font-weight: bold;
+	font-size: 120%;
+	color: #565959;
+}
+
+#copy {
+	text-align: center;
+	font-size: 75%;
+	color: grey;
 }
 
 #footer > a {

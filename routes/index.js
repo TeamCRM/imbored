@@ -136,11 +136,11 @@ router.get('/results', function(req, res, next) {
   });
 });
 
-//Logout and clear cookie 
+//Logout and clear all cookies 
 router.get('/logout', function(req, res, next) {
 
-  res.clearCookie('preferences');
-
+  for (var it in $.cookie()) $.removeCookie(it);
+  
   res.render('logout', {
     title: "I'm Bored!"
   });
