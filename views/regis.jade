@@ -18,11 +18,11 @@ block content
             input(type="password" name="password" placeholder="password" id="password")
         div
           label
-            input(type="password" name="password_confirm" placeholder="re-type password" id="password_confirm")
+            input(type="password" name="password_confirm" placeholder="re-type password" id="password_confirm") 
         div
-          input(type="text" name="city" placeholder="Location" class='citay' required)
-        div(class="prefs") 
-          p(class="activity") Please choose some activities you like to do!
+          input(type="text" name="city" placeholder="Enter city name" class='citay' required)       
+        div(class="prefs")
+            p(class="activity") Please choose some activities you like to do!
         div(class="buttons")  
           form(method="get" action="/results")
             input#regSubmit(type="submit" value="Submit" disabled)

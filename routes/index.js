@@ -29,48 +29,48 @@ router.get('/', function(req, res, next) {
 
 //Login 
 router.post('/', function(req, res) {
-model=this
+  model=this
   knex('authtable')
-    .where({
-      'username': req.body.username
-    })
-    .then(function(records) {
+  .where({
+    'username': req.body.username
+  })
+  .then(function(records) {
 
-      var user = records[0];
+    var user = records[0];
 
-      if (records.length === 0) {
-        res.render('login', {
-          title: 'Im Bored',
-          user: null,
-          error: 'No Such User'
-        });
+    if (records.length === 0) {
+      res.render('login', {
+        title: 'Im Bored',
+        user: null,
+        error: 'No Such User'
+      });
 
-      } else {
-        pwd.hash(req.body.password, user.salt, function(err, hash) {
+    } else {
+      pwd.hash(req.body.password, user.salt, function(err, hash) {
 
-          if (err) {
-            console.log(err);
-          }
+        if (err) {
+          console.log(err);
+        }
 
-          if (user.hash === hash) {
+        if (user.hash === hash) {
 
             //Get user ID from DB
             knex('authtable')
-              .where({
-                'username': req.body.username
-              }).select('userid')
-              .then(function(results) {
+            .where({
+              'username': req.body.username
+            }).select('userid')
+            .then(function(results) {
 
-                var userid = results[0].userid
+              var userid = results[0].userid
 
                 //Get user preferences from DB 
                 knex('userpreftable')
-                  .where({
-                    'userid': results[0].userid
-                  }).select('preferenceid')
-                  .then(function(result) {
+                .where({
+                  'userid': results[0].userid
+                }).select('preferenceid')
+                .then(function(result) {
 
-                    var prefs = [];
+                  var prefs = [];
 
                     //Store user preferences in prefs array
                     for (var prop in result) {
@@ -85,52 +85,60 @@ model=this
                       if (i !== prefs.length - 1) {
 
                         knex('preftable').where({
-                            'preferenceid': prefs[i]
-                          }).select('apiname')
-                          .then(function(rezult) {
-                            prefName.push(rezult[0].apiname);
-                          });
+                          'preferenceid': prefs[i]
+                        }).select('apiname')
+                        .then(function(rezult) {
+                          prefName.push(rezult[0].apiname);
+                        });
 
                       } else if (i == prefs.length - 1) {
 
                         knex('preftable').where({
-                            'preferenceid': prefs[i]
-                          }).select('apiname')
-                          .then(function(rezult) {
-                            prefName.push(rezult[0].apiname);
+                          'preferenceid': prefs[i]
+                        }).select('apiname')
+                        .then(function(rezult) {
+                          prefName.push(rezult[0].apiname);
                           
-                            
-                            request('https://maps.googleapis.com/maps/api/geocode/json?address='+req.body.city+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function(err, resp,body){
-                              console.log(typeof body)
+
+                          request('https://maps.googleapis.com/maps/api/geocode/json?address='+req.body.city+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function(err, resp,body){
+                            console.log(typeof body)
                             var citySelect= JSON.parse(body)
-                          
+                            console.log(citySelect.results)
+                            if(citySelect.results.length !== 0){
                             res.cookie('preferences', prefName.join());
                             res.cookie('lat',citySelect.results[0].geometry.location.lat )
-                             res.cookie('lng',citySelect.results[0].geometry.location.lng )
-                             res.redirect('/results');
-                            })
-                           
-                          });
+                            res.cookie('lng',citySelect.results[0].geometry.location.lng )
+                            res.redirect('/results');
+                            } else{
+                              res.render('login', {
+                                title: 'Im Bored',
+                                user: null,
+                                error: 'Not a valid location. Please try again'
+                              });
+                            }
+                          })
+
+                        });
                       }
                     }
                   });
-              });
+});
 
-          } else {
-            res.render('login', {
-              title: 'Im Bored',
-              user: null,
-              error: 'Incorrect Password '
-            });
-          }
-        });
-      }
-    });
+} else {
+  res.render('login', {
+    title: 'Im Bored',
+    user: null,
+    error: 'Incorrect Password '
+  });
+}
+});
+}
+});
 });
 
 //Render Results Page
 router.get('/results', function(req, res, next) {
-  
+
   res.render('results', {
     title: "I'm Bored!"
   });
@@ -162,10 +170,10 @@ router.post('/register', function(req, res) {
   var prefName = [];
 
   knex('authtable')
-    .where({
-      'username': req.body.username
-    })
-    .then(function(result) {
+  .where({
+    'username': req.body.username
+  })
+  .then(function(result) {
 
       //Hash and salt   
       pwd.hash(req.body.password, function(err, salt, hash) {
@@ -177,69 +185,69 @@ router.post('/register', function(req, res) {
         };
 
         knex('authtable')
-          .returning('userid')
-          .insert(stored)
-          .then(function(userid) {
-            console.log(req.body)
-            for (var prop in req.body) {
-              if (prop !== 'username' && prop !== 'city' && prop !== 'password' && prop !== 'password_confirm') {
-                prefs.push(prop);
-              }
+        .returning('userid')
+        .insert(stored)
+        .then(function(userid) {
+          console.log(req.body)
+          for (var prop in req.body) {
+            if (prop !== 'username' && prop !== 'city' && prop !== 'password' && prop !== 'password_confirm') {
+              prefs.push(prop);
             }
+          }
 
-            for (var i = 0; i < prefs.length; i++) {
+          for (var i = 0; i < prefs.length; i++) {
 
-              knex('preftable').where({
-                  'preferenceid': prefs[i]
-                }).select('apiname')
-                .then(function(rezult) {
-                  console.log(rezult)
-                  prefName.push(rezult[0].apiname);
+            knex('preftable').where({
+              'preferenceid': prefs[i]
+            }).select('apiname')
+            .then(function(rezult) {
+              console.log(rezult)
+              prefName.push(rezult[0].apiname);
                   // res.cookie('preferences', prefName.join());
                 });
-            }
+          }
 
-            knex('authtable')
-              .where({
-                'username': req.body.username
-              }).select('userid')
-              .then(function(results) {
+          knex('authtable')
+          .where({
+            'username': req.body.username
+          }).select('userid')
+          .then(function(results) {
 
-                if (results.length !== 0) {
+            if (results.length !== 0) {
 
-                  for (var i = 0; i < 20; i++) {
-                    var k = parseInt(i)
-                    if (req.body[k]) {
-                      prefArr.push(k)
-                    }
-                  }
-
-                  for (var j = 0; j < prefArr.length; j++) {
-                    knex('userpreftable')
-                      .insert([{
-                        preferenceid: prefArr[j],
-                        userid: results[0].userid
-                      }])
-                      .then()
-                  }
-
-                  knex('userpreftable')
-                    .then(function() {
-                       request('https://maps.googleapis.com/maps/api/geocode/json?address='+req.body.city+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function(err, resp,body){
-                              console.log(typeof body)
-                            var citySelect= JSON.parse(body)
-                          
-                            res.cookie('preferences', prefName.join());
-                            res.cookie('lat',citySelect.results[0].geometry.location.lat )
-                             res.cookie('lng',citySelect.results[0].geometry.location.lng )
-                              res.redirect('/results');
-                            })
-                    });
+              for (var i = 0; i < 20; i++) {
+                var k = parseInt(i)
+                if (req.body[k]) {
+                  prefArr.push(k)
                 }
-              });
+              }
+
+              for (var j = 0; j < prefArr.length; j++) {
+                knex('userpreftable')
+                .insert([{
+                  preferenceid: prefArr[j],
+                  userid: results[0].userid
+                }])
+                .then()
+              }
+
+              knex('userpreftable')
+              .then(function() {
+               request('https://maps.googleapis.com/maps/api/geocode/json?address='+req.body.city+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function(err, resp,body){
+                console.log(typeof body)
+                var citySelect= JSON.parse(body)
+
+                res.cookie('preferences', prefName.join());
+                res.cookie('lat',citySelect.results[0].geometry.location.lat )
+                res.cookie('lng',citySelect.results[0].geometry.location.lng )
+                res.redirect('/results');
+              })
+             });
+            }
           });
-      });
-    });
+});
+});
+});
 });
 
 module.exports = router;
