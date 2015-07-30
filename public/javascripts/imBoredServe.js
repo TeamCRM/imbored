@@ -33,8 +33,6 @@ var checkPassword = function() {
 	
     if ($('#password').val().length > 0 && $('#password').val() === $('#password_confirm').val()) {
 
-			
-			// $('#regSubmit').removeAttr('disabled');
 			$('.confirmPass').html('');
 			$(".prefs").show()
 			$(".buttons").show();
@@ -50,7 +48,9 @@ var checkPassword = function() {
 $("#password_confirm").on('keyup', checkPassword);
 
 var prefSelect = function(event) {
+	
 	if (event.currentTarget.checked && checkPassword()) {
+		
 		$('#regSubmit').removeAttr('disabled');
 	} 
 }
