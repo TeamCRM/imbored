@@ -144,14 +144,14 @@
     });
   });
 
-  //Logout and clear cookie 
-  router.get('/logout', function(req, res, next) {
 
-    res.clearCookie('preferences');
+//Logout and clear all cookies 
+router.get('/logout', function(req, res, next) {
 
-    res.render('logout', {
-      title: "I'm Bored!"
-    });
+  for (var it in $.cookie()) $.removeCookie(it);
+  
+  res.render('logout', {
+    title: "I'm Bored!"
   });
 
   //Render Register Page
