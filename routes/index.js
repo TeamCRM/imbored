@@ -1,36 +1,36 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var router = express.Router();
-var app = require('../app');
-var pwd = require('pwd');
-var knexConfig = require('../knexfile.js');
-var knex = require('knex')(knexConfig);
-var database = app.get('database');
-var request = require('request');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-app.use(express.static('public'));
+  var express = require('express');
+  var bodyParser = require('body-parser');
+  var router = express.Router();
+  var app = require('../app');
+  var pwd = require('pwd');
+  var knexConfig = require('../knexfile.js');
+  var knex = require('knex')(knexConfig);
+  var database = app.get('database');
+  var request = require('request');
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({
+    extended: false
+  }));
+  app.use(express.static('public'));
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
+  /* GET home page. */
+  router.get('/', function(req, res, next) {
 
-  if (req.cookies.preferences) {
-    res.render('results', {
-      title: "I'm Bored!"
-    });
-  } else {
-    res.render('login', {
-      title: "I'm Bored!"
-    });
-  };
-});
+    if (req.cookies.preferences) {
+      res.render('results', {
+        title: "I'm Bored!"
+      });
+    } else {
+      res.render('login', {
+        title: "I'm Bored!"
+      });
+    };
+  });
 
-//Login 
-router.post('/', function(req, res) {
-model=this
-  knex('authtable')
+  //Login 
+  router.post('/', function(req, res) {
+    model=this
+    knex('authtable')
     .where({
       'username': req.body.username
     })
@@ -54,8 +54,8 @@ model=this
 
           if (user.hash === hash) {
 
-            //Get user ID from DB
-            knex('authtable')
+              //Get user ID from DB
+              knex('authtable')
               .where({
                 'username': req.body.username
               }).select('userid')
@@ -63,8 +63,8 @@ model=this
 
                 var userid = results[0].userid
 
-                //Get user preferences from DB 
-                knex('userpreftable')
+                  //Get user preferences from DB 
+                  knex('userpreftable')
                   .where({
                     'userid': results[0].userid
                   }).select('preferenceid')
@@ -72,69 +72,78 @@ model=this
 
                     var prefs = [];
 
-                    //Store user preferences in prefs array
-                    for (var prop in result) {
-                      if (prop !== 'userid') {
-                        prefs.push(result[prop].preferenceid)
+                      //Store user preferences in prefs array
+                      for (var prop in result) {
+                        if (prop !== 'userid') {
+                          prefs.push(result[prop].preferenceid)
+                        }
                       }
-                    }
 
-                    var prefName = [];
+                      var prefName = [];
 
-                    for (var i = 0; i < prefs.length; i++) {
-                      if (i !== prefs.length - 1) {
+                      for (var i = 0; i < prefs.length; i++) {
+                        if (i !== prefs.length - 1) {
 
-                        knex('preftable').where({
+                          knex('preftable').where({
                             'preferenceid': prefs[i]
                           }).select('apiname')
                           .then(function(rezult) {
                             prefName.push(rezult[0].apiname);
                           });
 
-                      } else if (i == prefs.length - 1) {
+                        } else if (i == prefs.length - 1) {
 
-                        knex('preftable').where({
+                          knex('preftable').where({
                             'preferenceid': prefs[i]
                           }).select('apiname')
                           .then(function(rezult) {
                             prefName.push(rezult[0].apiname);
-                          
                             
+
                             request('https://maps.googleapis.com/maps/api/geocode/json?address='+req.body.city+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function(err, resp,body){
                               console.log(typeof body)
-                            var citySelect= JSON.parse(body)
-                          
-                            res.cookie('preferences', prefName.join());
-                            res.cookie('lat',citySelect.results[0].geometry.location.lat )
-                             res.cookie('lng',citySelect.results[0].geometry.location.lng )
-                             res.redirect('/results');
+                              var citySelect= JSON.parse(body)
+                              console.log(citySelect.results)
+                              if(citySelect.results.length !== 0){
+                                res.cookie('preferences', prefName.join());
+                                res.cookie('lat',citySelect.results[0].geometry.location.lat )
+                                res.cookie('lng',citySelect.results[0].geometry.location.lng )
+                                res.redirect('/results');
+                              } else{
+                                res.render('login', {
+                                  title: 'Im Bored',
+                                  user: null,
+                                  error: 'Not a valid location. Please try again'
+                                });
+                              }
                             })
-                           
-                          });
-                      }
-                    }
-                  });
-              });
 
-          } else {
-            res.render('login', {
-              title: 'Im Bored',
-              user: null,
-              error: 'Incorrect Password '
-            });
-          }
-        });
-      }
-    });
+});
+}
+}
+});
 });
 
-//Render Results Page
-router.get('/results', function(req, res, next) {
-  
-  res.render('results', {
-    title: "I'm Bored!"
+} else {
+  res.render('login', {
+    title: 'Im Bored',
+    user: null,
+    error: 'Incorrect Password '
   });
+}
 });
+}
+});
+});
+
+  //Render Results Page
+  router.get('/results', function(req, res, next) {
+
+    res.render('results', {
+      title: "I'm Bored!"
+    });
+  });
+
 
 //Logout and clear all cookies 
 router.get('/logout', function(req, res, next) {
@@ -144,39 +153,38 @@ router.get('/logout', function(req, res, next) {
   res.render('logout', {
     title: "I'm Bored!"
   });
-});
 
-//Render Register Page
-router.get('/register', function(req, res, next) {
+  //Render Register Page
+  router.get('/register', function(req, res, next) {
 
-  res.render('regis', {
-    title: "I'm Bored!"
-  })
-});
+    res.render('regis', {
+      title: "I'm Bored!"
+    })
+  });
 
-//Register 
-router.post('/register', function(req, res) {
+  //Register 
+  router.post('/register', function(req, res) {
 
-  var prefArr = [];
-  var prefs = [];
-  var prefName = [];
+    var prefArr = [];
+    var prefs = [];
+    var prefName = [];
 
-  knex('authtable')
+    knex('authtable')
     .where({
       'username': req.body.username
     })
     .then(function(result) {
 
-      //Hash and salt   
-      pwd.hash(req.body.password, function(err, salt, hash) {
+        //Hash and salt   
+        pwd.hash(req.body.password, function(err, salt, hash) {
 
-        var stored = {
-          username: req.body.username,
-          salt: salt,
-          hash: hash
-        };
+          var stored = {
+            username: req.body.username,
+            salt: salt,
+            hash: hash
+          };
 
-        knex('authtable')
+          knex('authtable')
           .returning('userid')
           .insert(stored)
           .then(function(userid) {
@@ -190,56 +198,63 @@ router.post('/register', function(req, res) {
             for (var i = 0; i < prefs.length; i++) {
 
               knex('preftable').where({
-                  'preferenceid': prefs[i]
-                }).select('apiname')
-                .then(function(rezult) {
-                  console.log(rezult)
-                  prefName.push(rezult[0].apiname);
-                  // res.cookie('preferences', prefName.join());
-                });
+                'preferenceid': prefs[i]
+              }).select('apiname')
+              .then(function(rezult) {
+                console.log(rezult)
+                prefName.push(rezult[0].apiname);
+                    // res.cookie('preferences', prefName.join());
+                  });
             }
 
             knex('authtable')
-              .where({
-                'username': req.body.username
-              }).select('userid')
-              .then(function(results) {
+            .where({
+              'username': req.body.username
+            }).select('userid')
+            .then(function(results) {
 
-                if (results.length !== 0) {
+              if (results.length !== 0) {
 
-                  for (var i = 0; i < 20; i++) {
-                    var k = parseInt(i)
-                    if (req.body[k]) {
-                      prefArr.push(k)
-                    }
+                for (var i = 0; i < 20; i++) {
+                  var k = parseInt(i)
+                  if (req.body[k]) {
+                    prefArr.push(k)
                   }
-
-                  for (var j = 0; j < prefArr.length; j++) {
-                    knex('userpreftable')
-                      .insert([{
-                        preferenceid: prefArr[j],
-                        userid: results[0].userid
-                      }])
-                      .then()
-                  }
-
-                  knex('userpreftable')
-                    .then(function() {
-                       request('https://maps.googleapis.com/maps/api/geocode/json?address='+req.body.city+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function(err, resp,body){
-                              console.log(typeof body)
-                            var citySelect= JSON.parse(body)
-                          
-                            res.cookie('preferences', prefName.join());
-                            res.cookie('lat',citySelect.results[0].geometry.location.lat )
-                             res.cookie('lng',citySelect.results[0].geometry.location.lng )
-                              res.redirect('/results');
-                            })
-                    });
                 }
-              });
-          });
-      });
-    });
+
+                for (var j = 0; j < prefArr.length; j++) {
+                  knex('userpreftable')
+                  .insert([{
+                    preferenceid: prefArr[j],
+                    userid: results[0].userid
+                  }])
+                  .then()
+                }
+
+                knex('userpreftable')
+                .then(function() {
+                 request('https://maps.googleapis.com/maps/api/geocode/json?address='+req.body.city+'&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function(err, resp,body){
+                  console.log(typeof body)
+                  var citySelect= JSON.parse(body)
+                  if(citySelect.results.length !== 0){
+                    res.cookie('preferences', prefName.join());
+                    res.cookie('lat',citySelect.results[0].geometry.location.lat )
+                    res.cookie('lng',citySelect.results[0].geometry.location.lng )
+                    res.redirect('/results');
+                  } else{
+                    res.render('regis', {
+                      title: 'Im Bored',
+                      user: null,
+                      error: 'Not a valid location. Please try again'
+                    });
+                  }
+                })
+               });
+              }
+            });
+});
+});
+});
 });
 
-module.exports = router;
+  module.exports = router;
