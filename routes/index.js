@@ -154,6 +154,8 @@ res.render('logout', {
   title: "I'm Bored!"
 });
 
+})
+
 //Render Register Page
 router.get('/register', function(req, res, next) {
 
