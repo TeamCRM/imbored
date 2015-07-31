@@ -80,14 +80,18 @@ router.post('/', function(req, res) {
                     }
 
                     var prefName = [];
-
+                    
+                    //loop through prefs array
                     for (var i = 0; i < prefs.length; i++) {
                       if (i !== prefs.length - 1) {
-
+                        
+                        // Match users preference id with their preferences.
+                        // Gets the apiname and puts it into prefName
                         knex('preftable').where({
                             'preferenceid': prefs[i]
                           }).select('apiname')
                           .then(function(rezult) {
+                            
                             prefName.push(rezult[0].apiname);
                           });
 

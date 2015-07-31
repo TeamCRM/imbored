@@ -35,12 +35,12 @@ var checkPassword = function() {
 			$('.confirmPass').html('');
 			$(".prefs").show()
 			$(".buttons").show();
-			// return true		
+			return true		
 		
 		} else { 
 			
 				$(".confirmPass").html("Passwords do not match");
-				// return false
+				return false
 			}
 };
 
