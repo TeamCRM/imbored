@@ -100,7 +100,7 @@ var WeatherView = Backbone.View.extend({
 
 		var ResultsModel = Backbone.Model.extend({
 			defaults :{'name':'','id':'', 'phone':'','website':'','price':'','rating':'','hasCalled': false},
-			info: function (activity){
+		info: function (activity){
 				var lati= Number(lat)
 		var lngi= Number(lng)
 		var map = new google.maps.Map(document.getElementById(activity), {
@@ -186,7 +186,7 @@ var WeatherView = Backbone.View.extend({
 							console.log(newMe[8].split('6s'))
 							var goodMe= newMe[8].split('6s')
 							console.log(goodMe[1])
-							$('#'+goodMe[1]+'1 ul').append(view.$el);	
+							$('#'+goodMe[1]+'1 ul').html(view.$el);	
 					}
 				})
 
@@ -238,7 +238,7 @@ var WeatherView = Backbone.View.extend({
 				this.$el.html('<h2>There are no results for this preference in your area.</h2>')
 				var idHere= $('h1').innerHTML
 				console.log(idHere)
-				$(idHere).append(this.$el)
+				$(idHere).html(this.$el)
 			},
 			initialize: function () {
 				this.model.on("change", this.render, this);
