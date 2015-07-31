@@ -146,13 +146,15 @@ title: "I'm Bored!"
 //Logout and clear all cookies 
 router.get('/logout', function(req, res, next) {
 
-res.clearCookie('preferences');
-res.clearCookie('lat');
-res.clearCookie('lng');
+  res.clearCookie('preferences');
+  res.clearCookie('lat');
+  res.clearCookie('lng');
 
-res.render('logout', {
-  title: "I'm Bored!"
+  res.render('logout', {
+    title: "I'm Bored!"
+  });
 });
+
 
 })
 
