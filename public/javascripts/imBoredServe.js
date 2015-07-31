@@ -24,8 +24,7 @@ for (var i = 0; i< height; i++) {
 	counter += 4
 };
 
-$(".prefs").append(html).hide();
-$(".buttons").hide();
+
 
 //Register Page: Check Password Matches and user selects at least one preference
 
@@ -33,24 +32,27 @@ var checkPassword = function() {
 	
     if ($('#password').val().length > 0 && $('#password').val() === $('#password_confirm').val()) {
 
-			
-			// $('#regSubmit').removeAttr('disabled');
 			$('.confirmPass').html('');
 			$(".prefs").show()
 			$(".buttons").show();
-			return true		
+			// return true		
 		
 		} else { 
 			
 				$(".confirmPass").html("Passwords do not match");
-				return false
+				// return false
 			}
 };
+
+$(".prefs").append(html).hide();
+$(".buttons").hide();
 
 $("#password_confirm").on('keyup', checkPassword);
 
 var prefSelect = function(event) {
+	
 	if (event.currentTarget.checked && checkPassword()) {
+		
 		$('#regSubmit').removeAttr('disabled');
 	} 
 }
