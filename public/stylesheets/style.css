@@ -142,6 +142,7 @@ input {
 }
 /*Preference box list/table*/
 .prefs {
+  display: none;
   text-align: left;
   text-transform: capitalize;
 }
@@ -155,6 +156,7 @@ input {
 
 /*Submit button*/
 .buttons {
+  display: none;
 	margin: 10px;
 	padding: 10px;
 	clear: both;
