@@ -133,6 +133,14 @@ var WeatherView = Backbone.View.extend({
 			service.nearbySearch(request, function(data, status){
 				console.log(status)
 				if (status == google.maps.places.PlacesServiceStatus.OK) {
+							var me = document.currentScript;
+							var newMe= me.src.split('&')
+							console.log(newMe[8].split('6s'))
+							var goodMe= newMe[8].split('6s')
+							console.log(me)
+							// var newMe= me.src.split('&')
+							console.log(goodMe[1])
+							$('#'+goodMe[1]+'1 ul').empty()
 					for (var i = 0; i < data.length; i++) {
 						var dat= data[0].types[0]
 						 // console.log(dat)
@@ -224,6 +232,7 @@ var WeatherView = Backbone.View.extend({
 
 
 		var ResultsView=Backbone.View.extend({
+			// var id = this.model.get('id');
 			tagName: 'li',
 			render: function(){
 				var name = this.model.get('name');

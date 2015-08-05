@@ -156,7 +156,7 @@ router.get('/logout', function(req, res, next) {
 });
 
 
-})
+
 
 //Render Register Page
 router.get('/register', function(req, res, next) {
