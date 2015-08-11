@@ -1,3 +1,4 @@
+$(document).ready(function() {
 var PreferenceModel = Backbone.Model.extend({
 	defaults : {
 		"amusement_park": false,
@@ -25,24 +26,73 @@ var PreferenceModel = Backbone.Model.extend({
 
 var map;
 var infowindow;
+var updateArr=[];
 
 var PreferenceView = Backbone.View.extend({
 	el: '.xtra',
 	initialize: function() {
-		$('body :not(.xtra)').on('click', function() {
+		$('.prefs').append('<button type="button" id="update">Update</button>')
+		$('#update').on('click', function() {
 			$('.prefs').addClass('hidden');
 		});
 	},
 	render: function() {
 		_.each(this.model.attributes, function(val, key) {
 			var whatever = val ? "checked" : "";
-			var row = "<label>" + key.replace("_", " ") + "<input type='checkbox' "+ whatever +"></label>";
+			var row = "<label  class='check'>" + key.replace("_", " ") + "<input type='checkbox' name="+key+"></label>";
+			// console.log() 
+			// console.log(val)
+			// console.log($(row).find('checked'))
 			$('.prefs').append(row);
+
+			
+			// console.log($( "input:checkbox:checked" ).val())
+			// console.log($('label')[0].innerText.replace(' ','_'))
+			// if(val === true){
+			// 	updateArr.push($(row).children().find('name').prevObject.prevObject[0].innerText.replace(' ','_'))
 		});
+		
 		return this;
+
 	},
+
+	update: function (){
+		console.log(this.model.attributes)
+			_.each(this.model.attributes, function(val, key) {
+			var whatever = val ? "checked" : "";
+			var row = "<label  class='check'>" + key.replace("_", " ") + "<input type='checkbox' name="+key+"></label>";
+			// console.log(key) 
+			// console.log(val)
+			// console.log($(row).find('checked'))
+			console.log($('input[name="'+key+'"]').is(':checked'))
+			// console.log($( "input:checkbox:checked" ).val())
+			// console.log($('label')[0].innerText.replace(' ','_'))
+			if($('input[name="'+key+'"]').is(':checked') === true){
+				updateArr.push(key)
+			}
+		});
+		console.log(updateArr)
+		$('#prefResults').empty()
+		for (var j=0;j<updateArr.length;j++){
+			var results= new ResultsModel({});
+			var resultsCollection = new ResultsCollection([],{model:results});
+			var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results });
+			var hiking= new HikingModel({})
+			var hikingCollectionView = new HikingCollectionView({collection:resultsCollection, model:results });
+			var ids=updateArr[j];
+			if(updateArr[j]== 'hiking'){
+				hikingCollectionView.render(ids,ids)
+			}else{
+				collectionView.render(ids,ids);
+			}
+
+			// preferenceModel.set(ids, true);
+		}
+		updateArr= [];
+		},
 	events: {
-		'click .prefMenu': 'openPref'
+		'click .prefMenu': 'openPref',
+		'click #update': 'update'
 	},
 	openPref: function(event) {
 		$('.prefs').toggleClass('hidden');
@@ -73,7 +123,7 @@ var WeatherView = Backbone.View.extend({
 });
 
 
-	$(document).ready(function() {
+	
 		function getCookie(name) {
 			var re = new RegExp(name + "=([^;]+)");
 			var value = re.exec(document.cookie);
@@ -84,8 +134,6 @@ var WeatherView = Backbone.View.extend({
 		var newValue= value.split(',');
 		var lat = getCookie('lat');
 		var lng = getCookie('lng');
-			// console.log(lat)
-			// console.log(lng)
 
 		var preferenceModel = new PreferenceModel();
 		var preferenceView = new PreferenceView({model: preferenceModel});
@@ -113,21 +161,6 @@ var WeatherView = Backbone.View.extend({
 			radius: 5000,
 			types: [newActivity]
 		};
-			// var here = this
-			// function createMarker(place) {
-			// 	var placeLoc = place.geometry.location;
-			// 	var marker = new google.maps.Marker({
-			// 		map: map,
-			// 		position: place.geometry.location
-			// 	});
-
-			// 	google.maps.event.addListener(marker, 'click', function() {
-			// 		infowindow.setContent(place.name);
-			// 		infowindow.open(map, this);
-			// 	});
-			// }
-
-			// var infowindow = new google.maps.InfoWindow();
 			console.log(request)
 			var service = new google.maps.places.PlacesService(map);
 			service.nearbySearch(request, function(data, status){
@@ -298,8 +331,9 @@ var WeatherView = Backbone.View.extend({
 
 			},
 			render: function(arr,index){
+				var model = this
 				this.$el.append('<div id='+index+'1><h1 class="sectionLabel" data-section="'+index+'">'+arr.replace('_', ' ')+'</h1><div id='+index+' class="map"></div><ul class="renderResults"></ul></div');
-				this.$el.on('click', '#'+index+'1 .sectionLabel', this.isOpen.bind(this));
+				this.$el.on('click', '#'+index+'1 .sectionLabel', this.isOpen.bind(model))
 
 			},
 			renderMap: function(activity){
@@ -342,11 +376,13 @@ var WeatherView = Backbone.View.extend({
 			});
 		},
 		isOpen: function(event) {
+			console.log('hello')
 			var target = $(event.currentTarget);
 			console.log(target)
 			target.parent().toggleClass('isOpen');
 			this.model.info(target.data('section'))
 			this.renderMap(target.data('section'));
+			event.unbind()
 		}
 
 	});	
@@ -474,114 +510,21 @@ var WeatherView = Backbone.View.extend({
 						}
 	});	
 
-for (var j=0;j<newValue.length;j++){
-	var results= new ResultsModel({});
-	var resultsCollection = new ResultsCollection([],{model:results});
-	var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results });
-	var hiking= new HikingModel({})
-	var hikingCollectionView = new HikingCollectionView({collection:resultsCollection, model:results });
-	var ids=newValue[j];
-	if(newValue[j]== 'hiking'){
-		hikingCollectionView.render(ids,ids)
-	}else{
-		collectionView.render(ids,ids);
-	}
+		for (var j=0;j<newValue.length;j++){
+			var results= new ResultsModel({});
+			var resultsCollection = new ResultsCollection([],{model:results});
+			var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results });
+			var hiking= new HikingModel({})
+			var hikingCollectionView = new HikingCollectionView({collection:resultsCollection, model:results });
+			var ids=newValue[j];
+			if(newValue[j]== 'hiking'){
+				hikingCollectionView.render(ids,ids)
+			}else{
+				collectionView.render(ids,ids);
+			}
 
-	preferenceModel.set(ids, true);
-	// if(newValue[j]=='hiking'){
-	// 	console.log('No hiking in google api')
-	// }else{
-	// 	var lati= Number(lat)
-	// 	var lngi= Number(lng)
-	// 	var map = new google.maps.Map(document.getElementById(newValue[j]), {
-	// 		center: {lat: lati, lng: lngi},
-	// 		zoom: 14
-	// 	});
-	// 	var newActivity=''+newValue[j]+'';
-	// 	var request = {
-	// 		location: map.getCenter(),
-	// 		radius: 5000,
-	// 		types: [newActivity]
-	// 	};
-	// 		// var here = this
-	// 		// function createMarker(place) {
-	// 		// 	var placeLoc = place.geometry.location;
-	// 		// 	var marker = new google.maps.Marker({
-	// 		// 		map: map,
-	// 		// 		position: place.geometry.location
-	// 		// 	});
-
-	// 		// 	google.maps.event.addListener(marker, 'click', function() {
-	// 		// 		infowindow.setContent(place.name);
-	// 		// 		infowindow.open(map, this);
-	// 		// 	});
-	// 		// }
-
-	// 		// var infowindow = new google.maps.InfoWindow();
-	// 		console.log(request)
-	// 		var service = new google.maps.places.PlacesService(map);
-	// 		service.nearbySearch(request, function(data, status){
-	// 			console.log(status)
-	// 			if (status == google.maps.places.PlacesServiceStatus.OK) {
-	// 				for (var i = 0; i < data.length; i++) {
-	// 					var dat= data[0].types[0]
-	// 					 // console.log(dat)
-	// 					 if(dat==="lodging"){
-	// 					 	dat= "spa"
-	// 					 }else if(dat==='store'){
-	// 					 	dat= 'cafe'
-	// 					 }else if(data[0].types[0]==='night_club' && data[0].types[1]==='bowling_alley'){
-	// 					 	dat = 'bowling_alley'
-	// 					 }else if(data[0].types[0]==='art_gallery' && data[1].types[0]==='art_gallery'){
-	// 					 	dat = 'art_gallery'
-	// 					 }else if(data[0].types[0]==='art_gallery' && data[0].types[1]==='museum'){
-	// 					 	dat = 'museum'
-	// 					 }else if(data[0].types[0]==='hospital' && data[0].types[1]==='university'){
-	// 					 	dat = 'university'
-	// 					 }else if(data[0].types[0]==='bar' && data[0].types[1]==='restaurant'){
-	// 					 	dat = 'restaurant'
-	// 					 }
-	// 					 var value = getCookie('preferences');
-	// 					 var newValue= value.split(',');
-	// 					// for(var i=0; i<data.results.length;i++){
-	// 						var results= new ResultsModel({});
-	// 						results.set({'name': data[i].name, 'id': data[i].place_id});
-	// 						var view = new ResultsView({collection:resultsCollection, model:results});
-	// 						var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results});
-	// 						var detailedView=new ResultsMiniView({
-	// 							model:results	
-	// 						});
-	// 						var me = document.currentScript;
-	// 						var newMe= me.src.split('&')
-	// 						console.log(newMe[8].split('6s'))
-	// 						var goodMe= newMe[8].split('6s')
-	// 						console.log(me)
-	// 						// var newMe= me.src.split('&')
-	// 						console.log(goodMe[1])
-	// 						view.render();
-	// 						$('#'+goodMe[1]+'1 ul').append(view.$el);
-	// 					}
-	// 				}else if(status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS){
-	// 						var results= new ResultsModel({});
-	// 						var view = new ResultsView({collection:resultsCollection, model:results});
-	// 						var collectionView= new ResultsCollectionView({collection:resultsCollection, model:results});
-	// 						var detailedView=new ResultsMiniView({
-	// 							model:results	
-	// 						});
-						
-	// 						console.log('Here')
-	// 						view.zeroRender();
-	// 						var me = document.currentScript;
-	// 						var newMe= me.src.split('&')
-	// 						console.log(newMe[8].split('6s'))
-	// 						var goodMe= newMe[8].split('6s')
-	// 						console.log(goodMe[1])
-	// 						$('#'+goodMe[1]+'1 ul').append(view.$el);	
-	// 				}
-	// 			})
-				
-	// }
-}
+			// preferenceModel.set(ids, true);
+		}
 
 
 preferenceView.render();

@@ -102,6 +102,7 @@ if (records.length === 0) {
                       request('https://maps.googleapis.com/maps/api/geocode/json?address=' + req.body.city + '&key=AIzaSyD0OGfjwg9iGIWxr-IUCVHCFI8EWPl-HbI', function(err, resp, body) {
                       
                         var citySelect = JSON.parse(body)
+                        console.log(citySelect.results[0].address_components)
                 
                         if (citySelect.results.length !== 0) {
                           
