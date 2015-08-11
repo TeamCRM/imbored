@@ -1,9 +1,7 @@
 body {
-  padding: 50px;
+  padding-top: 50px;
   font: 14px "ariel", Helvetica, Arial, sans-serif;
   font-weight: bold;
-  background-color: #33cc99;
-  text-align: center;
 }
 
 a {
@@ -16,7 +14,7 @@ input {
 	text-align: center;
 }
 
-.preference {
+/*.preference {
 	width: 25%;
 	float: left;
 	text-align: left;
@@ -26,12 +24,25 @@ input {
 
 .preference input {
 	float: right;
+}*/
+
+.error_msg {
+  color: darkred;
 }
 
-/*LOG IN PAGE*/
+/***LOG IN PAGE***/
+
+.bodyDiv {
+  background-color: #33cc99;
+  text-align: center;
+  /*max-height: 100%;
+  max-width: 100%;*/
+  /*max-width: 100%;*/
+}
 
 /*Main Body of Login*/
 .index_body {
+  width: 100%%;
   text-align: center;
 }
 /*"Sign Up Here"*/
@@ -39,11 +50,25 @@ input {
 	color:  #565959;
 }
 
+.loginForm {
+  /*float: auto;*/
+}
+
+.slogan {
+  font-size: 1em;
+  font-weight: 100;
+}
+
+.loginButton, .regButton {
+  font-weight: 500;
+}
 
 /*Login Page Image*/
 #imBoredLogo {
-  max-height: 325px;
-  max-width: 325px;
+  min-width: 120px;
+  max-height: 13%;
+  max-width: 13%;
+  
 }
 /*Log In Button*/
 #btn {
@@ -128,40 +153,83 @@ input {
 	position:relative;
 	top:1px;
 }
+ 
+/*@media (max-width: 960px) {
+  .bodyDiv {
+    
+  }
+  p {
+  
+  }
+}*/
 
+@media (max-width: 430px) {
+  .loginForm {
+    font-size: 1em;
+  }
+  .slogan {
+    margin-bottom: 10%;
+  }
+  .body {
+    padding: 15px;
+  }
+}
 
-/*REGISTER PAGE*/
+/***REGISTER PAGE***/
 
 /*Logo*/
 #imBoredText {
-  max-height: 75px;
+  text-align: center;
+  max-height: 70px;
 }
+
+#regInfo {
+  text-align: center;
+}
+
 /*Register a new account!*/
 .h1{
-	font-size: 26px;
+	font-size: 1.5em;
+  font-weight: 100;
 }
 /*Preference box list/table*/
 .prefs {
+  display: none;
+  padding: 10px;
+  margin-top: 20px;
+  /*border: 1px solid white;*/
+  border-radius: 10px;
+  background-color: rgba(255,255,255,.15);
+  font-weight: 200;
   text-align: left;
   text-transform: capitalize;
+  
+  /*max-width: 100%;*/
+}
+
+.prefBox {
+  display: inline-block;
+  font-size: 1em;
 }
 
 /*Div container for Preference Box*/
-
 .main_reg {
-  width: 505px;
+  /*width: 505px;*/
   margin: auto;
 }
 
 /*Submit button*/
 .buttons {
+  display: none;
+  font-weight: 200;
 	margin: 10px;
 	padding: 10px;
 	clear: both;
 }
 /*Please choose some activities you like to do!*/
 .activity {
-	font-size: 18px;
+	font-size: 1.4em;
+  font-weight: 100;
   text-align: center;
 }
 /*Create Submit Button*/
@@ -206,5 +274,34 @@ input {
 	top:1px;
 }
 
+@media (min-width: 900px) {
+  .bodyDiv {
+    
+  }
+}
 
 
+@media (max-width: 520px) {
+  .prefs {
+    font-size: .7em;
+  }
+}
+
+
+
+
+@media (max-width: 430px) {
+  #imBoredText {
+    
+    max-width: 75%;
+  }
+  .prefs {
+    display: inline-block;
+    font-size: .4em;
+    font-weight: 800;
+  }
+  .activity {
+    text-align: center;
+    font-size: 2.1em;
+  }
+}

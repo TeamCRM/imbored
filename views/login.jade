@@ -1,27 +1,27 @@
 extends layout
 
 block content
-  body
-    div(class="index_body")
-      img#imBoredLogo(src='/images/imBoredLogoWeb.png', alt='im bored', text='oops')
-      p Let us help you find something to do!
-      if error
-        p(class='error_msg')= error
-      form(name="input" action="/" method="post" id='login-form')
-        | Login 
-        br
-        input(type="text" name="username" placeholder="Username" class='username' required)
-        br
-        input(type="password" name="password" placeholder="Password" class='pswd' required)
-        br
-        input(type="text" name="city" placeholder="Location" class='citay' required)
-        br
-        input#btn(type="submit" value="Login")
-        br 
-        br 
-      | New Users
-      br
-      form(method="get" action="/register")  
-        input#btn2(type="submit" value="Register" )  
-
-
+  body.bodyDiv
+    div.index_body
+      img#imBoredLogo(src='/images/imBoredLogoWeb.png', alt='im bored', text='oops')  
+      div.loginForm
+        p.slogan Let us help you find something to do!
+        if error
+          p.error_msg= error
+        form#login-form(name="input" action="/" method="post")
+          p.loginButton Login 
+          input.citay(type="text" name="city" placeholder="Location" required)
+          br
+          input.username(type="text" name="username" placeholder="Email" required)
+          br
+          input.pswd(type="password" name="password" placeholder="Password" required)
+          br
+          input#btn(type="submit" value="Login")
+          br 
+        div.regForm
+          p.regButton New Users
+          form(method="get" action="/register")  
+            input#btn2(type="submit" value="Register" )
+                
+  script(type="text/stylesheet" src="/stylesheets/style.css")
+  meta(name="viewport" content="width=device-width")

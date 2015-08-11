@@ -24,8 +24,7 @@ for (var i = 0; i< height; i++) {
 	counter += 4
 };
 
-$(".prefs").append(html).hide();
-$(".buttons").hide();
+
 
 //Register Page: Check Password Matches and user selects at least one preference
 
@@ -44,6 +43,9 @@ var checkPassword = function() {
 				return false
 			}
 };
+
+$(".prefs").append(html).hide();
+$(".buttons").hide();
 
 $("#password_confirm").on('keyup', checkPassword);
 
