@@ -138,7 +138,7 @@ var WeatherView = Backbone.View.extend({
 		var preferenceModel = new PreferenceModel();
 		var preferenceView = new PreferenceView({model: preferenceModel});
 
-		$.getJSON('http://api.openweathermap.org/data/2.5/weather?q=Portland,Or&units=imperial', function(data){
+		$.getJSON('http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lng+'&units=imperial', function(data){
 			var weatherModel = new WeatherModel({});
 			weatherModel.set({'city':data.name,'temp':data.main.temp, 'type':data.weather[0].main, 'description':data.weather[0].description, 'icon':data.weather[0].icon});
 			var weatherView = new WeatherView({model: weatherModel});
