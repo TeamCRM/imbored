@@ -1,32 +1,33 @@
 body{
-	margin-top: 30px;
-	float: center;
+	margin-top: 50px;
 	font-family: arial;
+	background-color: #33cc99;
 }
 
-
-
+.logout_body {
+	display: inline-block;
+	margin-top: 50px;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	font-size: 1em;
+}
 #thankyou{
 	padding: 30px;
 	margin: 20px;
-	font-size: 20px;
-}
-
-#title{
-	font-size: 32px;
-	margin-top: 30px;
-
 }
 
 .redirect{
-	font-size: 26px;
 	margin-top: 30px;
 }
 
 .or{
 	margin-top: 30px;
+	margin-bottom: 30px;
 }
 
 .logOut{
+	margin-top: 25px;
 	color: #565959;
 }

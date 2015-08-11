@@ -1,37 +1,34 @@
 extends layout
-doctype html
-head
-<!-- Latest compiled and minified CSS -->
-link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
-link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css")
+
 block content
-  body
-    img#imBoredText(src='/images/imBoredHeaderWeb.png', alt='im bored', text='oops')
-    div(class="main_reg")
-      p(class='error_msg')= error
-      form(method="post" action="/register" id="regisForm")
-        p(class="h1") Register a new account!
+  body.bodyDiv
+    img#imBoredText(src='/images/imBoredHeaderWeb.png', alt='im bored', text="I'm Bored")
+    div#regInfo
+      p.error_msg= error
+      form#regisForm(method="post" action="/register")
+        p.h1 Register a new account!
+        div
+          input#citay(type="text" name="city" placeholder="Location" required)        
         div
           label
-            input#regEmail(type="email" name="username" placeholder="email" required)
+            input#regEmail(type="email" name="username" placeholder="email" required)     
         div
           label
-            input(type="password" name="password" placeholder="password" id="password")
+            input#password(type="password" name="password" placeholder="password")
         div
           label
-            input(type="password" name="password_confirm" placeholder="re-type password" id="password_confirm") 
-        div
-          input(type="text" name="city" placeholder="Location" class='citay' required)       
-        div(class="prefs")
-            p(class="activity") Please choose some activities you like to do!
-        div(class="buttons")  
-          form(method="get" action="/results")
-            input#regSubmit(type="submit" value="Submit" disabled)
+            input#password_confirm(type="password" name="password_confirm" placeholder="re-type password") 
+        div.prefBox
+          div.prefs
+              p.activity Please choose some activities you like to do!
+          div.buttons  
+            form(method="get" action="/results")
+              input#regSubmit(type="submit" value="Submit" disabled)                          
   script(type="text/javascript" src="/javascripts/jquery.js")
   script(type="text/javascript" src="/javascripts/underscore.js")
   script(type="text/javascript" src="/javascripts/backbone.js")
   script(type="text/javascript" src="/javascripts/imBoredServe.js")
-  script(type="text/stylesheet" src="/stylesheets/responsive.css")
   script(type="text/stylesheet" src="/stylesheets/style.css")
-  script(src="http://code.jquery.com/jquery-2.1.4.min.js")
-  script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js")
+  meta(name="viewport" content="width=device-width")
+
+  
