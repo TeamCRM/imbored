@@ -3,19 +3,22 @@ extends layout
 block content
   link(rel='stylesheet', href="/stylesheets/reset.css")
   link(rel='stylesheet', href="/stylesheets/logout.css")
-  p(id="thankYou") Thank you for visiting...
-  h1(id="title") I'm Bored!
-    p(class='redirect') You will be redirected to login in 
-        span(class="seconds") 10
-        | &nbsp;seconds. 
-  script(type="text/javascript")
-    |setTimeout(function(){
-    |    window.location = "/";
-    |}, 10*1000);
-    | var seconds = 10;
-    |setInterval(function() {
-    |    seconds -= 1;
-    |    document.querySelector(".seconds").innerHTML = seconds;
-    |   }, 1000);
-  p(class='or') Or click here to return now!
-  a(href="/" class="logOut") Login Page
+  meta(name="viewport" content="width=device-width")    
+  div.index_body
+    img#imBoredLogo(src='/images/imBoredLogoWeb.png', alt='im bored', text='oops')  
+  div.logout_body
+    p(id="thankYou") Thank you for visiting
+      p(class='redirect') You will be redirected to login in 
+          span(class="seconds") 10
+          | &nbsp;seconds. 
+    script(type="text/javascript")
+      |setTimeout(function(){
+      |    window.location = "/";
+      |}, 10*1000);
+      | var seconds = 10;
+      |setInterval(function() {
+      |    seconds -= 1;
+      |    document.querySelector(".seconds").innerHTML = seconds;
+      |   }, 1000);
+    p(class='or') Or click below to return now!
+    a(href="/" class="logOut") Login Page
