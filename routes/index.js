@@ -158,6 +158,10 @@ router.get('/logout', function(req, res, next) {
     title: "I'm Bored!"
   });
 });
+
+
+
+
 //Render Register Page
 router.get('/register', function(req, res, next) {
 
