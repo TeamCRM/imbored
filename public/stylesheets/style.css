@@ -35,14 +35,15 @@ input {
 .bodyDiv {
   background-color: #33cc99;
   text-align: center;
-  /*max-height: 100%;
-  max-width: 100%;*/
-  /*max-width: 100%;*/
+  /*min-height: 100%;
+  min-width: 100%;*/
 }
 
 /*Main Body of Login*/
 .index_body {
-  width: 100%%;
+  /*width: 100%;*/
+  /*height: 100%;*/
+  display: inline-block;
   text-align: center;
 }
 /*"Sign Up Here"*/
@@ -51,7 +52,7 @@ input {
 }
 
 .loginForm {
-  /*float: auto;*/
+
 }
 
 .slogan {
@@ -59,17 +60,24 @@ input {
   font-weight: 100;
 }
 
-.loginButton, .regButton {
-  font-weight: 500;
+.loginText, .regText {
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
 }
 
 /*Login Page Image*/
 #imBoredLogo {
-  min-width: 120px;
-  max-height: 13%;
-  max-width: 13%;
+  text-align: center;
+  min-width: 12%;
+  max-width: 35%;
   
 }
+
+#btn {
+  margin-bottom: 20px;
+}
+
 /*Log In Button*/
 #btn {
 	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -274,9 +282,32 @@ input {
 	top:1px;
 }
 
-@media (min-width: 900px) {
+@media (max-width: 3000px) {
   .bodyDiv {
-    
+    padding-top: 10%;
+  }
+  #loginForm {
+      margin-top: 50px;
+      margin-bottom: 25px;
+  }
+  .prefs {
+    font-size: 1.4em;
+  }
+  .buttons {
+  
+  }
+}
+
+@media (max-width: 900px) {
+  .bodyDiv {
+    padding-top: 5%;
+  }
+  #loginForm {
+      margin-top: 50px;
+      margin-bottom: 25px;
+  }
+  .prefs {
+    font-size: 1em;
   }
 }
 
@@ -285,7 +316,12 @@ input {
   .prefs {
     font-size: .7em;
   }
+  #loginForm {
+      margin-top: 0px;
+      margin-bottom: 0px;
+  }
 }
+
 
 
 

@@ -8,8 +8,8 @@ block content
         p.slogan Let us help you find something to do!
         if error
           p.error_msg= error
-        form#login-form(name="input" action="/" method="post")
-          p.loginButton Login 
+        form#loginForm(name="input" action="/" method="post")
+          p.loginText Login 
           input.citay(type="text" name="city" placeholder="Location" required)
           br
           input.username(type="text" name="username" placeholder="Email" required)
@@ -19,9 +19,9 @@ block content
           input#btn(type="submit" value="Login")
           br 
         div.regForm
-          p.regButton New Users
+          p.regText New Users
           form(method="get" action="/register")  
             input#btn2(type="submit" value="Register" )
-                
+  meta(name="viewport" content="width=device-width")              
   script(type="text/stylesheet" src="/stylesheets/style.css")
-  meta(name="viewport" content="width=device-width")
+  
