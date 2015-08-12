@@ -1,6 +1,8 @@
 extends layout
 
 block content
+  link(type="text/stylesheet" src="/stylesheets/style.css")
+  meta(name="viewport" content="width=device-width")
   body.bodyDiv
     img#imBoredText(src='/images/imBoredHeaderWeb.png', alt='im bored', text="I'm Bored")
     div#regInfo
@@ -28,7 +30,5 @@ block content
   script(type="text/javascript" src="/javascripts/underscore.js")
   script(type="text/javascript" src="/javascripts/backbone.js")
   script(type="text/javascript" src="/javascripts/imBoredServe.js")
-  script(type="text/stylesheet" src="/stylesheets/style.css")
-  meta(name="viewport" content="width=device-width")
 
   
