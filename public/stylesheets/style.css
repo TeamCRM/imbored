@@ -30,6 +30,10 @@ input {
   color: darkred;
 }
 
+.logoutLogo {
+  text-align: center;
+}
+
 /***LOG IN PAGE***/
 
 .bodyDiv {
@@ -41,10 +45,8 @@ input {
 
 /*Main Body of Login*/
 .index_body {
-  /*width: 100%;*/
-  /*height: 100%;*/
-  display: inline-block;
   text-align: center;
+  display: inline-block;
 }
 /*"Sign Up Here"*/
 .signUp {
@@ -66,7 +68,7 @@ input {
   padding: 0;
 }
 
-/*Login Page Image*/
+/*Login Page Imagegit */
 #imBoredLogo {
   text-align: center;
   min-width: 12%;
@@ -311,20 +313,15 @@ input {
   }
 }
 
-
 @media (max-width: 520px) {
   .prefs {
     font-size: .7em;
   }
   #loginForm {
-      margin-top: 0px;
+      margin-top: 30px;
       margin-bottom: 0px;
   }
 }
-
-
-
-
 
 @media (max-width: 430px) {
   #imBoredText {

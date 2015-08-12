@@ -3,7 +3,9 @@ body{
 	font-family: arial;
 	background-color: #33cc99;
 }
-
+.index_body {
+	text-align: center;
+}
 .logout_body {
 	display: inline-block;
 	margin-top: 50px;
