@@ -40,16 +40,8 @@ var PreferenceView = Backbone.View.extend({
 		_.each(this.model.attributes, function(val, key) {
 			var whatever = val ? "checked" : "";
 			var row = "<label  class='check'>" + key.replace("_", " ") + "<input type='checkbox' name="+key+"></label>";
-			// console.log() 
-			// console.log(val)
-			// console.log($(row).find('checked'))
 			$('.prefs').append(row);
 
-			
-			// console.log($( "input:checkbox:checked" ).val())
-			// console.log($('label')[0].innerText.replace(' ','_'))
-			// if(val === true){
-			// 	updateArr.push($(row).children().find('name').prevObject.prevObject[0].innerText.replace(' ','_'))
 		});
 		
 		return this;
@@ -61,12 +53,8 @@ var PreferenceView = Backbone.View.extend({
 			_.each(this.model.attributes, function(val, key) {
 			var whatever = val ? "checked" : "";
 			var row = "<label  class='check'>" + key.replace("_", " ") + "<input type='checkbox' name="+key+"></label>";
-			// console.log(key) 
-			// console.log(val)
-			// console.log($(row).find('checked'))
 			console.log($('input[name="'+key+'"]').is(':checked'))
-			// console.log($( "input:checkbox:checked" ).val())
-			// console.log($('label')[0].innerText.replace(' ','_'))
+			
 			if($('input[name="'+key+'"]').is(':checked') === true){
 				updateArr.push(key)
 			}
