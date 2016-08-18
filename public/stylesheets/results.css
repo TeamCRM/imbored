@@ -8,7 +8,7 @@ body {
 nav {
 	display: block;
 	background-color: #33cc99;
-	padding: 15px;
+	padding-top: 15px;
 	box-sizing: border-box;
 	text-align: center;
 	color: white;
@@ -33,7 +33,7 @@ nav {
 }
 
 .welcome {
-	font-size: 36px;
+	/*font-size: 36px;*/
 }
 
 .weather {
@@ -167,6 +167,9 @@ nav {
 }
 
 .logoutbuttonContainer {
+	background-color: #33cc99;
+	padding: 5px;
+	margin: 0px; 
 	text-align: center;
 }
 
@@ -224,7 +227,7 @@ nav {
 
 
 .header {
-	height: 70px;
+	height: 100%;
 	margin-top: -11px;
 }
 
